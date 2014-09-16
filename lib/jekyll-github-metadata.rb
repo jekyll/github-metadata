@@ -34,6 +34,10 @@ module Jekyll
         @values = Hash.new
       end
 
+      def [](key)
+        values[key.to_s]
+      end
+
       def to_h
         values
       end
