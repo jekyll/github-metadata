@@ -1,2 +1,2 @@
 #!/bin/bash
-bundle exec rspec --color --require spec_helper
+bundle exec rspec --color --require spec_helper $@
