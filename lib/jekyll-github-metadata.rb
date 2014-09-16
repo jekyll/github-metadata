@@ -1,4 +1,4 @@
-require_relative 'jekyll-gh-metadata/version'
+require_relative 'jekyll-github-metadata/version'
 
 module Jekyll
   module GitHubMetadata
