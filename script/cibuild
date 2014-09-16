@@ -1,2 +1,2 @@
 #!/bin/bash
-script/cibuild
+script/test
