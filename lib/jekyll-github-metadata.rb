@@ -5,7 +5,7 @@ module Jekyll
     class Client
     end
 
-    class MetadataValue
+    class Value
       attr_reader :value
 
       def initialize(value)
@@ -39,7 +39,7 @@ module Jekyll
       end
 
       def register_value(key, value)
-        values[key.to_s] << MetadataValue.new(value)
+        values[key.to_s] = Value.new(value)
       end
     end
   end
