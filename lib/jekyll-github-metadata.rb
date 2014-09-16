@@ -53,6 +53,6 @@ module Jekyll
   end
 end
 
-Jekyll::GitHubMetadata.register_value('environment', -> { |c|
+Jekyll::GitHubMetadata.register_value('environment', proc { |c|
   ENV.fetch('JEKYLL_ENV', ENV.fetch('PAGES_ENV', 'development'))
 })
