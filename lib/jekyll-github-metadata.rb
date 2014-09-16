@@ -1,10 +1,8 @@
+require 'octokit'
 require_relative 'jekyll-github-metadata/version'
 
 module Jekyll
   module GitHubMetadata
-    class Client
-    end
-
     class Value
       attr_reader :value
 
@@ -12,18 +10,22 @@ module Jekyll
         @value = value
       end
 
-      def to_s
+      def render
         @value = @value.respond_to?(:call) ? @value.call(GitHubMetadata.client) : @value
       end
 
+      def to_s
+        render.to_s
+      end
+
       def to_liquid
-        to_s
+        render
       end
     end
 
     class << self
       def client
-        @client ||= Client.new
+        @client ||= Octokit::Client.new
       end
 
       def values

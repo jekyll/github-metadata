@@ -2,6 +2,7 @@ require 'spec_helper'
 
 RSpec.describe(Jekyll::GitHubMetadata) do
   let(:key_value_pair) { %w{some_key some_value} }
+
   before(:each) do
     described_class.clear_values!
   end
@@ -26,6 +27,6 @@ RSpec.describe(Jekyll::GitHubMetadata) do
   end
 
   it 'has a global GitHub API client' do
-    expect(described_class.client).to be_a(Jekyll::GitHubMetadata::Client)
+    expect(described_class.client).to be_a(Octokit::Client)
   end
 end
