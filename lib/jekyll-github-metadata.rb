@@ -30,6 +30,10 @@ module Jekyll
         @values ||= Hash.new
       end
 
+      def clear_values!
+        @values = Hash.new
+      end
+
       def to_h
         values
       end
