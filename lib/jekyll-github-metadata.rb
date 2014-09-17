@@ -11,7 +11,15 @@ module Jekyll
       end
 
       def render
-        @value = @value.respond_to?(:call) ? @value.call(GitHubMetadata.client) : @value
+        @value = if @value.respond_to?(:call)
+          if @value.arity == 1
+            @value.call(GitHubMetadata.client)
+          else
+            @value.call
+          end
+        else
+          @value
+        end
       end
 
       def to_s
