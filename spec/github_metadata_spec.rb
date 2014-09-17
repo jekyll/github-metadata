@@ -27,6 +27,6 @@ RSpec.describe(Jekyll::GitHubMetadata) do
   end
 
   it 'has a global GitHub API client' do
-    expect(described_class.client).to be_a(Octokit::Client)
+    expect(described_class.client).to be_a(Jekyll::GitHubMetadata::Client)
   end
 end
