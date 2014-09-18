@@ -143,7 +143,7 @@ module Jekyll
     })
 
     # The Juicy Stuff
-    register_value('public_repositories', proc { |c| c. })
+    register_value('public_repositories', proc { |c| c.repositories_for_user(user) })
     register_value('organization_members', [ User Objects ])
     register_value('build_revision', 'cbd866ebf142088896cbe71422b949de7f864bce')
     register_value('project_title', 'metadata-example')
