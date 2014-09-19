@@ -57,10 +57,15 @@ module Jekyll
 
       def render
         @value = if @value.respond_to?(:call)
-          if @value.arity == 1
-            @value.call(GitHubMetadata.client)
-          else
+          case @value.arity
+          when 0
             @value.call
+          when 1
+            @value.call(GitHubMetadata.client)
+          when 2
+            @value.call(GitHubMetadata.client, GitHubMetadata.repository)
+          else
+            raise ArgumentError.new("Whoa, arity of 0, 1, or 2 please in your procs.")
           end
         else
           @value
@@ -96,7 +101,22 @@ module Jekyll
       end
     end
 
+    class Repository
+      attr_reader :nwo, :owner, :name
+      def initialize(name_with_owner)
+        @nwo   = name_with_owner
+        @owner = nwo.split("/").first
+        @name  = nwo.split("/").last
+      end
+
+      def organization_repository?
+        !!GitHubMetadata.client.organization(owner)
+      end
+    end
+
     class << self
+      attr_accessor :repository
+
       def environment
         Jekyll.env || Pages.env || 'development'
       end
