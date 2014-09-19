@@ -165,8 +165,8 @@ module Jekyll
     })
 
     # The Juicy Stuff
-    register_value('public_repositories', proc { |c| c.repositories_for_user(user) })
-    register_value('organization_members', [ User Objects ])
+    register_value('public_repositories', proc { |c,r| c.list_repos(r.owner, "type" => "public") })
+    register_value('organization_members', proc { |c,r| c.organization_public_members(owner) if r.organization_repository? })
     register_value('build_revision', 'cbd866ebf142088896cbe71422b949de7f864bce')
     register_value('project_title', 'metadata-example')
     register_value('project_tagline', 'A GitHub Pages site to showcase repository metadata')
@@ -186,7 +186,7 @@ module Jekyll
     register_value('is_user_page', false)
     register_value('is_project_page', true)
     register_value('show_downloads', true)
-    register_value('url', 'http,//username.github.io/metadata-example', // (or the CNAME)
-    register_value('contributors', [ User Objects )
+    register_value('url', 'http,//username.github.io/metadata-example', # (or the CNAME)
+    #register_value('contributors', [ User Objects ])
   end
 end
