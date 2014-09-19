@@ -16,11 +16,12 @@ module Jekyll
         false
       end
 
-      def build_octokit_client(options = Hash.new)
+      def build_octokit_client(options = nil)
+        options = options || Hash.new
         if ENV['JEKYLL_GITHUB_TOKEN']
-          Octokit::Client.new(options.merge!(:access_token => ENV['JEKYLL_GITHUB_TOKEN']))
+          options.merge!(:access_token => ENV['JEKYLL_GITHUB_TOKEN'])
         elsif File.exist?(File.join(ENV['HOME'], '.netrc')) && safe_require('netrc')
-          Octokit::Client.new(options.merge!(:netrc => true))
+          options.merge!(:netrc => true)
         end
         Octokit::Client.new(options)
       end
