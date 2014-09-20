@@ -19,6 +19,9 @@ module Jekyll
           options.merge!(:access_token => ENV['JEKYLL_GITHUB_TOKEN'])
         elsif File.exist?(File.join(ENV['HOME'], '.netrc')) && safe_require('netrc')
           options.merge!(:netrc => true)
+        else
+          Jekyll.logger.warn "GitHubMetadata:", "No GitHub API authentication could be found." +
+            " Some fields may be missing or have incorrect data."
         end
         Octokit::Client.new(options)
       end

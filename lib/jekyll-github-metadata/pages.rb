@@ -10,7 +10,7 @@ module Jekyll
           'https://api.github.com'
         end
 
-        def github_hostname
+        def github_url
           'github.com'
         end
 
