@@ -29,7 +29,7 @@ module Jekyll
       end
 
       def owner_url
-        "#{Pages.github_url}/#{owner}"
+        "https://#{Pages.github_url}/#{owner}"
       end
 
       def owner_gravatar_url
@@ -41,7 +41,7 @@ module Jekyll
       end
 
       def repository_url
-        "#{Pages.github_url}/#{nwo}"
+        "https://#{Pages.github_url}/#{nwo}"
       end
 
       def zip_url

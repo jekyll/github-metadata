@@ -7,15 +7,15 @@ module Jekyll
         end
 
         def api_url
-          'https://api.github.com'
+          ENV.fetch('PAGES_API_URL', 'https://api.github.com')
         end
 
-        def github_url
-          'github.com'
+        def github_hostname
+          ENV.fetch('PAGES_GITHUB_HOSTNAME', 'github.com')
         end
 
         def pages_hostname
-          'github.io'
+          ENV.fetch('PAGES_PAGES_HOSTNAME', 'github.io')
         end
       end
     end
