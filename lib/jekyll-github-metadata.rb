@@ -41,7 +41,7 @@ module Jekyll
       end
 
       def register_value(key, value)
-        values[key.to_s] = Value.new(value)
+        values[key.to_s] = Value.new(key.to_s, value)
       end
     end
 

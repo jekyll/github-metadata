@@ -3,10 +3,16 @@ require 'json'
 module Jekyll
   module GitHubMetadata
     class Value
-      attr_reader :value
+      attr_reader :key, :value
 
-      def initialize(value)
-        @value = value
+      def initialize(key, value = nil)
+        if key.respond_to?(:call)
+          @key = '{anonymous}'
+          @value = key
+        else
+          @key = key.to_s
+          @value = value
+        end
       end
 
       def render
@@ -25,6 +31,9 @@ module Jekyll
           @value
         end
         @value = Sanitizer.sanitize(@value)
+      rescue RuntimeError, NameError => e
+        Jekyll.logger.error "GitHubMetadata:", "Error processing value '#{key}':"
+        raise e
       end
 
       def to_s
