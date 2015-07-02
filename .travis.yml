@@ -5,4 +5,7 @@ rvm:
 script: script/cibuild
 notifications:
   email: false
+branches:
+  only:
+    - master
 sudo: false
