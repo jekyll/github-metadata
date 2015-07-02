@@ -5,13 +5,16 @@ module Jekyll
     class Value
       attr_reader :key, :value
 
-      def initialize(key, value = nil)
-        if key.respond_to?(:call)
+      def initialize(*args)
+        case args.size
+        when 1
           @key = '{anonymous}'
-          @value = key
+          @value = args.first
+        when 2
+          @key = args.first.to_s
+          @value = args.last
         else
-          @key = key.to_s
-          @value = value
+          raise ArgumentError.new("#{args.size} args given but expected 1 or 2")
         end
       end
 
