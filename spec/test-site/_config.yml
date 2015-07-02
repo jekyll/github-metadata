@@ -1,3 +1,6 @@
 repository: jekyll/github-metadata
+github:
+  in_your_config:
+    setting_your: keyz
 gems:
   - jekyll-github-metadata
