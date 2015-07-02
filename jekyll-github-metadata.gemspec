@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0").grep(%r{^(lib|bin)/})
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "octokit", "~> 3.3"
+  spec.add_runtime_dependency "octokit", "~> 4.0"
 
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
