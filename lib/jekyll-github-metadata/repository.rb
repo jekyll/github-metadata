@@ -108,7 +108,7 @@ module Jekyll
       end
 
       def cname
-        @cname ||= (Value.new(proc { |c| c.pages(nwo) }).render || {'cname' => nil})['cname']
+        @cname ||= (Value.new('cname', proc { |c| c.pages(nwo) }).render || {'cname' => nil})['cname']
       end
 
       def domain
