@@ -31,12 +31,28 @@ For some fields, like `cname`, you need to authenticate yourself. Luckily it's p
 These tokens are easy to use and delete so if you move around from machine-to-machine, I'd recommend this route. Set `JEKYLL_GITHUB_TOKEN` to your access token when you run `jekyll`, like this:
 
 ```bash
-$ JEKYLL_GITHUB_TOKEN=123abc jekyll serve
+$ JEKYLL_GITHUB_TOKEN=123abc [bundle exec] jekyll serve
 ```
 
 ### 2. `~/.netrc`
 
 If you prefer to use the good ol' `~/.netrc` file, just make sure the `netrc` gem is bundled and run `jekyll` like normal. So if I were to add it, I'd add `gem 'netrc'` to my `Gemfile`, run `bundle install`, then run `bundle exec jekyll build`. The `machine` directive should be `api.github.com`.
+
+### 3. Octokit
+
+We use [Octokit](https://github.com/octokit/octokit.rb) to make the appropriate API responses to fetch the metadata. You may set `OCTOKIT_ACCESS_TOKEN` and it will be used to access GitHub's API.
+
+```bash
+$ OCTOKIT_ACCESS_TOKEN=123abc [bundle exec] jekyll serve
+```
+
+## Configuration
+
+Working with `jekyll-github-metadata` and GitHub Enterprise? No sweat. You can configure which API endpoints this plugin will hit to fetch data.
+
+- `OCTOKIT_API_ENDPOINT` – the full hostname and protocol for the api, default: `https://api.github.com`
+- `OCTOKIT_WEB_ENDPOINT` – the full hostname and protocol for the website, default: `https://github.com`
+- `PAGES_PAGES_HOSTNAME` – the full hostname from where GitHub Pages sites are served, default: `github.io`.
 
 ## License
 
