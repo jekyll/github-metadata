@@ -58,4 +58,4 @@ Working with `jekyll-github-metadata` and GitHub Enterprise? No sweat. You can c
 
 ## License
 
-MIT License, copyright GitHub 2014.
+MIT License, credit to GitHub, Inc. See [LICENSE](LICENSE) for more details.
