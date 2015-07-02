@@ -82,6 +82,7 @@ module Jekyll
     register_value('show_downloads',       proc { |_,r| r.show_downloads? })
     register_value('url',                  proc { |_,r| r.pages_url })
     register_value('contributors',         proc { |c,r| c.contributors(r.nwo) })
+    register_value('releases',             proc { |c,r| c.releases(r.nwo) })
   end
 end
 
