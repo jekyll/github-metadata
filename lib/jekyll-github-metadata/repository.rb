@@ -103,7 +103,7 @@ module Jekyll
         if cname || primary?
           "http://#{domain}"
         else
-          File.join("http://#{domain}", name)
+          File.join("http://#{domain}", name, "")
         end
       end
 
