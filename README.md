@@ -1,6 +1,8 @@
 github-metadata
 ===============
 
+[![Build Status](https://travis-ci.org/jekyll/github-metadata.svg?branch=test-site)](https://travis-ci.org/jekyll/github-metadata)
+
 Access `site.github` metadata anywhere (...you have an internet connection).
 
 **First, a very special thanks to GitHub (especially Ben Balter and their legal team) for allowing me to open-source this code.** :heart:
