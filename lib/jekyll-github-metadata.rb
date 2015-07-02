@@ -1,3 +1,5 @@
+require 'octokit'
+
 module Jekyll
   module GitHubMetadata
     autoload :Client,     'jekyll-github-metadata/client'
