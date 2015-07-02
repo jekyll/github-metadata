@@ -4,3 +4,4 @@ rvm:
 script: script/cibuild
 notifications:
   email: false
+sudo: false
