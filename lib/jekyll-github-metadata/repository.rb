@@ -17,7 +17,7 @@ module Jekyll
       end
 
       def repo_info
-        @repo_into ||= (Value.new(proc { |c| c.repository(nwo) }).render || Hash.new)
+        @repo_info ||= (Value.new(proc { |c| c.repository(nwo) }).render || Hash.new)
       end
 
       def language
