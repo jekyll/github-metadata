@@ -6,6 +6,10 @@ RSpec.describe(Jekyll::GitHubMetadata::Value) do
   let(:hash_value)    { described_class.new({'hello' => 'world'}) }
   let(:complex_value) { described_class.new(proc { %w{hi there petunia } }) }
 
+  let(:nil_value_without_key) { described_class.new(nil) }
+  let(:nil_value_with_key) { described_class.new('my_key', nil) }
+  let(:key_and_value)      { described_class.new('my_key2', proc { 'leonard told me' }) }
+
   it 'takes in a value and stores it' do
     v = described_class.new('some_value')
 
@@ -47,5 +51,20 @@ RSpec.describe(Jekyll::GitHubMetadata::Value) do
 
   it 'does not modify a hash value' do
     expect(hash_value.render).to eql({'hello' => 'world'})
+  end
+
+  it 'accepts a nil value with no key' do
+    expect(nil_value_without_key.key).to eql('{anonymous}')
+    expect(nil_value_without_key.render).to be_nil
+  end
+
+  it 'accepts a nil value with a non-nil key' do
+    expect(nil_value_with_key.key).to eql('my_key')
+    expect(nil_value_with_key.render).to be_nil
+  end
+
+  it 'can accept a key and a value' do
+    expect(key_and_value.key).to eql('my_key2')
+    expect(key_and_value.render).to eql('leonard told me')
   end
 end

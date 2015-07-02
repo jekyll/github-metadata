@@ -3,10 +3,19 @@ require 'json'
 module Jekyll
   module GitHubMetadata
     class Value
-      attr_reader :value
+      attr_reader :key, :value
 
-      def initialize(value)
-        @value = value
+      def initialize(*args)
+        case args.size
+        when 1
+          @key = '{anonymous}'
+          @value = args.first
+        when 2
+          @key = args.first.to_s
+          @value = args.last
+        else
+          raise ArgumentError.new("#{args.size} args given but expected 1 or 2")
+        end
       end
 
       def render
@@ -25,6 +34,9 @@ module Jekyll
           @value
         end
         @value = Sanitizer.sanitize(@value)
+      rescue RuntimeError, NameError => e
+        Jekyll.logger.error "GitHubMetadata:", "Error processing value '#{key}':"
+        raise e
       end
 
       def to_s
@@ -37,8 +49,14 @@ module Jekyll
 
       def to_liquid
         case render
+        when nil
+          nil
+        when true, false
+          value
+        when Hash
+          value
         when String, Numeric, Array
-          render
+          value
         else
           to_json
         end

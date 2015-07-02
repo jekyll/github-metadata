@@ -17,7 +17,7 @@ module Jekyll
       end
 
       def repo_info
-        @repo_into ||= (Value.new(proc { |c| c.repository(nwo) }).render || Hash.new)
+        @repo_info ||= (Value.new(proc { |c| c.repository(nwo) }).render || Hash.new)
       end
 
       def language
@@ -103,12 +103,12 @@ module Jekyll
         if cname || primary?
           "http://#{domain}"
         else
-          File.join("http://#{domain}", name)
+          File.join("http://#{domain}", name, "")
         end
       end
 
       def cname
-        @cname ||= (Value.new(proc { |c| c.pages(nwo) }).render || {'cname' => nil})['cname']
+        @cname ||= (Value.new('cname', proc { |c| c.pages(nwo) }).render || {'cname' => nil})['cname']
       end
 
       def domain

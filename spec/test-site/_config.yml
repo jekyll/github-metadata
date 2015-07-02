@@ -1,0 +1,3 @@
+repository: jekyll/github-metadata
+gems:
+  - jekyll-github-metadata

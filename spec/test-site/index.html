@@ -1,0 +1,18 @@
+---
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Page Title</title>
+</head>
+<body>
+    <div id="output"></div>
+    <script src="renderjson.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+    var site = {{ site.github | jsonify }};
+    document.getElementById("output").appendChild(renderjson.set_show_to_level(2)(site));
+    </script>
+</body>
+</html>
