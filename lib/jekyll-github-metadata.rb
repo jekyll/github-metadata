@@ -1,3 +1,5 @@
+require 'octokit'
+
 module Jekyll
   module GitHubMetadata
     autoload :Client,     'jekyll-github-metadata/client'
@@ -45,7 +47,7 @@ module Jekyll
 
     # Environment-Specific
     register_value('environment', proc { environment })
-    register_value('hostname', proc { Pages.github_url })
+    register_value('hostname', proc { Pages.github_hostname })
     register_value('pages_hostname', proc { Pages.pages_hostname })
     register_value('api_url', proc { Pages.api_url })
 

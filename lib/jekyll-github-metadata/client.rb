@@ -2,7 +2,6 @@ module Jekyll
   module GitHubMetadata
     class Client
       def initialize(options = nil)
-        require 'octokit'
         @client = build_octokit_client(options)
       end
 
@@ -15,8 +14,8 @@ module Jekyll
 
       def build_octokit_client(options = nil)
         options = options || Hash.new
-        if ENV['JEKYLL_GITHUB_TOKEN']
-          options.merge!(:access_token => ENV['JEKYLL_GITHUB_TOKEN'])
+        if ENV['JEKYLL_GITHUB_TOKEN'] || Octokit.access_token
+          options.merge!(:access_token => ENV['JEKYLL_GITHUB_TOKEN'] || Octokit.access_token)
         elsif File.exist?(File.join(ENV['HOME'], '.netrc')) && safe_require('netrc')
           options.merge!(:netrc => true)
         else
