@@ -1,5 +1,5 @@
-github-metadata
-===============
+github-metadata, a.k.a. `site.github`
+=====================================
 
 [![Build Status](https://travis-ci.org/jekyll/github-metadata.svg?branch=test-site)](https://travis-ci.org/jekyll/github-metadata)
 
