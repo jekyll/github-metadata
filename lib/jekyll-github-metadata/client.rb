@@ -22,7 +22,7 @@ module Jekyll
           Jekyll.logger.warn "GitHubMetadata:", "No GitHub API authentication could be found." +
             " Some fields may be missing or have incorrect data."
         end
-        Octokit::Client.new(options)
+        Octokit::Client.new({:auto_paginate => false}.merge(options))
       end
 
       def method_missing(meth, *args, &block)
