@@ -1,3 +1,7 @@
+## HEAD
+
+  * Enable `auto_paginate` for Octokit client so you get everything (#18)
+
 ## v1.0.0 / 2015-06-02
 
 * Add `site.github.releases`, an array of your repo's releases. (#9)
