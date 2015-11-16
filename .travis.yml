@@ -1,7 +1,10 @@
+language: ruby
+cache: bundler
 rvm:
 - 2.0
 - 2.1
 - 2.2
+- 1.9.3
 script: script/cibuild
 notifications:
   email: false
@@ -9,3 +12,15 @@ branches:
   only:
     - master
 sudo: false
+matrix:
+  exclude:
+  - env: JEKYLL_VERSION=3.0
+    rvm: 1.9.3
+  - env: ""
+    rvm: 1.9.3
+
+env:
+  matrix:
+    - ""
+    - JEKYLL_VERSION=2.0
+    - JEKYLL_VERSION=3.0
