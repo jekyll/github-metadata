@@ -1,3 +1,7 @@
+## HEAD
+
+  * Travis: test against Jekyll 2.5 and 3 (#21)
+
 ## 1.1.0 / 2015-09-07
 
   * Enable `auto_paginate` for Octokit client so you get everything (#18)
