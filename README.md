@@ -30,7 +30,7 @@ For some fields, like `cname`, you need to authenticate yourself. Luckily it's p
 
 ### 1. `JEKYLL_GITHUB_TOKEN`
 
-These tokens are easy to use and delete so if you move around from machine-to-machine, I'd recommend this route. Set `JEKYLL_GITHUB_TOKEN` to your access token when you run `jekyll`, like this:
+These tokens are easy to use and delete so if you move around from machine-to-machine, we'd recommend this route. Set `JEKYLL_GITHUB_TOKEN` to your access token (with `public_repo` scope) when you run `jekyll`, like this:
 
 ```bash
 $ JEKYLL_GITHUB_TOKEN=123abc [bundle exec] jekyll serve
