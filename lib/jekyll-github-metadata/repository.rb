@@ -114,6 +114,10 @@ module Jekyll
       def domain
         cname || default_user_domain
       end
+      
+      def contributors
+        @contributors ||= (Value.new('contributors', proc { |c| c.contributors(nwo) }).render)
+      end
     end
   end
 end
