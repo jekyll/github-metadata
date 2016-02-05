@@ -10,6 +10,10 @@ RSpec.describe("integration into a jekyll site") do
   end
 
   before(:all) do
+    # Reset some stuffs
+    ENV['NO_NETRC'] = "true"
+    ENV['JEYKLL_GITHUB_TOKEN'] = "1234abc"
+
     # Stub Requests
     stub_api "/users/jekyll/repos?per_page=100&type=public",        "owner_repos"
     stub_api "/repos/jekyll/github-metadata",                       "repo"
