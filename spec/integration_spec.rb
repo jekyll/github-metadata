@@ -10,6 +10,14 @@ RSpec.describe("integration into a jekyll site") do
   end
 
   before(:all) do
+    # Stub Requests
+    stub_api("/users/jekyll/repos\?per_page=100&type=public", "owner_repos")
+    stub_api("/repos/jekyll/github-metadata", "repo")
+    stub_api("/repos/jekyll/github-metadata/contributors", "repo_contributors")
+    stub_api("/repos/jekyll/github-metadata/releases", "repo_releases")
+    stub_api("/orgs/jekyll", "org")
+
+    # Run Jekyll
     Jekyll.logger.log_level = :error
     Jekyll::Commands::Build.process({
       "source" => SOURCE_DIR.to_s,
@@ -20,6 +28,9 @@ RSpec.describe("integration into a jekyll site") do
   end
   subject { SafeYAML::load(dest_dir("rendered.txt").read) }
 
+  it "prints" do
+    SPEC_DIR.join("webmock/api_success.json").write(JSON.dump(subject))
+  end
   {
     "environment"          => "development",
     "hostname"             => "https://github.com",
