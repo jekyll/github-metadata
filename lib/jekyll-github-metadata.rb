@@ -70,8 +70,12 @@ module Jekyll
 
         # The Juicy Stuff
         register_value('public_repositories',  proc { |c,r| c.list_repos(r.owner, "type" => "public") })
-        register_value('organization_members', proc { |c,r| c.organization_public_members(r.owner) if r.organization_repository? })
-        register_value('build_revision',       proc { `git rev-parse HEAD`.strip })
+        register_value('organization_members', proc { |c,r|
+          c.organization_public_members(r.owner) if r.organization_repository?
+        })
+        register_value('build_revision',       proc {
+          ENV['JEKYLL_BUILD_REVISION'] || `git rev-parse HEAD`.strip
+        })
         register_value('project_title',        proc { |_,r| r.name })
         register_value('project_tagline',      proc { |_,r| r.tagline })
         register_value('owner_name',           proc { |_,r| r.owner })
