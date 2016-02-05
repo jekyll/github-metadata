@@ -59,6 +59,7 @@ module Jekyll
         register_value('pages_env', proc { Pages.env })
         register_value('pages_hostname', proc { Pages.pages_hostname })
         register_value('api_url', proc { Pages.api_url })
+        register_value('help_url', proc { Pages.help_url })
 
         register_value('versions', proc {
           begin

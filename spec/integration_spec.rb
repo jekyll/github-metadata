@@ -39,6 +39,7 @@ RSpec.describe("integration into a jekyll site") do
     "hostname"             => "https://github.com",
     "pages_env"            => "dotcom",
     "pages_hostname"       => "github.io",
+    "help_url"             => "https://help.github.com",
     "api_url"              => "https://api.github.com",
     "versions"             => proc {
       begin
