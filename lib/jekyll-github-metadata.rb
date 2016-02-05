@@ -106,12 +106,12 @@ module Jekyll
         register_value('contributors',         proc { |c,r| c.contributors(r.nwo) })
         register_value('releases',             proc { |c,r| c.releases(r.nwo) })
       end
+      
+      if self.class.const_defined? :Site
+        require_relative 'jekyll-github-metadata/ghp_metadata_generator'
+      end
     end
 
     init!
   end
-end
-
-if Jekyll.const_defined? :Site
-  require_relative 'jekyll-github-metadata/ghp_metadata_generator'
 end
