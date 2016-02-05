@@ -2,9 +2,6 @@ require 'jekyll-github-metadata'
 require 'webmock/rspec'
 require 'pathname'
 
-ENV['NO_NETRC'] = "true"
-ENV['JEYKLL_GITHUB_TOKEN'] = "1234abc"
-
 SPEC_DIR = Pathname.new(File.expand_path("../", __FILE__))
 
 module WebMockHelper
@@ -27,7 +24,7 @@ module WebMockHelper
           'X-GitHub-Media-Type' => 'github.v3; format=json'
         },
         :body   => SPEC_DIR.
-                  join("webmock/api_get_#{filename}.json.gz").read
+                  join("webmock/api_get_#{filename}.json").read
       )
   end
 end

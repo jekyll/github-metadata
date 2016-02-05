@@ -11,11 +11,13 @@ RSpec.describe("integration into a jekyll site") do
 
   before(:all) do
     # Stub Requests
-    stub_api("/users/jekyll/repos\?per_page=100&type=public", "owner_repos")
-    stub_api("/repos/jekyll/github-metadata", "repo")
-    stub_api("/repos/jekyll/github-metadata/contributors", "repo_contributors")
-    stub_api("/repos/jekyll/github-metadata/releases", "repo_releases")
-    stub_api("/orgs/jekyll", "org")
+    stub_api "/users/jekyll/repos?per_page=100&type=public",        "owner_repos"
+    stub_api "/repos/jekyll/github-metadata",                       "repo"
+    stub_api "/repos/jekyll/github-metadata/releases?per_page=100", "repo_releases"
+    stub_api "/orgs/jekyll",                                        "org"
+    stub_api "/orgs/jekyll/public_members?per_page=100",            "org_members"
+    stub_api "/repos/jekyll/github-metadata/pages",                 "repo_pages"
+    stub_api "/repos/jekyll/github-metadata/contributors?per_page=100", "repo_contributors"
 
     # Run Jekyll
     Jekyll.logger.log_level = :error
