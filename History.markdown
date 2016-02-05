@@ -1,5 +1,7 @@
-## HEAD
+## 1.2.0 / 2015-02-05
 
+  * Bring up-to-date with current `site.github` offerings on GitHub Pages (#30)
+  * Add integration tests and ensure we're up-and-running with github-pages (#29)
   * Travis: test against Jekyll 2.5 and 3 (#21)
 
 ## 1.1.0 / 2015-09-07
