@@ -9,27 +9,42 @@ RSpec.describe("integration into a jekyll site") do
     DEST_DIR.join(*files)
   end
 
-  before(:all) do
+  class ApiStub
+    attr_reader :path, :file
+    attr_accessor :stub
+
+    def initialize(path, file)
+      @path = path
+      @file = file
+    end
+  end
+
+  API_STUBS = {
+    "/users/jekyll/repos?per_page=100&type=public"         => "owner_repos",
+    "/repos/jekyll/github-metadata"                        => "repo",
+    "/orgs/jekyll"                                         => "org",
+    "/orgs/jekyll/public_members?per_page=100"             => "org_members",
+    "/repos/jekyll/github-metadata/pages"                  => "repo_pages",
+    "/repos/jekyll/github-metadata/releases?per_page=100"  => "repo_releases",
+    "/repos/jekyll/github-metadata/contributors?per_page=100" => "repo_contributors"
+  }.map { |path, file| ApiStub.new(path, file) }
+
+  before(:each) do
     # Reset some stuffs
     ENV['NO_NETRC'] = "true"
     ENV['JEYKLL_GITHUB_TOKEN'] = "1234abc"
+    ENV['PAGES_REPO_NWO'] = 'jekyll/github-metadata'
+    Jekyll::GitHubMetadata.reset!
 
     # Stub Requests
-    stub_api "/users/jekyll/repos?per_page=100&type=public",        "owner_repos"
-    stub_api "/repos/jekyll/github-metadata",                       "repo"
-    stub_api "/repos/jekyll/github-metadata/releases?per_page=100", "repo_releases"
-    stub_api "/orgs/jekyll",                                        "org"
-    stub_api "/orgs/jekyll/public_members?per_page=100",            "org_members"
-    stub_api "/repos/jekyll/github-metadata/pages",                 "repo_pages"
-    stub_api "/repos/jekyll/github-metadata/contributors?per_page=100", "repo_contributors"
+    API_STUBS.each { |stub| stub.stub = stub_api(stub.path, stub.file) }
 
     # Run Jekyll
     Jekyll.logger.log_level = :error
     Jekyll::Commands::Build.process({
       "source" => SOURCE_DIR.to_s,
       "destination" => DEST_DIR.to_s,
-      "gems" => %w{jekyll-github-metadata},
-      "repository" => "jekyll/github-metadata"
+      "gems" => %w{jekyll-github-metadata}
     })
   end
   subject { SafeYAML::load(dest_dir("rendered.txt").read) }
@@ -37,7 +52,9 @@ RSpec.describe("integration into a jekyll site") do
   {
     "environment"          => "development",
     "hostname"             => "https://github.com",
+    "pages_env"            => "dotcom",
     "pages_hostname"       => "github.io",
+    "help_url"             => "https://help.github.com",
     "api_url"              => "https://api.github.com",
     "versions"             => proc {
       begin
@@ -79,6 +96,12 @@ RSpec.describe("integration into a jekyll site") do
       else
         expect(subject[key]).to eql value
       end
+    end
+  end
+
+  it "calls all the stubs" do
+    API_STUBS.each do |stub|
+      expect(stub.stub).to have_been_requested
     end
   end
 

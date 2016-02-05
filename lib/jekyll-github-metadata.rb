@@ -1,7 +1,10 @@
+require 'jekyll'
 require 'octokit'
 
 module Jekyll
   module GitHubMetadata
+    NoRepositoryError = Class.new(Jekyll::Errors::FatalException)
+
     autoload :Client,     'jekyll-github-metadata/client'
     autoload :Pages,      'jekyll-github-metadata/pages'
     autoload :Repository, 'jekyll-github-metadata/repository'
@@ -56,8 +59,10 @@ module Jekyll
         # Environment-Specific
         register_value('environment', proc { environment })
         register_value('hostname', proc { Pages.github_hostname })
+        register_value('pages_env', proc { Pages.env })
         register_value('pages_hostname', proc { Pages.pages_hostname })
         register_value('api_url', proc { Pages.api_url })
+        register_value('help_url', proc { Pages.help_url })
 
         register_value('versions', proc {
           begin
@@ -68,8 +73,12 @@ module Jekyll
 
         # The Juicy Stuff
         register_value('public_repositories',  proc { |c,r| c.list_repos(r.owner, "type" => "public") })
-        register_value('organization_members', proc { |c,r| c.organization_public_members(r.owner) if r.organization_repository? })
-        register_value('build_revision',       proc { `git rev-parse HEAD`.strip })
+        register_value('organization_members', proc { |c,r|
+          c.organization_public_members(r.owner) if r.organization_repository?
+        })
+        register_value('build_revision',       proc {
+          ENV['JEKYLL_BUILD_REVISION'] || `git rev-parse HEAD`.strip
+        })
         register_value('project_title',        proc { |_,r| r.name })
         register_value('project_tagline',      proc { |_,r| r.tagline })
         register_value('owner_name',           proc { |_,r| r.owner })

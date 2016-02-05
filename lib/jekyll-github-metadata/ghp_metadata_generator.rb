@@ -5,7 +5,7 @@ module Jekyll
     class GHPMetadataGenerator < Jekyll::Generator
       def generate(site)
         Jekyll.logger.debug "Generator:", "Calling GHPMetadataGenerator"
-        GitHubMetadata.repository = GitHubMetadata::Repository.new(site.config.fetch('repository'))
+        GitHubMetadata.repository = GitHubMetadata::Repository.new(nwo(site))
         GitHubMetadata.init!
         site.config['github'] =
           case site.config['github']
@@ -16,6 +16,15 @@ module Jekyll
           else
             site.config['github']
           end
+      end
+
+      def nwo(site)
+        ENV['PAGES_REPO_NWO'] || \
+          site.config['repository'] || \
+          proc {
+            raise GitHubMetadata::NoRepositoryError, "No repo name found. "
+              "Specify using PAGES_REPO_NWO or 'repository' in your configuration."
+          }.call
       end
     end
   end
