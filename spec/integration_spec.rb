@@ -39,7 +39,14 @@ RSpec.describe("integration into a jekyll site") do
     "hostname"             => "https://github.com",
     "pages_hostname"       => "github.io",
     "api_url"              => "https://api.github.com",
-    "versions"             => defined?(GitHubPages) ? GitHubPages.versions : {},
+    "versions"             => proc {
+      begin
+        require 'github-pages'
+        GitHubPages.versions
+      rescue LoadError
+        {}
+      end
+    }.call,
     "public_repositories"  => Regexp.new('"id"=>17261694, "name"=>"atom-jekyll"'),
     "organization_members" => Regexp.new('"login"=>"parkr", "id"=>237985'),
     "build_revision"       => /[a-f0-9]{40}/,
