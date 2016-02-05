@@ -22,4 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "netrc"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "jekyll", ENV["JEKYLL_VERSION"] ? "~> #{ENV["JEKYLL_VERSION"]}" : ">= 2.0"
+  spec.add_development_dependency "github-pages", ENV["GITHUB_PAGES"] if ENV["GITHUB_PAGES"]
 end
