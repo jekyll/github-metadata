@@ -18,6 +18,7 @@ gem 'jekyll-github-metadata'
 Then go ahead and run `bundle install`. Once you've done that, add your repo & the gem to your `_config.yml`:
 
 ```yaml
+# or use PAGES_REPO_NWO in the env
 repository: me/super-cool-project
 gems: ['jekyll-github-metadata']
 ```
@@ -49,6 +50,8 @@ $ OCTOKIT_ACCESS_TOKEN=123abc [bundle exec] jekyll serve
 ```
 
 ## Overrides
+
+- `PAGES_REPO_NWO` – overrides `site.repository` as the repo name with owner to fetch (e.g. `jekyll/github-metadata`)
 
 Some `site.github` values can be overridden by environment variables.
 
