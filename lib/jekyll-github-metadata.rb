@@ -1,7 +1,10 @@
-require 'jekyll'
 require 'octokit'
 
 module Jekyll
+  module Errors
+    FatalException = Class.new(::RuntimeError)
+  end
+  
   module GitHubMetadata
     NoRepositoryError = Class.new(Jekyll::Errors::FatalException)
 
@@ -16,7 +19,7 @@ module Jekyll
       attr_accessor :repository
 
       def environment
-        Jekyll.env || Pages.env || 'development'
+        Jekyll.respond_to?(:env) ? Jekyll.env : (Pages.env || 'development')
       end
 
       def client
@@ -107,4 +110,6 @@ module Jekyll
   end
 end
 
-require_relative 'jekyll-github-metadata/ghp_metadata_generator'
+if Jekyll.const_defined? :Site
+  require_relative 'jekyll-github-metadata/ghp_metadata_generator'
+end
