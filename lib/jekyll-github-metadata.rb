@@ -1,8 +1,10 @@
 require 'octokit'
 
 module Jekyll
-  module Errors
-    FatalException = Class.new(::RuntimeError)
+  if const_defined? :Errors
+    module Errors
+      FatalException = Class.new(::RuntimeError) unless const_defined? :FatalException
+    end
   end
   
   module GitHubMetadata
