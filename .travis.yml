@@ -6,8 +6,6 @@ rvm:
 - 2.3
 matrix:
   include:
-    - rvm: 1.9.3
-      env: JEKYLL_VERSION=2.5
     - rvm: 2.3
       env: JEKYLL_VERSION=2.5
     - rvm: 2.1.7
