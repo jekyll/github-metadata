@@ -66,6 +66,7 @@ Some `site.github` values can be overridden by environment variables.
 
 Working with `jekyll-github-metadata` and GitHub Enterprise? No sweat. You can configure which API endpoints this plugin will hit to fetch data.
 
+- `SSL` – if "true", sets a number of endpoints to use `https://`, default: `"false"`
 - `OCTOKIT_API_ENDPOINT` – the full hostname and protocol for the api, default: `https://api.github.com`
 - `OCTOKIT_WEB_ENDPOINT` – the full hostname and protocol for the website, default: `https://github.com`
 - `PAGES_PAGES_HOSTNAME` – the full hostname from where GitHub Pages sites are served, default: `github.io`.

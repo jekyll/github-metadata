@@ -101,9 +101,9 @@ module Jekyll
 
       def pages_url
         if cname || primary?
-          "http://#{domain}"
+          "#{Pages.scheme}://#{domain}"
         else
-          File.join("http://#{domain}", name, "")
+          URI.join("#{Pages.scheme}://#{domain}", "#{name}/")
         end
       end
 

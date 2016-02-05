@@ -8,7 +8,16 @@ module Jekyll
           'PAGES_HELP_URL'        => 'https://help.github.com'.freeze,
           'PAGES_GITHUB_HOSTNAME' => 'https://github.com'.freeze,
           'PAGES_PAGES_HOSTNAME'  => 'github.io'.freeze,
+          'SSL'                   => 'false'.freeze
         }.freeze
+
+        def ssl?
+          env_var('SSL').eql? 'true'
+        end
+
+        def scheme
+          ssl? ? "https" : "http"
+        end
 
         def env
           env_var 'PAGES_ENV'
