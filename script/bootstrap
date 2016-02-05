@@ -1,2 +1,2 @@
 #!/bin/bash
-bundle install
+bundle install --jobs=8 $@

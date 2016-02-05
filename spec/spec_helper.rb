@@ -1,4 +1,33 @@
 require 'jekyll-github-metadata'
+require 'webmock/rspec'
+require 'pathname'
+
+SPEC_DIR = Pathname.new(File.expand_path("../", __FILE__))
+
+module WebMockHelper
+  def stub_api(path, filename)
+    WebMock.disable_net_connect!
+    stub_request(:get, "https://api.github.com#{path}").
+      with(:headers => {
+        'Accept'          => 'application/vnd.github.v3+json',
+        'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+        'Content-Type'    => 'application/json',
+        'User-Agent'      => "Octokit Ruby Gem #{Octokit::VERSION}"
+      }).
+      to_return(
+        :status => 200,
+        :headers => {
+          'Transfer-Encoding'   => 'chunked',
+          'Content-Type'        => 'application/json; charset=utf-8',
+          'Vary'                => 'Accept-Encoding',
+          'Content-Encoding'    => 'gzip',
+          'X-GitHub-Media-Type' => 'github.v3; format=json'
+        },
+        :body   => SPEC_DIR.
+                  join("webmock/api_get_#{filename}.json").read
+      )
+  end
+end
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -25,7 +54,7 @@ RSpec.configure do |config|
 
   # This setting enables warnings. It's recommended, but in some cases may
   # be too noisy due to issues in dependencies.
-  config.warnings = true
+  config.warnings = false
 
   # Many RSpec users commonly either run the entire suite or an individual
   # file, and it's useful to allow more verbose output when running an
@@ -53,4 +82,7 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
+
+  config.include WebMockHelper
+  WebMock.disable_net_connect!
 end
