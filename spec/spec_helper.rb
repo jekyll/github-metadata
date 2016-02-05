@@ -38,13 +38,6 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-  # These two settings work together to allow you to limit a spec run
-  # to individual examples or groups you care about by tagging them with
-  # `:focus` metadata. When nothing is tagged with `:focus`, all examples
-  # get run.
-  config.filter_run :focus
-  config.run_all_when_everything_filtered = true
-
   # Limits the available syntax to the non-monkey patched syntax that is recommended.
   # For more details, see:
   #   - http://myronmars.to/n/dev-blog/2012/06/rspecs-new-expectation-syntax

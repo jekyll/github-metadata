@@ -1,7 +1,10 @@
+require 'jekyll'
 require 'octokit'
 
 module Jekyll
   module GitHubMetadata
+    NoRepositoryError = Class.new(Jekyll::Errors::FatalException)
+
     autoload :Client,     'jekyll-github-metadata/client'
     autoload :Pages,      'jekyll-github-metadata/pages'
     autoload :Repository, 'jekyll-github-metadata/repository'

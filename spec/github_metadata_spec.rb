@@ -4,7 +4,7 @@ RSpec.describe(Jekyll::GitHubMetadata) do
   let(:key_value_pair) { %w{some_key some_value} }
 
   before(:each) do
-    described_class.clear_values!
+    described_class.reset!
   end
 
   it 'allows you to register values' do
