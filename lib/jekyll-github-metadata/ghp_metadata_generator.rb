@@ -5,7 +5,7 @@ module Jekyll
     class GHPMetadataGenerator < Jekyll::Generator
       def generate(site)
         Jekyll.logger.debug "Generator:", "Calling GHPMetadataGenerator"
-        GitHubMetadata.repository ||= GitHubMetadata::Repository.new(nwo(site))
+        GitHubMetadata.repository = GitHubMetadata::Repository.new(nwo(site))
         GitHubMetadata.init!
         site.config['github'] =
           case site.config['github']

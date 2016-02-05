@@ -5,27 +5,44 @@ require 'pathname'
 SPEC_DIR = Pathname.new(File.expand_path("../", __FILE__))
 
 module WebMockHelper
+  REQUEST_HEADERS = {
+    'Accept'          => 'application/vnd.github.v3+json',
+    'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+    'Content-Type'    => 'application/json',
+    'User-Agent'      => "Octokit Ruby Gem #{Octokit::VERSION}"
+  }.freeze
+  RESPONSE_HEADERS = {
+    'Transfer-Encoding'   => 'chunked',
+    'Content-Type'        => 'application/json; charset=utf-8',
+    'Vary'                => 'Accept-Encoding',
+    'Content-Encoding'    => 'gzip',
+    'X-GitHub-Media-Type' => 'github.v3; format=json'
+  }.freeze
+
   def stub_api(path, filename)
     WebMock.disable_net_connect!
-    stub_request(:get, "https://api.github.com#{path}").
-      with(:headers => {
-        'Accept'          => 'application/vnd.github.v3+json',
-        'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-        'Content-Type'    => 'application/json',
-        'User-Agent'      => "Octokit Ruby Gem #{Octokit::VERSION}"
-      }).
+    stub_request(:get, url(path)).
+      with(:headers => REQUEST_HEADERS).
       to_return(
-        :status => 200,
-        :headers => {
-          'Transfer-Encoding'   => 'chunked',
-          'Content-Type'        => 'application/json; charset=utf-8',
-          'Vary'                => 'Accept-Encoding',
-          'Content-Encoding'    => 'gzip',
-          'X-GitHub-Media-Type' => 'github.v3; format=json'
-        },
-        :body   => SPEC_DIR.
-                  join("webmock/api_get_#{filename}.json").read
+        :status  => 200,
+        :headers => RESPONSE_HEADERS,
+        :body    => webmock_data(filename)
       )
+  end
+
+  def expect_api_call(path)
+    expect(WebMock).to have_requested(:get, url(path)).
+      with(:headers => REQUEST_HEADERS).once
+  end
+
+  private
+  def url(path)
+    "#{Jekyll::GitHubMetadata::Pages.api_url}#{path}"
+  end
+
+  def webmock_data(filename)
+    @webmock_data ||= {}
+    @webmock_data[filename] ||= SPEC_DIR.join("webmock/api_get_#{filename}.json").read
   end
 end
 
