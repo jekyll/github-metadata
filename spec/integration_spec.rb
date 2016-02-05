@@ -34,9 +34,6 @@ RSpec.describe("integration into a jekyll site") do
   end
   subject { SafeYAML::load(dest_dir("rendered.txt").read) }
 
-  it "prints" do
-    SPEC_DIR.join("webmock/api_success.json").write(JSON.dump(subject))
-  end
   {
     "environment"          => "development",
     "hostname"             => "https://github.com",
