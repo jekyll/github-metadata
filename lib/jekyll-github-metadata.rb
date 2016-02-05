@@ -1,12 +1,12 @@
 require 'octokit'
 
 module Jekyll
-  if const_defined? :Errors
+  unless const_defined? :Errors
     module Errors
       FatalException = Class.new(::RuntimeError) unless const_defined? :FatalException
     end
   end
-  
+
   module GitHubMetadata
     NoRepositoryError = Class.new(Jekyll::Errors::FatalException)
 
@@ -106,7 +106,7 @@ module Jekyll
         register_value('contributors',         proc { |c,r| c.contributors(r.nwo) })
         register_value('releases',             proc { |c,r| c.releases(r.nwo) })
       end
-      
+
       if self.class.const_defined? :Site
         require_relative 'jekyll-github-metadata/ghp_metadata_generator'
       end

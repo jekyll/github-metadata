@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'jekyll-github-metadata/ghp_metadata_generator'
 
 RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
   let(:overrides) { {"repository" => "jekyll/another-repo"} }

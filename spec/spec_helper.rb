@@ -95,4 +95,6 @@ RSpec.configure do |config|
 
   config.include WebMockHelper
   WebMock.disable_net_connect!
+
+  config.before(:each) { Jekyll::GitHubMetadata.init! }
 end
