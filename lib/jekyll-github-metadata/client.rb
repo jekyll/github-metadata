@@ -14,7 +14,7 @@ module Jekyll
 
       def build_octokit_client(options = nil)
         options = options || Hash.new
-        unless options[:access_token]
+        unless options.key? :access_token
           options.merge! pluck_auth_method
         end
         Octokit::Client.new({:auto_paginate => true}.merge(options))
@@ -52,6 +52,7 @@ module Jekyll
         else
           Jekyll.logger.warn "GitHubMetadata:", "No GitHub API authentication could be found." +
             " Some fields may be missing or have incorrect data."
+          {}.freeze
         end
       end
     end
