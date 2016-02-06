@@ -19,6 +19,7 @@ module Jekyll
 
     class << self
       attr_accessor :repository
+      attr_writer :client
 
       def environment
         Jekyll.respond_to?(:env) ? Jekyll.env : (Pages.env || 'development')
