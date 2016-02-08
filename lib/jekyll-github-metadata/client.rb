@@ -14,13 +14,8 @@ module Jekyll
 
       def build_octokit_client(options = nil)
         options = options || Hash.new
-        if ENV['JEKYLL_GITHUB_TOKEN'] || Octokit.access_token
-          options.merge!(:access_token => ENV['JEKYLL_GITHUB_TOKEN'] || Octokit.access_token)
-        elsif !ENV['NO_NETRC'] && File.exist?(File.join(ENV['HOME'], '.netrc')) && safe_require('netrc')
-          options.merge!(:netrc => true)
-        else
-          Jekyll.logger.warn "GitHubMetadata:", "No GitHub API authentication could be found." +
-            " Some fields may be missing or have incorrect data."
+        unless options.key? :access_token
+          options.merge! pluck_auth_method
         end
         Octokit::Client.new({:auto_paginate => true}.merge(options))
       end
@@ -46,6 +41,20 @@ module Jekyll
         Octokit::Unauthorized,
         Octokit::TooManyRequests
         default
+      end
+      
+      private
+      
+      def pluck_auth_method
+        if ENV['JEKYLL_GITHUB_TOKEN'] || Octokit.access_token
+          options.merge!(:access_token => ENV['JEKYLL_GITHUB_TOKEN'] || Octokit.access_token)
+        elsif !ENV['NO_NETRC'] && File.exist?(File.join(ENV['HOME'], '.netrc')) && safe_require('netrc')
+          options.merge!(:netrc => true)
+        else
+          Jekyll.logger.warn "GitHubMetadata:", "No GitHub API authentication could be found." +
+            " Some fields may be missing or have incorrect data."
+          {}.freeze
+        end
       end
     end
   end
