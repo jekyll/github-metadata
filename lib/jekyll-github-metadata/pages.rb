@@ -37,7 +37,7 @@ module Jekyll
         end
 
         def github_url
-          "https://#{github_hostname.sub(/\Ahttp(s)?:\/\//, '')}"
+          "https://#{github_hostname}"
         end
 
         def api_url
@@ -49,7 +49,7 @@ module Jekyll
         end
 
         def github_hostname
-          trim_last_slash env_var('PAGES_GITHUB_HOSTNAME', Octokit.web_endpoint)
+          trim_last_slash env_var('PAGES_GITHUB_HOSTNAME')
         end
 
         def pages_hostname
