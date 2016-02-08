@@ -6,21 +6,38 @@ module Jekyll
           'PAGES_ENV'             => 'dotcom'.freeze,
           'PAGES_API_URL'         => 'https://api.github.com'.freeze,
           'PAGES_HELP_URL'        => 'https://help.github.com'.freeze,
-          'PAGES_GITHUB_HOSTNAME' => 'https://github.com'.freeze,
+          'PAGES_GITHUB_HOSTNAME' => 'github.com'.freeze,
           'PAGES_PAGES_HOSTNAME'  => 'github.io'.freeze,
-          'SSL'                   => 'false'.freeze
+          'SSL'                   => 'false'.freeze,
+          'SUBDOMAIN_ISOLATION'   => 'false'.freeze
         }.freeze
 
         def ssl?
-          env_var('SSL').eql? 'true'
+          env_var('SSL') == 'true' ||  test?
         end
 
         def scheme
           ssl? ? "https" : "http"
         end
 
+        def subdomain_isolation?
+          env_var('SUBDOMAIN_ISOLATION').eql? 'true'
+        end
+
+        def test?;       env == 'test' end
+        def dotcom?;     env == 'dotcom' end
+        def enterprise?; env == 'enterprise' end
+
+        def custom_domains_enabled?
+          dotcom? || test?
+        end
+
         def env
           env_var 'PAGES_ENV'
+        end
+
+        def github_url
+          "https://#{github_hostname.sub(/\Ahttp(s)?:\/\//, '')}"
         end
 
         def api_url

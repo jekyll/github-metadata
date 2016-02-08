@@ -9,7 +9,7 @@ module Jekyll
       end
 
       def organization_repository?
-        !!GitHubMetadata.client.organization(owner)
+        !!Value.new(proc { |c| c.organization(owner) }).render
       end
 
       def git_ref
@@ -29,7 +29,7 @@ module Jekyll
       end
 
       def owner_url
-        "#{Pages.github_hostname}/#{owner}"
+        "#{Pages.github_url}/#{owner}"
       end
 
       def owner_gravatar_url
@@ -41,7 +41,7 @@ module Jekyll
       end
 
       def repository_url
-        "#{Pages.github_hostname}/#{nwo}"
+        "#{owner_url}/#{name}"
       end
 
       def zip_url
@@ -73,46 +73,78 @@ module Jekyll
       end
 
       def project_page?
-        !primary?
-      end
-
-      def primary?
-        user_page_domains.include? name.downcase
+        !user_page?
       end
 
       def github_repo?
-        owner.eql?('github')
+        !Pages.enterprise? && owner.eql?('github')
+      end
+
+      def primary?
+        if Pages.enterprise?
+          name.downcase == "#{owner.to_s.downcase}.#{Pages.github_hostname}"
+        else
+          user_page_domains.include? name.downcase
+        end
       end
 
       def default_user_domain
         if github_repo?
           "#{owner}.#{Pages.github_hostname}".downcase
+        elsif Pages.enterprise?
+          Pages.pages_hostname.downcase
         else
           "#{owner}.#{Pages.pages_hostname}".downcase
         end
       end
 
       def user_page_domains
-        [
-          default_user_domain,
-          "#{owner}.github.com".downcase # legacy
-        ]
+        domains = [default_user_domain]
+        domains.push "#{owner}.github.com".downcase unless Pages.enterprise?
+        domains
+      end
+
+      def user_domain
+        domain = default_user_domain
+        user_page_domains.each do |user_repo|
+          candidate_nwo = "#{owner}/#{user_repo}"
+          next unless Value.new(proc { |client| client.repository? candidate_nwo }).render
+          domain = self.class.new(candidate_nwo).domain
+        end
+        domain
       end
 
       def pages_url
-        if cname || primary?
+        if !Pages.custom_domains_enabled?
+          path = user_page? ? owner : nwo
+          if Pages.subdomain_isolation?
+            URI.join("#{Pages.scheme}://#{Pages.pages_hostname}/", path).to_s
+          else
+            URI.join("#{Pages.github_url}/pages/", path).to_s
+          end
+        elsif cname || primary?
           "#{Pages.scheme}://#{domain}"
         else
-          URI.join("#{Pages.scheme}://#{domain}", "#{name}/")
+          URI.join("#{Pages.scheme}://#{domain}", "#{name}/").to_s
         end
       end
 
       def cname
+        return unless Pages.custom_domains_enabled?
         @cname ||= (Value.new('cname', proc { |c| c.pages(nwo) }).render || {'cname' => nil})['cname']
       end
 
       def domain
-        cname || default_user_domain
+        @domain ||=
+          if !Pages.custom_domains_enabled?
+            Pages.github_hostname
+          elsif cname # explicit CNAME
+            cname
+          elsif primary? # user/org repo
+            default_user_domain
+          else # project repo
+            user_domain
+          end
       end
     end
   end

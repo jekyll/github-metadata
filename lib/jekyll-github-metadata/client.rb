@@ -27,8 +27,9 @@ module Jekyll
 
       def method_missing(meth, *args, &block)
         if @client.respond_to?(meth)
-          instance_variable_get(:"@#{meth}") ||
-            instance_variable_set(:"@#{meth}", save_from_errors { @client.send(meth, *args, &block) })
+          instance_var_name = meth.to_s.chomp('?')
+          instance_variable_get(:"@#{instance_var_name}") ||
+            instance_variable_set(:"@#{instance_var_name}", save_from_errors { @client.send(meth, *args, &block) })
         else
           super(meth, *args, &block)
         end
