@@ -42,14 +42,14 @@ module Jekyll
         Octokit::TooManyRequests
         default
       end
-      
+
       private
-      
+
       def pluck_auth_method
         if ENV['JEKYLL_GITHUB_TOKEN'] || Octokit.access_token
-          options.merge!(:access_token => ENV['JEKYLL_GITHUB_TOKEN'] || Octokit.access_token)
+          { :access_token => ENV['JEKYLL_GITHUB_TOKEN'] || Octokit.access_token }
         elsif !ENV['NO_NETRC'] && File.exist?(File.join(ENV['HOME'], '.netrc')) && safe_require('netrc')
-          options.merge!(:netrc => true)
+          { :netrc => true }
         else
           Jekyll.logger.warn "GitHubMetadata:", "No GitHub API authentication could be found." +
             " Some fields may be missing or have incorrect data."

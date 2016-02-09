@@ -13,7 +13,7 @@ module Jekyll
         }.freeze
 
         def ssl?
-          env_var('SSL') == 'true' ||  test?
+          env_var('SSL') == 'true' || test?
         end
 
         def scheme
