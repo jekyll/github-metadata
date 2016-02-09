@@ -32,6 +32,8 @@ module Jekyll
       def values
         @values ||= Hash.new
       end
+      alias_method :to_h, :values
+      alias_method :to_liquid, :to_h
 
       def clear_values!
         @values = Hash.new
@@ -44,14 +46,6 @@ module Jekyll
 
       def [](key)
         values[key.to_s]
-      end
-
-      def to_h
-        values
-      end
-
-      def to_liquid
-        to_h
       end
 
       def register_value(key, value)
