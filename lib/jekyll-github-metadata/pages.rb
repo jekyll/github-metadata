@@ -41,19 +41,19 @@ module Jekyll
         end
 
         def api_url
-          trim_last_slash env_var('PAGES_API_URL', Octokit.api_endpoint)
+          trim_last_slash env_var('PAGES_API_URL', ENV['API_URL'])
         end
 
         def help_url
-          trim_last_slash env_var('PAGES_HELP_URL')
+          trim_last_slash env_var('PAGES_HELP_URL', ENV['HELP_URL'])
         end
 
         def github_hostname
-          trim_last_slash env_var('PAGES_GITHUB_HOSTNAME')
+          trim_last_slash env_var('PAGES_GITHUB_HOSTNAME', ENV['GITHUB_HOSTNAME'])
         end
 
         def pages_hostname
-          trim_last_slash env_var('PAGES_PAGES_HOSTNAME')
+          trim_last_slash env_var('PAGES_PAGES_HOSTNAME', ENV['PAGES_HOSTNAME'])
         end
 
         private
