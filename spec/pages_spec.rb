@@ -13,7 +13,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
 
     it "looks for the domain specified" do
       with_env("GITHUB_HOSTNAME", ghe_domain) do
-        expect(described_class.github_url).to eql("https://#{ghe_domain}")
+        expect(described_class.github_url).to eql("http://#{ghe_domain}")
         expect(described_class.github_hostname).to eql ghe_domain
       end
     end

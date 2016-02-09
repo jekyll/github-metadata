@@ -37,7 +37,11 @@ module Jekyll
         end
 
         def github_url
-          "https://#{github_hostname}"
+          if dotcom?
+            "https://github.com".freeze
+          else
+            "#{scheme}://#{github_hostname}"
+          end
         end
 
         def api_url
