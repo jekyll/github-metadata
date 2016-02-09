@@ -125,7 +125,7 @@ module Jekyll
         elsif cname || primary?
           "#{Pages.scheme}://#{domain}"
         else
-          URI.join("#{Pages.scheme}://#{domain}", "#{name}/").to_s
+          URI.join("#{Pages.scheme}://#{domain}", name).to_s
         end
       end
 
