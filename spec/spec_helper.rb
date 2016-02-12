@@ -46,6 +46,35 @@ module WebMockHelper
   end
 end
 
+module EnvHelper
+  def with_env(*args)
+    env_hash = env_args_to_hash(*args)
+	old_env = {}
+	env_hash.each do |name, value|
+	  old_env[name] = ENV[name]
+	  ENV[name] = value
+	end
+	yield
+  ensure
+	old_env.each do |name, value|
+	  ENV[name] = value
+	end
+  end
+
+  private
+  def env_args_to_hash(*args)
+    case args.length
+    when 2
+      env_hash = {}
+      env_hash[args.first] = args.last
+      return env_hash
+    when 1
+      return args.first if args.first.is_a? Hash
+    end
+    raise ArgumentError, "Expect 2 strings or a Hash of VAR => VAL"
+  end
+end
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -95,4 +124,7 @@ RSpec.configure do |config|
 
   config.include WebMockHelper
   WebMock.disable_net_connect!
+  config.include EnvHelper
+
+  config.before(:each) { Jekyll::GitHubMetadata.init! }
 end

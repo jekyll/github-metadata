@@ -33,7 +33,8 @@ RSpec.describe("integration into a jekyll site") do
     # Reset some stuffs
     ENV['NO_NETRC'] = "true"
     ENV['JEYKLL_GITHUB_TOKEN'] = "1234abc"
-    ENV['PAGES_REPO_NWO'] = 'jekyll/github-metadata'
+    ENV['PAGES_REPO_NWO'] = "jekyll/github-metadata"
+    ENV['PAGES_ENV'] = "dotcom"
     Jekyll::GitHubMetadata.reset!
 
     # Stub Requests
@@ -51,7 +52,7 @@ RSpec.describe("integration into a jekyll site") do
 
   {
     "environment"          => "development",
-    "hostname"             => "https://github.com",
+    "hostname"             => "github.com",
     "pages_env"            => "dotcom",
     "pages_hostname"       => "github.io",
     "help_url"             => "https://help.github.com",
@@ -85,7 +86,7 @@ RSpec.describe("integration into a jekyll site") do
     "is_user_page"         => false,
     "is_project_page"      => true,
     "show_downloads"       => true,
-    "url"                  => "http://jekyll.github.io/github-metadata/",
+    "url"                  => "http://jekyll.github.io/github-metadata",
     "contributors"         => /"login"=>"parkr", "id"=>237985/,
     "releases"             => /"tag_name"=>"v1.1.0"/,
   }.each do |key, value|

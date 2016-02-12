@@ -1,7 +1,12 @@
-require 'jekyll'
 require 'octokit'
 
 module Jekyll
+  unless const_defined? :Errors
+    module Errors
+      FatalException = Class.new(::RuntimeError) unless const_defined? :FatalException
+    end
+  end
+
   module GitHubMetadata
     NoRepositoryError = Class.new(Jekyll::Errors::FatalException)
 
@@ -14,9 +19,10 @@ module Jekyll
 
     class << self
       attr_accessor :repository
+      attr_writer :client
 
       def environment
-        Jekyll.env || Pages.env || 'development'
+        Jekyll.respond_to?(:env) ? Jekyll.env : (Pages.env || 'development')
       end
 
       def client
@@ -26,6 +32,8 @@ module Jekyll
       def values
         @values ||= Hash.new
       end
+      alias_method :to_h, :values
+      alias_method :to_liquid, :to_h
 
       def clear_values!
         @values = Hash.new
@@ -38,14 +46,6 @@ module Jekyll
 
       def [](key)
         values[key.to_s]
-      end
-
-      def to_h
-        values
-      end
-
-      def to_liquid
-        to_h
       end
 
       def register_value(key, value)
@@ -100,11 +100,15 @@ module Jekyll
         register_value('url',                  proc { |_,r| r.pages_url })
         register_value('contributors',         proc { |c,r| c.contributors(r.nwo) })
         register_value('releases',             proc { |c,r| c.releases(r.nwo) })
+
+        values
+      end
+
+      if Jekyll.const_defined? :Site
+        require_relative 'jekyll-github-metadata/ghp_metadata_generator'
       end
     end
 
     init!
   end
 end
-
-require_relative 'jekyll-github-metadata/ghp_metadata_generator'
