@@ -42,6 +42,7 @@ module Jekyll
       def reset!
         clear_values!
         @client = nil
+        @repository = nil
       end
 
       def [](key)
@@ -54,7 +55,7 @@ module Jekyll
 
       # Reset our values hash.
       def init!
-        reset!
+        clear_values!
 
         # Environment-Specific
         register_value('environment', proc { environment })

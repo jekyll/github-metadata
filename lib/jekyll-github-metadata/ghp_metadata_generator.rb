@@ -1,5 +1,3 @@
-require 'jekyll'
-
 module Jekyll
   module GitHubMetadata
     class GHPMetadataGenerator < Jekyll::Generator
@@ -23,8 +21,8 @@ module Jekyll
 
       def initialize_repo!(repo_nwo)
         if GitHubMetadata.repository.nil? || GitHubMetadata.repository.nwo != repo_nwo
-          GitHubMetadata.repository = GitHubMetadata::Repository.new(repo_nwo)
           GitHubMetadata.init!
+          GitHubMetadata.repository = GitHubMetadata::Repository.new(repo_nwo)
         end
       end
 

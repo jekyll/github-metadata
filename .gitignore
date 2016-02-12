@@ -1,4 +1,5 @@
 .bundle
+.tags*
 Gemfile.lock
 pkg
 _site

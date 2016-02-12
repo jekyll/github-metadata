@@ -52,7 +52,7 @@ module Jekyll
         elsif !ENV['NO_NETRC'] && File.exist?(File.join(ENV['HOME'], '.netrc')) && safe_require('netrc')
           { :netrc => true }
         else
-          Jekyll.logger.warn "GitHubMetadata:", "No GitHub API authentication could be found." +
+          Jekyll.logger.warn "GitHub Metadata:", "No GitHub API authentication could be found." +
             " Some fields may be missing or have incorrect data."
           {}.freeze
         end

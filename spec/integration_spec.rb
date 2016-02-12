@@ -1,5 +1,6 @@
 require "spec_helper"
 require "jekyll"
+require "jekyll-github-metadata/ghp_metadata_generator"
 
 RSpec.describe("integration into a jekyll site") do
   SOURCE_DIR = Pathname.new(File.expand_path("../test-site", __FILE__))
@@ -26,13 +27,14 @@ RSpec.describe("integration into a jekyll site") do
     "/orgs/jekyll/public_members?per_page=100"             => "org_members",
     "/repos/jekyll/github-metadata/pages"                  => "repo_pages",
     "/repos/jekyll/github-metadata/releases?per_page=100"  => "repo_releases",
-    "/repos/jekyll/github-metadata/contributors?per_page=100" => "repo_contributors"
+    "/repos/jekyll/github-metadata/contributors?per_page=100" => "repo_contributors",
+    "/repos/jekyll/jekyll.github.io"                          => "not_found"
   }.map { |path, file| ApiStub.new(path, file) }
 
   before(:each) do
     # Reset some stuffs
     ENV['NO_NETRC'] = "true"
-    ENV['JEYKLL_GITHUB_TOKEN'] = "1234abc"
+    ENV['JEKYLL_GITHUB_TOKEN'] = "1234abc"
     ENV['PAGES_REPO_NWO'] = "jekyll/github-metadata"
     ENV['PAGES_ENV'] = "dotcom"
     Jekyll::GitHubMetadata.reset!
