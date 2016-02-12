@@ -1,3 +1,17 @@
+## 1.3.0 / 2015-02-12
+
+  * Don't require Jekyll, and only require the Generator when Jekyll has been required
+  * Client: Fix bug with method call memoization collision with special characters
+  * Generator: Properly memoize the repository so each regen doesn't re-call
+  * Pages: `ssl?` should be `true` in test mode
+  * Pages: `github_hostname` should only include the domain, not the protocol
+  * Pages: handle subdomain isolation
+  * Pages: helper methods for `dotcom?`, `test?`, `enterprise?`
+  * Pages: hardcode https for dotcom GitHub URL
+  * Pages: api_url, help_url, github_hostname, and pages_hostname should all look at env vars without `PAGES_` prefix
+  * Repository: `#organization_repository?` should use `Value` to save from errors
+  * Repository: add in enterprise support & smarter CNAME/domain lookup
+
 ## 1.2.0 / 2015-02-05
 
   * Bring up-to-date with current `site.github` offerings on GitHub Pages (#30)
