@@ -130,6 +130,7 @@ module Jekyll
       end
 
       def cname
+        return @cname if defined?(@cname)
         return unless Pages.custom_domains_enabled?
         @cname ||= (Value.new('cname', proc { |c| c.pages(nwo) }).render || {'cname' => nil})['cname']
       end
