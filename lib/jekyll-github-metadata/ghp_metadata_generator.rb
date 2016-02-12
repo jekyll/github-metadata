@@ -5,9 +5,9 @@ module Jekyll
     class GHPMetadataGenerator < Jekyll::Generator
       def generate(site)
         Jekyll.logger.debug "Generator:", "Calling GHPMetadataGenerator"
-        GitHubMetadata.repository = GitHubMetadata::Repository.new(nwo(site))
-        GitHubMetadata.init!
-        Jekyll.logger.debug "GHMetadataGenerator:", "Generating for #{GitHubMetadata.repository.nwo}"
+        initialize_repo! nwo(site)
+        Jekyll.logger.debug "GitHub Metadata:", "Generating for #{GitHubMetadata.repository.nwo}"
+
         site.config['github'] =
           case site.config['github']
           when nil
@@ -17,6 +17,15 @@ module Jekyll
           else
             site.config['github']
           end
+      end
+
+      private
+
+      def initialize_repo!(repo_nwo)
+        if GitHubMetadata.repository.nil? || GitHubMetadata.repository.nwo != repo_nwo
+          GitHubMetadata.repository = GitHubMetadata::Repository.new(repo_nwo)
+          GitHubMetadata.init!
+        end
       end
 
       def nwo(site)
