@@ -1,6 +1,19 @@
 module Jekyll
   module GitHubMetadata
     class Client
+
+      # Whitelisted API calls.
+      API_CALLS = %w{
+        repository
+        organization
+        repository?
+        pages
+        contributors
+        releases
+        list_repos
+        organization_public_members
+      }.freeze
+
       def initialize(options = nil)
         @client = build_octokit_client(options)
       end
@@ -20,14 +33,23 @@ module Jekyll
         Octokit::Client.new({:auto_paginate => true}.merge(options))
       end
 
-      def method_missing(meth, *args, &block)
-        if @client.respond_to?(meth)
-          instance_var_name = meth.to_s.sub('?', '_')
-          Jekyll.logger.debug "GitHub Metadata:", "Calling @client.#{meth}(#{args.map(&:inspect).join(", ")})"
+      def accepts_client_method?(method_name)
+        API_CALLS.include?(method_name.to_s) && @client.respond_to?(method_name)
+      end
+
+      def respond_to?(method_name, include_private = false)
+        accepts_client_method?(method_name) || super
+      end
+
+      def method_missing(method_name, *args, &block)
+        method = method_name.to_s
+        if accepts_client_method?(method_name)
+          instance_var_name = method.sub('?', '_')
+          Jekyll.logger.debug "GitHub Metadata:", "Calling @client.#{method}(#{args.map(&:inspect).join(", ")})"
           instance_variable_get(:"@#{instance_var_name}") ||
-            instance_variable_set(:"@#{instance_var_name}", save_from_errors { @client.send(meth, *args, &block) })
+            instance_variable_set(:"@#{instance_var_name}", save_from_errors { @client.public_send(method_name, *args, &block) })
         else
-          super(meth, *args, &block)
+          super
         end
       end
 
