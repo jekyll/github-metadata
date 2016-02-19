@@ -1,4 +1,8 @@
-## 1.3.0 / 2015-02-12
+## 1.4.0 / 2016-02-19
+
+  * Client: whitelist certain `Octokit::Client` methods (#32)
+
+## 1.3.0 / 2016-02-12
 
   * Don't require Jekyll, and only require the Generator when Jekyll has been required
   * Client: Fix bug with method call memoization collision with special characters
@@ -12,7 +16,7 @@
   * Repository: `#organization_repository?` should use `Value` to save from errors
   * Repository: add in enterprise support & smarter CNAME/domain lookup
 
-## 1.2.0 / 2015-02-05
+## 1.2.0 / 2016-02-05
 
   * Bring up-to-date with current `site.github` offerings on GitHub Pages (#30)
   * Add integration tests and ensure we're up-and-running with github-pages (#29)
