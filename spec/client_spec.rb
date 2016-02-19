@@ -13,6 +13,6 @@ RSpec.describe(Jekyll::GitHubMetadata::Client) do
   it "raises an error if an Octokit::Client method is called that's not whitelisted" do
     expect(-> {
       subject.combined_status('jekyll/github-metadata' 'refs/master')
-    }).to raise_error(NoMethodError)
+    }).to raise_error(described_class::InvalidMethodError, "combined_status is not whitelisted on #<Jekyll::GitHubMetadata::Client @client=#<Octokit::Client (authenticated)>>")
   end
 end

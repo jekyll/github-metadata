@@ -1,6 +1,7 @@
 module Jekyll
   module GitHubMetadata
     class Client
+      InvalidMethodError = Class.new(NoMethodError)
 
       # Whitelisted API calls.
       API_CALLS = %w{
@@ -48,6 +49,8 @@ module Jekyll
           Jekyll.logger.debug "GitHub Metadata:", "Calling @client.#{method}(#{args.map(&:inspect).join(", ")})"
           instance_variable_get(:"@#{instance_var_name}") ||
             instance_variable_set(:"@#{instance_var_name}", save_from_errors { @client.public_send(method_name, *args, &block) })
+        elsif @client.respond_to?(method_name)
+          raise InvalidMethodError, "#{method_name} is not whitelisted on #{inspect}"
         else
           super
         end
@@ -66,7 +69,19 @@ module Jekyll
         default
       end
 
+      def inspect
+        "#<#{self.class.name} @client=#{client_inspect}>"
+      end
+
       private
+
+      def client_inspect
+        if @client.nil?
+          "nil"
+        else
+          "#<#{@client.class.name} (#{"un" unless @client.access_token}authenticated)>"
+        end
+      end
 
       def pluck_auth_method
         if ENV['JEKYLL_GITHUB_TOKEN'] || Octokit.access_token
