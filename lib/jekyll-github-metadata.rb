@@ -73,10 +73,8 @@ module Jekyll
         })
 
         # The Juicy Stuff
-        register_value('public_repositories',  proc { |c,r| c.list_repos(r.owner, "type" => "public") })
-        register_value('organization_members', proc { |c,r|
-          c.organization_public_members(r.owner) if r.organization_repository?
-        })
+        register_value('public_repositories',  proc { |_,r| r.owner_public_repositories })
+        register_value('organization_members', proc { |_,r| r.organization_public_members })
         register_value('build_revision',       proc {
           ENV['JEKYLL_BUILD_REVISION'] || `git rev-parse HEAD`.strip
         })
@@ -99,8 +97,8 @@ module Jekyll
         register_value('is_project_page',      proc { |_,r| r.project_page? })
         register_value('show_downloads',       proc { |_,r| r.show_downloads? })
         register_value('url',                  proc { |_,r| r.pages_url })
-        register_value('contributors',         proc { |c,r| c.contributors(r.nwo) })
-        register_value('releases',             proc { |c,r| c.releases(r.nwo) })
+        register_value('contributors',         proc { |_,r| r.contributors })
+        register_value('releases',             proc { |_,r| r.releases })
 
         values
       end
