@@ -8,15 +8,6 @@ module Jekyll
         @name  = nwo.split("/").last
       end
 
-      def organization_repository?
-        return @is_organization_repository if self.class.const_defined?(@is_organization_repository)
-        @is_organization_repository = !!Value.new(proc { |c| c.organization(owner) }).render
-      end
-      
-      def owner_public_repositories
-        @owner_public_repositories ||= Value.new(proc { |c| c.list_repos(owner, "type" => "public") }).render
-      end
-
       def git_ref
         user_page? ? 'master' : 'gh-pages'
       end
@@ -71,6 +62,32 @@ module Jekyll
 
       def show_downloads?
         !!repo_info["has_downloads"]
+      end
+      
+      def organization_repository?
+        return @is_organization_repository if self.class.const_defined?(@is_organization_repository)
+        @is_organization_repository = !!Value.new(proc { |c| c.organization(owner) }).render
+      end
+      
+      def owner_public_repositories
+        @owner_public_repositories ||= Value.new(proc { |c| c.list_repos(owner, "type" => "public") }).render
+      end
+      
+      def organization_public_members
+        return @organization_public_members if self.class.const_defined?(@organization_public_members)
+        @organization_public_members = Value.new(proc { |c|
+          c.organization_public_members(r.owner) if r.organization_repository?
+        }).render
+      end
+      
+      def contributors
+        return @contributors if self.class.const_defined?(@contributors)
+        @contributors = Value.new(proc { |c| c.contributors(r.nwo) }).render
+      end
+      
+      def releases
+        return @releases if self.class.const_defined?(@releases)
+        @releases = Value.new(proc { |c| c.releases(r.nwo) }).render
       end
 
       def user_page?
