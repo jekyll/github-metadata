@@ -1,3 +1,8 @@
+## 1.5.0 / 2016-02-29
+
+  * All values should have a corresponding field on `Repository` (#34)
+  * Happy Leap Day!
+
 ## 1.4.0 / 2016-02-19
 
   * Client: whitelist certain `Octokit::Client` methods (#32)
