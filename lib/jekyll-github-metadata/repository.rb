@@ -9,7 +9,12 @@ module Jekyll
       end
 
       def organization_repository?
-        !!Value.new(proc { |c| c.organization(owner) }).render
+        return @is_organization_repository if self.class.const_defined?(@is_organization_repository)
+        @is_organization_repository = !!Value.new(proc { |c| c.organization(owner) }).render
+      end
+      
+      def owner_public_repositories
+        @owner_public_repositories ||= Value.new(proc { |c| c.list_repos(owner, "type" => "public") }).render
       end
 
       def git_ref
