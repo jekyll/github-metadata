@@ -65,29 +65,25 @@ module Jekyll
       end
       
       def organization_repository?
-        return @is_organization_repository if self.class.const_defined?(@is_organization_repository)
-        @is_organization_repository = !!Value.new(proc { |c| c.organization(owner) }).render
+        memoize_value :@is_organization_repository, Value.new(proc { |c| !!c.organization(owner) })
       end
       
       def owner_public_repositories
-        @owner_public_repositories ||= Value.new(proc { |c| c.list_repos(owner, "type" => "public") }).render
+        memoize_value :@owner_public_repositories, Value.new(proc { |c| c.list_repos(owner, "type" => "public") })
       end
       
       def organization_public_members
-        return @organization_public_members if self.class.const_defined?(@organization_public_members)
-        @organization_public_members = Value.new(proc { |c|
-          c.organization_public_members(r.owner) if r.organization_repository?
-        }).render
+        memoize_value :@organization_public_members, Value.new(proc { |c|
+          c.organization_public_members(owner) if organization_repository?
+        })
       end
       
       def contributors
-        return @contributors if self.class.const_defined?(@contributors)
-        @contributors = Value.new(proc { |c| c.contributors(r.nwo) }).render
+        memoize_value :@contributors, Value.new(proc { |c| c.contributors(nwo) })
       end
       
       def releases
-        return @releases if self.class.const_defined?(@releases)
-        @releases = Value.new(proc { |c| c.releases(r.nwo) }).render
+        memoize_value :@releases, Value.new(proc { |c| c.releases(nwo) })
       end
 
       def user_page?
@@ -152,9 +148,11 @@ module Jekyll
       end
 
       def cname
-        return @cname if defined?(@cname)
-        return unless Pages.custom_domains_enabled?
-        @cname ||= (Value.new('cname', proc { |c| c.pages(nwo) }).render || {'cname' => nil})['cname']
+        memoize_value :@cname, Value.new(proc { |c| 
+          if Pages.custom_domains_enabled?
+            (c.pages(nwo) || {'cname' => nil})['cname']
+          end
+        })
       end
 
       def domain
@@ -168,6 +166,13 @@ module Jekyll
           else # project repo
             user_domain
           end
+      end
+      
+      private
+      
+      def memoize_value(var_name, value)
+        return instance_variable_get(var_name) if instance_variable_defined?(var_name)
+        instance_variable_set(var_name, value.render)
       end
     end
   end
