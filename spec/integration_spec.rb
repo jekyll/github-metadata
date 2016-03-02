@@ -53,7 +53,7 @@ RSpec.describe("integration into a jekyll site") do
   subject { SafeYAML::load(dest_dir("rendered.txt").read) }
 
   {
-    "environment"          => "development",
+    "environment"          => "dotcom",
     "hostname"             => "github.com",
     "pages_env"            => "dotcom",
     "pages_hostname"       => "github.io",
