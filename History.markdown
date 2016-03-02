@@ -1,6 +1,7 @@
 ## HEAD
 
   * `site.github.environment` should be the same as `site.github.pages_env` (#36)
+  * Add `Repository#url_scheme` for the pages URL scheme. (#35)
 
 ## 1.5.0 / 2016-02-29
 
