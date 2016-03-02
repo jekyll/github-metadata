@@ -106,6 +106,16 @@ module Jekyll
         end
       end
 
+      def scheme
+        if domain.end_with?(".github.com".freeze)
+          "https".freeze
+        elsif cname
+          "http"
+        else
+          Pages.scheme
+        end
+      end
+
       def default_user_domain
         if github_repo?
           "#{owner}.#{Pages.github_hostname}".downcase
@@ -141,13 +151,9 @@ module Jekyll
             URI.join("#{Pages.github_url}/pages/", path).to_s
           end
         elsif cname || primary?
-          if domain =~ /\.github\.com\z/
-            "https://#{domain}" # force HTTPS for *.github.com domains
-          else
-            "#{Pages.scheme}://#{domain}"
-          end
+          "#{scheme}://#{domain}"
         else
-          URI.join("#{Pages.scheme}://#{domain}", name).to_s
+          URI.join("#{scheme}://#{domain}", name).to_s
         end
       end
 
