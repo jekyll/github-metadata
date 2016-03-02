@@ -12,7 +12,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     end
 
     it "always returns HTTP for the scheme" do
-      expect(repo.scheme).to eql("https")
+      expect(repo.url_scheme).to eql("https")
     end
 
     it "forces HTTPS for the URL" do
@@ -29,7 +29,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     end
 
     it "always returns HTTP for the scheme" do
-      expect(repo.scheme).to eql("http")
+      expect(repo.url_scheme).to eql("http")
     end
 
     it "uses Pages.scheme to determine scheme for domain" do
@@ -46,7 +46,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     end
 
     it "returns Pages.scheme for the scheme" do
-      expect(repo.scheme).to eql(Jekyll::GitHubMetadata::Pages.scheme)
+      expect(repo.url_scheme).to eql(Jekyll::GitHubMetadata::Pages.scheme)
     end
 
     it "uses Pages.scheme to determine scheme for domain" do

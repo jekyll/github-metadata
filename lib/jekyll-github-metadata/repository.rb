@@ -106,7 +106,7 @@ module Jekyll
         end
       end
 
-      def scheme
+      def url_scheme
         if domain.end_with?(".github.com".freeze)
           "https".freeze
         elsif cname
@@ -151,9 +151,9 @@ module Jekyll
             URI.join("#{Pages.github_url}/pages/", path).to_s
           end
         elsif cname || primary?
-          "#{scheme}://#{domain}"
+          "#{url_scheme}://#{domain}"
         else
-          URI.join("#{scheme}://#{domain}", name).to_s
+          URI.join("#{url_scheme}://#{domain}", name).to_s
         end
       end
 
