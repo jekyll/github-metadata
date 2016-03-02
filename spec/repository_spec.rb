@@ -54,7 +54,8 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     end
     
     context "on enterprise" do
-      it "uses Pages.scheme to determine scheme for domain" do
+      it "uses Pages.scheme to determine scheme for pages URL" do
+        # With SSL=true
         with_env({
           "PAGES_ENV" => "enterprise",
           "SSL"       => "true"
@@ -62,7 +63,15 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(true)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("https")
           expect(repo.url_scheme).to eql("https")
-          expect(repo.pages_url).to eql("https://parkr.github.io")
+        end
+        
+        # With no SSL
+        with_env({
+          "PAGES_ENV" => "enterprise"
+        }) do
+          expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(false)
+          expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("http")
+          expect(repo.url_scheme).to eql("http")
         end
       end
     end
