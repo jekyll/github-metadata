@@ -1,3 +1,7 @@
+## HEAD
+
+  * `site.github.environment` should be the same as `site.github.pages_env` (#36)
+
 ## 1.5.0 / 2016-02-29
 
   * All values should have a corresponding field on `Repository` (#34)
