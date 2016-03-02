@@ -12,6 +12,10 @@ module Jekyll
           'SUBDOMAIN_ISOLATION'   => 'false'.freeze
         }.freeze
 
+        # Whether the GitHub instance supports HTTPS
+        # Note: this will be the same as how sites are served in Enterprise,
+        # but may be different from how sites are served on GitHub.com.
+        # See Repository#url_scheme
         def ssl?
           env_var('SSL') == 'true' || test?
         end

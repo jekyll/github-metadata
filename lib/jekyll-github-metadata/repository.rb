@@ -106,13 +106,17 @@ module Jekyll
         end
       end
 
+      # In enterprise, the site's scheme will be the same as the instance's
+      # In dotcom, this will be `https` for GitHub-owned sites that end with
+      # `.github.com` and will be `http` for all other sites.
+      # Note: This is not the same as *instance*'s scheme, which may differ
       def url_scheme
-        if domain.end_with?(".github.com".freeze)
-          "https".freeze
-        elsif cname
-          "http"
-        else
+        if Pages.enterprise?
           Pages.scheme
+        elsif owner == 'github' && domain.end_with?('.github.com')
+          'https'
+        else
+          'http'
         end
       end
 
