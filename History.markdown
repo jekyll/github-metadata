@@ -1,3 +1,7 @@
+## HEAD
+
+ * Properly calculate the url scheme (#37)
+
 ## 1.6.0 / 2016-03-02
 
   * `site.github.environment` should be the same as `site.github.pages_env` (#36)
