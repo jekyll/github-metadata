@@ -59,8 +59,8 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
           "PAGES_ENV" => "enterprise",
           "SSL"       => "true"
         }) do
-          expect(Pages.ssl?).to be(true)
-          expect(Pages.scheme).to eql("https")
+          expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(true)
+          expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("https")
           expect(repo.url_scheme).to eql("https")
           expect(repo.pages_url).to eql("https://parkr.github.io")
         end
