@@ -63,25 +63,25 @@ module Jekyll
       def show_downloads?
         !!repo_info["has_downloads"]
       end
-      
+
       def organization_repository?
         memoize_value :@is_organization_repository, Value.new(proc { |c| !!c.organization(owner) })
       end
-      
+
       def owner_public_repositories
         memoize_value :@owner_public_repositories, Value.new(proc { |c| c.list_repos(owner, "type" => "public") })
       end
-      
+
       def organization_public_members
         memoize_value :@organization_public_members, Value.new(proc { |c|
           c.organization_public_members(owner) if organization_repository?
         })
       end
-      
+
       def contributors
         memoize_value :@contributors, Value.new(proc { |c| c.contributors(nwo) })
       end
-      
+
       def releases
         memoize_value :@releases, Value.new(proc { |c| c.releases(nwo) })
       end
@@ -103,6 +103,16 @@ module Jekyll
           name.downcase == "#{owner.to_s.downcase}.#{Pages.github_hostname}"
         else
           user_page_domains.include? name.downcase
+        end
+      end
+
+      def url_scheme
+        if domain.end_with?(".github.com".freeze)
+          "https".freeze
+        elsif cname
+          "http"
+        else
+          Pages.scheme
         end
       end
 
@@ -141,14 +151,14 @@ module Jekyll
             URI.join("#{Pages.github_url}/pages/", path).to_s
           end
         elsif cname || primary?
-          "#{Pages.scheme}://#{domain}"
+          "#{url_scheme}://#{domain}"
         else
-          URI.join("#{Pages.scheme}://#{domain}", name).to_s
+          URI.join("#{url_scheme}://#{domain}", name).to_s
         end
       end
 
       def cname
-        memoize_value :@cname, Value.new(proc { |c| 
+        memoize_value :@cname, Value.new(proc { |c|
           if Pages.custom_domains_enabled?
             (c.pages(nwo) || {'cname' => nil})['cname']
           end
@@ -167,9 +177,9 @@ module Jekyll
             user_domain
           end
       end
-      
+
       private
-      
+
       def memoize_value(var_name, value)
         return instance_variable_get(var_name) if instance_variable_defined?(var_name)
         instance_variable_set(var_name, value.render)
