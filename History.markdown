@@ -1,4 +1,4 @@
-## HEAD
+## 1.7.0 / 2016-03-02
 
  * Properly calculate the url scheme (#37)
 
