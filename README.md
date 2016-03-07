@@ -5,8 +5,6 @@ github-metadata, a.k.a. `site.github`
 
 Access `site.github` metadata anywhere (...you have an internet connection).
 
-**First, a very special thanks to GitHub (especially Ben Balter and their legal team) for allowing me to open-source this code.** :heart:
-
 ## Usage
 
 Usage of this gem is pretty straight-forward. Add it to your bundle like this:
