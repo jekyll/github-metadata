@@ -1,5 +1,4 @@
 require 'octokit'
-require 'digest'
 
 module Jekyll
   unless const_defined? :Errors

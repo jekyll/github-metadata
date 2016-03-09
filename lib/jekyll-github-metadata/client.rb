@@ -1,3 +1,5 @@
+require 'digest'
+
 module Jekyll
   module GitHubMetadata
     class Client
