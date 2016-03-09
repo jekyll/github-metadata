@@ -1,4 +1,4 @@
-## HEAD
+## 1.8.0 / 2016-03-09
 
   * Properly determine project page domain by breaking the cache on different args (#40)
 
