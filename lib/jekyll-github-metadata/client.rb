@@ -1,3 +1,5 @@
+require 'digest'
+
 module Jekyll
   module GitHubMetadata
     class Client
@@ -45,10 +47,9 @@ module Jekyll
       def method_missing(method_name, *args, &block)
         method = method_name.to_s
         if accepts_client_method?(method_name)
-          instance_var_name = method.sub('?', '_')
+          key = cache_key(method_name, args)
           Jekyll.logger.debug "GitHub Metadata:", "Calling @client.#{method}(#{args.map(&:inspect).join(", ")})"
-          instance_variable_get(:"@#{instance_var_name}") ||
-            instance_variable_set(:"@#{instance_var_name}", save_from_errors { @client.public_send(method_name, *args, &block) })
+          cache[key] ||= save_from_errors { @client.public_send(method_name, *args, &block) }
         elsif @client.respond_to?(method_name)
           raise InvalidMethodError, "#{method_name} is not whitelisted on #{inspect}"
         else
@@ -93,6 +94,14 @@ module Jekyll
             " Some fields may be missing or have incorrect data."
           {}.freeze
         end
+      end
+
+      def cache_key(method, *args)
+        Digest::SHA1.hexdigest(method.to_s + args.join(", "))
+      end
+
+      def cache
+        @cache ||= {}
       end
     end
   end
