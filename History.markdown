@@ -1,6 +1,10 @@
+## HEAD
+
+  * Properly determine project page domain by breaking the cache on different args (#40)
+
 ## 1.7.0 / 2016-03-02
 
- * Properly calculate the url scheme (#37)
+  * Properly calculate the url scheme (#37)
 
 ## 1.6.0 / 2016-03-02
 
@@ -43,8 +47,7 @@
 ## v1.0.0 / 2015-06-02
 
   * Add `site.github.releases`, an array of your repo's releases. (#9)
-  * Don't overwrite `site.github` if it's already set. Merge if it's a hash
-    and just leave along if it's non-nil something else. (#15)
+  * Don't overwrite `site.github` if it's already set. Merge if it's a hash and just leave along if it's non-nil something else. (#15)
   * Fall back to Octokit values to be more compatible with the GitHub ecosystem (#10)
   * Fix bug where nil, true, false, and hashes were stringified by JSON (#11)
   * Add test site to as an integration test (#11)
