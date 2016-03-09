@@ -21,14 +21,17 @@ RSpec.describe("integration into a jekyll site") do
   end
 
   API_STUBS = {
-    "/users/jekyll/repos?per_page=100&type=public"         => "owner_repos",
-    "/repos/jekyll/github-metadata"                        => "repo",
-    "/orgs/jekyll"                                         => "org",
-    "/orgs/jekyll/public_members?per_page=100"             => "org_members",
-    "/repos/jekyll/github-metadata/pages"                  => "repo_pages",
-    "/repos/jekyll/github-metadata/releases?per_page=100"  => "repo_releases",
+    "/users/jekyll/repos?per_page=100&type=public"            => "owner_repos",
+    "/repos/jekyll/github-metadata"                           => "repo",
+    "/orgs/jekyll"                                            => "org",
+    "/orgs/jekyll/public_members?per_page=100"                => "org_members",
+    "/repos/jekyll/github-metadata/pages"                     => "repo_pages",
+    "/repos/jekyll/github-metadata/releases?per_page=100"     => "repo_releases",
     "/repos/jekyll/github-metadata/contributors?per_page=100" => "repo_contributors",
-    "/repos/jekyll/jekyll.github.io"                          => "not_found"
+    "/repos/jekyll/jekyll.github.io"                          => "not_found",
+    "/repos/jekyll/jekyll.github.com"                         => "repo",
+    "/repos/jekyll/jekyll.github.com/pages"                   => "repo_pages",
+    "/repos/jekyll/jekyll.github.io/pages"                    => "repo_pages"
   }.map { |path, file| ApiStub.new(path, file) }
 
   before(:each) do
