@@ -47,7 +47,7 @@ module Jekyll
         if accepts_client_method?(method_name)
           key = cache_key(method_name, args)
           Jekyll.logger.debug "GitHub Metadata:", "Calling @client.#{method}(#{args.map(&:inspect).join(", ")})"
-          cache[key] || cache[key] = save_from_errors { @client.public_send(method_name, *args, &block) }
+          cache[key] ||= save_from_errors { @client.public_send(method_name, *args, &block) }
         elsif @client.respond_to?(method_name)
           raise InvalidMethodError, "#{method_name} is not whitelisted on #{inspect}"
         else
