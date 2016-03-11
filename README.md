@@ -7,7 +7,7 @@ Access `site.github` metadata anywhere (...you have an internet connection).
 
 ## Usage
 
-Usage of this gem is pretty straight-forward. Add it to your bundle like this:
+Usage of this gem is pretty straight-forward. Add it to your gemfile like this:
 
 ```ruby
 gem 'jekyll-github-metadata'
@@ -16,7 +16,7 @@ gem 'jekyll-github-metadata'
 Then go ahead and run `bundle install`. Once you've done that, add your repo & the gem to your `_config.yml`:
 
 ```yaml
-# or use PAGES_REPO_NWO in the env
+# or use PAGES_REPO_NWO in the env <-- what does this mean?
 repository: me/super-cool-project
 gems: ['jekyll-github-metadata']
 ```
@@ -25,19 +25,67 @@ Then run `jekyll` like you normally would and your `site.github.*` fields should
 
 ## Authentication
 
-For some fields, like `cname`, you need to authenticate yourself. Luckily it's pretty easy. You have 2 options:
+For some fields, like `cname`, you need to authenticate yourself. Luckily it's pretty easy. You have 3 options:
 
 ### 1. `JEKYLL_GITHUB_TOKEN`
+
+To generate a new personal access token on GitHub.com:
+
+- Open [https://github.com/settings/tokens/new][ghtoken]
+- Select the scope _public_repository_, and add a description.
+- Confirm and save the settings.
+
+#### Encrypt the GitHub Token for Jekyll?
+
+With the GitHub token created, you can now pass it to the NAMEHERE command-line tool, which adds the encrypted value to a file in your repository. To encrypt the token and add it to the `.config.yml` file in your cloned repository:
+
+- Move into the same directory as `env.global`.
+- Run the following command, replacing `<token>` with the GitHub token from the previous step.
+
+```
+$ ci encrypt GH_TOKEN=<token> --add env.global
+```
 
 These tokens are easy to use and delete so if you move around from machine-to-machine, we'd recommend this route. Set `JEKYLL_GITHUB_TOKEN` to your access token (with `public_repo` scope) when you run `jekyll`, like this:
 
 ```bash
-$ JEKYLL_GITHUB_TOKEN=123abc [bundle exec] jekyll serve
+$ JEKYLL_GITHUB_TOKEN=abc123def456 [bundle exec] jekyll serve
 ```
+
+- Verify the script added the `secure` global environment variable to `.config.yml`:
++
+[source, yaml]
+----
+env:
+  global:
+    secure: [YOUR-ENCRYPTED-TOKEN]
+----
++
+
+- Commit all changes, and push to GitHub.
+
+```
+$ git push
+```
+
+#### Verify the Configuration
+
+To verify if you have configured the repository correctly, open https://your-ci.org and verify that CI starts, and subsequently finishes processing the job.
+
+CI should place the built site into the _gh-pages_ branch upon completion.
+
 
 ### 2. `~/.netrc`
 
-If you prefer to use the good ol' `~/.netrc` file, just make sure the `netrc` gem is bundled and run `jekyll` like normal. So if I were to add it, I'd add `gem 'netrc'` to my `Gemfile`, run `bundle install`, then run `bundle exec jekyll build`. The `machine` directive should be `api.github.com`.
+A `.netrc` file contains login and initialization information used by an auto-login process.  If you prefer to use the good ol' `~/.netrc` file, just make sure the [`netrc`][netrc] gem is bundled. Add `gem 'netrc'` to your `Gemfile`, run `bundle install`, then run `bundle exec jekyll build`. It generally resides in the user’s home directory, but a location outside of the home directory can be set using the environment variable NETRC.
+
+The `machine name` identify a remote machine name. The auto-login process searches the .netrc file for a machine token that matches the remote machine specified on the ftp command line or as an open command argument. Once a match is made, the subsequent .netrc tokens are processed, stopping when the end of file is reached or another machine or a default token is encountered.
+
+The `machine name` directive should be `api.github.com`.
+
+```bash
+$ api.github.com [bundle exec] jekyll serve
+```
 
 ### 3. Octokit
 
@@ -60,7 +108,7 @@ Some `site.github` values can be overridden by environment variables.
 - `PAGES_GITHUB_HOSTNAME` – the `site.github.hostname` (default: `https://github.com`)
 - `PAGES_PAGES_HOSTNAME` – the `site.github.pages_hostname` (default: `github.io`)
 
-## Configuration
+## GitHub Enterprise Configuration
 
 Working with `jekyll-github-metadata` and GitHub Enterprise? No sweat. You can configure which API endpoints this plugin will hit to fetch data.
 
@@ -73,3 +121,8 @@ Working with `jekyll-github-metadata` and GitHub Enterprise? No sweat. You can c
 ## License
 
 MIT License, credit to GitHub, Inc. See [LICENSE](LICENSE) for more details.
+
+<links>
+
+[ghtoken]: https://github.com/settings/tokens/new
+[netrc]: https://rubygems.org/gems/netrc/versions/0.11.0
