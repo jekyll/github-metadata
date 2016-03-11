@@ -77,11 +77,9 @@ CI should place the built site into the _gh-pages_ branch upon completion.
 
 ### 2. `~/.netrc`
 
-A `.netrc` file contains login and initialization information used by an auto-login process.  If you prefer to use the good ol' `~/.netrc` file, just make sure the [`netrc`][netrc] gem is bundled. Add `gem 'netrc'` to your `Gemfile`, run `bundle install`, then run `bundle exec jekyll build`. It generally resides in the user’s home directory, but a location outside of the home directory can be set using the environment variable NETRC.
+A `.netrc` file contains login and initialization information used by an auto-login process.  If you prefer to use the good ol' `~/.netrc` file, just make sure the [`netrc`][netrc] gem is bundled. Add `gem 'netrc'` to your `Gemfile`, run `bundle install`, then run `bundle exec jekyll build`. This netrc file generally resides in a user’s home directory, but a location outside of the home directory can be set using the environment variable NETRC in your config.yml file.
 
-The `machine name` identify a remote machine name. The auto-login process searches the .netrc file for a machine token that matches the remote machine specified on the ftp command line or as an open command argument. Once a match is made, the subsequent .netrc tokens are processed, stopping when the end of file is reached or another machine or a default token is encountered.
-
-The `machine name` directive should be `api.github.com`.
+The `machine name` parameter identifies a remote machine name. The auto-login process searches the `.netrc` file for a machine token that matches the remote machine specified. The `machine name` directive in this case should be `api.github.com`.
 
 ```bash
 $ api.github.com [bundle exec] jekyll serve
@@ -92,12 +90,12 @@ $ api.github.com [bundle exec] jekyll serve
 We use [Octokit](https://github.com/octokit/octokit.rb) to make the appropriate API responses to fetch the metadata. You may set `OCTOKIT_ACCESS_TOKEN` and it will be used to access GitHub's API.
 
 ```bash
-$ OCTOKIT_ACCESS_TOKEN=123abc [bundle exec] jekyll serve
+$ OCTOKIT_ACCESS_TOKEN=abc123efg456 [bundle exec] jekyll serve
 ```
 
 ## Overrides
 
-- `PAGES_REPO_NWO` – overrides `site.repository` as the repo name with owner to fetch (e.g. `jekyll/github-metadata`)
+`PAGES_REPO_NWO` – overrides `site.repository` as the repo name with owner to fetch (e.g. `jekyll/github-metadata`)
 
 Some `site.github` values can be overridden by environment variables.
 
@@ -110,13 +108,41 @@ Some `site.github` values can be overridden by environment variables.
 
 ## GitHub Enterprise Configuration
 
-Working with `jekyll-github-metadata` and GitHub Enterprise? No sweat. You can configure which API endpoints this plugin will hit to fetch data.
+Working with `jekyll-github-metadata` and GitHub Enterprise? No sweat. 
+
+You have two choices
+
+1. You're deploying to gh-pages (github.com) or (githubenterprise)  
+	-  `gem 'github-pages'`
+	- A CNAME record in your DNS to point to Github Pages
+
+2. You're deploying to an external website (AWS, Azure)
+
+	- A CNAME record in your DNS to points to WebHost.
+
+You can configure (where?) in the environment variables? which API endpoints this plugin will hit to fetch data. Use config.yml? or https://gist.github.com/nicolashery/5756478? or https://jekyllrb.com/docs/configuration/#specifying-a-jekyll-environment-at-build-time 
+
+To do this, in your `config.yml`? file set:
 
 - `SSL` – if "true", sets a number of endpoints to use `https://`, default: `"false"`
 - `OCTOKIT_API_ENDPOINT` – the full hostname and protocol for the api, default: `https://api.github.com`
 - `OCTOKIT_WEB_ENDPOINT` – the full hostname and protocol for the website, default: `https://github.com`
 - `PAGES_PAGES_HOSTNAME` – the full hostname from where GitHub Pages sites are served, default: `github.io`.
 - `NO_NETRC` – set if you don't want the fallback to `~/.netrc`
+
+For example?:
+
+```
+# In _config.yml
+...
+SSL: "false"
+OCTOKIT_API_ENDPOINT: https://api.github.com
+OCTOKIT_WEB_ENDPOINT: https://github.com
+PAGES_PAGES_HOSTNAME: cname.record?
+PAGES_ENV: http://githubenterprise101.company.com/OrgName
+NO_NETRC:"true"
+...
+```
 
 ## License
 
