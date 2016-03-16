@@ -1,6 +1,8 @@
 module Jekyll
   module GitHubMetadata
     class GHPMetadataGenerator < Jekyll::Generator
+      safe true
+      
       def generate(site)
         Jekyll.logger.debug "Generator:", "Calling GHPMetadataGenerator"
         initialize_repo! nwo(site)
