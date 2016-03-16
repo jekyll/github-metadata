@@ -7,6 +7,10 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
   let(:config) { Jekyll::Configuration::DEFAULTS.merge(overrides) }
   let(:site) { Jekyll::Site.new config }
   subject { described_class.new }
+  
+  it "is safe" do
+    expect(described_class.safe).to be(true)
+  end
 
   context "with no repository set" do
     before(:each) do
