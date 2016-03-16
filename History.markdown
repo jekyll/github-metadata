@@ -1,4 +1,4 @@
-## HEAD
+## 1.9.0 / 2016-03-16
 
   * Mark the generator as safe so in safe mode it'll work (#42)
 
