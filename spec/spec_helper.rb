@@ -1,6 +1,5 @@
 require 'jekyll-github-metadata'
 require 'webmock/rspec'
-require 'rspec/mocks'
 require 'pathname'
 
 SPEC_DIR = Pathname.new(File.expand_path("../", __FILE__))
