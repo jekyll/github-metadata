@@ -35,7 +35,7 @@ module Jekyll
       def git_nwo
         return unless Jekyll.env == "development"
         matches = git_remote_url.match %r{github.com(:|/)([\w-]+)/([\w-]+)}
-        matches[1..2].join("/") if matches
+        matches[2..3].join("/") if matches
       end
 
       def nwo(site)

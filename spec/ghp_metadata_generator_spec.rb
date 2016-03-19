@@ -20,15 +20,27 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
 
     context "without a git nwo" do
       it "raises a NoRepositoryError" do
+        allow(subject).to receive(:git_remote_url).and_return("")
         expect(-> {
           subject.send(:nwo, site)
         }).to raise_error(Jekyll::GitHubMetadata::NoRepositoryError)
       end
     end
 
-    it "grabs the git nwo from an HTTPS url" do
-      subject.class.any_instance.stub(:git_remote_url) { "htps://github.com/foo/bar" }
-      expect(subject.send(:nwo, site)).to eql("jekyll/github-metadata")
+    it "retrieves the git remote" do
+      expect(subject.send(:git_remote_url)).to include("jekyll/github-metadata")
+    end
+
+    {
+      https: "https://github.com/foo/bar",
+      ssh:   "git@github.com:foo/bar.git"
+    }.each do |type, url|
+      context "with a #{type} git URL" do
+        it "parses the name with owner from the git URL" do
+          allow(subject).to receive(:git_remote_url).and_return(url)
+          expect(subject.send(:nwo, site)).to eql("foo/bar")
+        end
+      end
     end
   end
 
