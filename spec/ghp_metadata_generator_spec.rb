@@ -7,7 +7,7 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
   let(:config) { Jekyll::Configuration::DEFAULTS.merge(overrides) }
   let(:site) { Jekyll::Site.new config }
   subject { described_class.new }
-  
+
   it "is safe" do
     expect(described_class.safe).to be(true)
   end
@@ -18,10 +18,17 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
       ENV['PAGES_REPO_NWO'] = nil
     end
 
-    it "raises a NoRepositoryError" do
-      expect(-> {
-        subject.send(:nwo, site)
-      }).to raise_error(Jekyll::GitHubMetadata::NoRepositoryError)
+    context "without a git nwo" do
+      it "raises a NoRepositoryError" do
+        expect(-> {
+          subject.send(:nwo, site)
+        }).to raise_error(Jekyll::GitHubMetadata::NoRepositoryError)
+      end
+    end
+
+    it "grabs the git nwo from an HTTPS url" do
+      subject.class.any_instance.stub(:git_remote_url) { "htps://github.com/foo/bar" }
+      expect(subject.send(:nwo, site)).to eql("jekyll/github-metadata")
     end
   end
 
