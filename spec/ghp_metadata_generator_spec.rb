@@ -28,6 +28,7 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
     end
 
     it "retrieves the git remote" do
+      allow(subject).to receive(:github_remote_url).and_call_original
       expect(subject.send(:git_remote_url)).to include("jekyll/github-metadata")
     end
 
