@@ -29,7 +29,9 @@ module Jekyll
       end
 
       def git_remote_url
-        `git remote --verbose`.split("\n").grep(%r{\Aorigin\t(.*) \(push\)})
+        `git remote --verbose`.split("\n").grep(%r{\Aorigin\t}).map do |remote|
+          remote.sub(/\Aorigin\t(.*) \([a-z]+\)/, "\\1")
+        end.uniq.first
       end
 
       def git_nwo
