@@ -29,7 +29,7 @@ module Jekyll
       end
 
       def git_remote_url
-        `git remote get-url origin`
+        `git remote --verbose`.split("\n").grep(%r{\Aorigin\t(.*) \(push\)})
       end
 
       def git_nwo
