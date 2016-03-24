@@ -2,7 +2,7 @@ module Jekyll
   module GitHubMetadata
     class GHPMetadataGenerator < Jekyll::Generator
       safe true
-      
+
       def generate(site)
         Jekyll.logger.debug "Generator:", "Calling GHPMetadataGenerator"
         initialize_repo! nwo(site)
@@ -28,9 +28,22 @@ module Jekyll
         end
       end
 
+      def git_remote_url
+        `git remote --verbose`.split("\n").grep(%r{\Aorigin\t}).map do |remote|
+          remote.sub(/\Aorigin\t(.*) \([a-z]+\)/, "\\1")
+        end.uniq.first
+      end
+
+      def git_nwo
+        return unless Jekyll.env == "development"
+        matches = git_remote_url.match %r{github.com(:|/)([\w-]+)/([\w-]+)}
+        matches[2..3].join("/") if matches
+      end
+
       def nwo(site)
         ENV['PAGES_REPO_NWO'] || \
           site.config['repository'] || \
+          git_nwo || \
           proc {
             raise GitHubMetadata::NoRepositoryError, "No repo name found. "
               "Specify using PAGES_REPO_NWO or 'repository' in your configuration."
