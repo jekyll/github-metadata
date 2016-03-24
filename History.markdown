@@ -1,3 +1,7 @@
+## HEAD
+
+  * Use git remote url to determine nwo (#45)
+
 ## 1.9.0 / 2016-03-16
 
   * Mark the generator as safe so in safe mode it'll work (#42)
