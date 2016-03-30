@@ -172,7 +172,7 @@ module Jekyll
       def domain
         @domain ||=
           if !Pages.custom_domains_enabled?
-            Pages.github_hostname
+            Pages.pages_hostname
           elsif cname # explicit CNAME
             cname
           elsif primary? # user/org repo
