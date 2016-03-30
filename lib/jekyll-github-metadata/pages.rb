@@ -21,7 +21,7 @@ module Jekyll
         end
 
         def scheme
-          (!development? && ssl?) ? "https" : "http"
+          ssl? ? "https" : "http"
         end
 
         def subdomain_isolation?
