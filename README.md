@@ -13,13 +13,18 @@ Usage of this gem is pretty straight-forward. Add it to your bundle like this:
 gem 'jekyll-github-metadata'
 ```
 
-Then go ahead and run `bundle install`. Once you've done that, add your repo & the gem to your `_config.yml`:
+Then go ahead and run `bundle install`. Once you've done that, add your repo name & the gem to your `_config.yml`:
 
 ```yaml
-# or use PAGES_REPO_NWO in the env
+# set PAGES_REPO_NWO=me/super-cool-project in the env
 repository: me/super-cool-project
 gems: ['jekyll-github-metadata']
 ```
+
+"NWO" stands for "name with owner." It is GitHub lingo for the username of
+the owner of the repository plus a forward slash plus the name of the
+repository, e.g. 'parkr/blog', where 'parkr' is the owner and 'blog' is the
+repository name.
 
 Then run `jekyll` like you normally would and your `site.github.*` fields should fill in like normal.
 
