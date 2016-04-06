@@ -1,6 +1,7 @@
 ## HEAD
 
   * Use git remote url to determine nwo (#45)
+  * make empty string fallback for missing git remote (#54)
 
 ## 1.9.0 / 2016-03-16
 
