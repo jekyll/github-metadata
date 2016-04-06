@@ -13,12 +13,32 @@ Usage of this gem is pretty straight-forward. Add it to your bundle like this:
 gem 'jekyll-github-metadata'
 ```
 
-Then go ahead and run `bundle install`. Once you've done that, add your repo name & the gem to your `_config.yml`:
+Now add it to your `_config.yml`:
 
 ```yaml
-# set PAGES_REPO_NWO=me/super-cool-project in the env
-repository: me/super-cool-project
 gems: ['jekyll-github-metadata']
+```
+
+Then go ahead and run `bundle install`. Once you've done that jekyll-github-metadata will run when you run Jekyll.
+
+In order for jekyll-github-metadata to know what metadata to fetch it must
+be able to determine the repository to ask GitHub about.
+
+The easiest way to accomplish this is by setting an "origin" remote with a
+github.com URL. If you run `git remote -v` in your repository, you should
+see your repo's URL.
+
+Alternatively, you can set the repo NWO as either the `PAGES_REPO_NWO`
+environment variable:
+
+```shell
+$ PAGES_REPO_NWO=username/repo-name bundle exec jekyll build
+```
+
+... or add your repo name to your `_config.yml`:
+
+```yaml
+repository: username/repo-name
 ```
 
 "NWO" stands for "name with owner." It is GitHub lingo for the username of
@@ -26,7 +46,9 @@ the owner of the repository plus a forward slash plus the name of the
 repository, e.g. 'parkr/blog', where 'parkr' is the owner and 'blog' is the
 repository name.
 
-Then run `jekyll` like you normally would and your `site.github.*` fields should fill in like normal.
+Your `site.github.*` fields should fill in like normal. If you run Jekyll
+with the `--verbose` flag, you should be able to see all the API calls
+made.
 
 ## Authentication
 
