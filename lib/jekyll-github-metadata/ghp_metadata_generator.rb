@@ -34,19 +34,39 @@ module Jekyll
         end.uniq.first || ""
       end
 
-      def git_nwo
+      def nwo_from_git_origin_remote
         return unless Jekyll.env == "development"
         matches = git_remote_url.match %r{github.com(:|/)([\w-]+)/([\w-]+)}
         matches[2..3].join("/") if matches
       end
 
+      def nwo_from_env
+        ENV['PAGES_REPO_NWO']
+      end
+
+      def nwo_from_config(site)
+        nwo = site.config['repository']
+        nwo if nwo && nwo.is_a?(String) && nwo.include?('/')
+      end
+
+      # Public: fetches the repository name with owner to fetch metadata for.
+      # In order of precedence, this method uses:
+      # 1. the environment variable $PAGES_REPO_NWO
+      # 2. 'repository' variable in the site config
+      # 3. the 'origin' git remote's URL
+      #
+      # site - the Jekyll::Site being processed
+      #
+      # Return the name with owner (e.g. 'parkr/my-repo') or raises an
+      # error if one cannot be found.
       def nwo(site)
-        ENV['PAGES_REPO_NWO'] || \
-          site.config['repository'] || \
-          git_nwo || \
+        nwo_from_env || \
+          nwo_from_config || \
+          nwo_from_git_origin_remote || \
           proc {
-            raise GitHubMetadata::NoRepositoryError, "No repo name found. "
-              "Specify using PAGES_REPO_NWO or 'repository' in your configuration."
+            raise GitHubMetadata::NoRepositoryError, "No repo name found. " \
+              "Specify using PAGES_REPO_NWO environment variables, " \
+              "'repository' in your configuration, or set up an 'origin' git remote."
           }.call
       end
     end
