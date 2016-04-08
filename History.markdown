@@ -2,6 +2,7 @@
 
   * Use git remote url to determine nwo (#45)
   * make empty string fallback for missing git remote (#54)
+  * Refactor some of the git things & better docs (#55)
 
 ## 1.9.0 / 2016-03-16
 
