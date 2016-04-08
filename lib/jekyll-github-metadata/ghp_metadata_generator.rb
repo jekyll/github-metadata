@@ -66,7 +66,8 @@ module Jekyll
           proc {
             raise GitHubMetadata::NoRepositoryError, "No repo name found. " \
               "Specify using PAGES_REPO_NWO environment variables, " \
-              "'repository' in your configuration, or set up an 'origin' git remote."
+              "'repository' in your configuration, or set up an 'origin' " \
+              "git remote pointing to your github.com repository."
           }.call
       end
     end
