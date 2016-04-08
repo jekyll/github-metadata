@@ -25,17 +25,17 @@ In order for jekyll-github-metadata to know what metadata to fetch it must
 be able to determine the repository to ask GitHub about.
 
 The easiest way to accomplish this is by setting an "origin" remote with a
-github.com URL. If you run `git remote -v` in your repository, you should
-see your repo's URL.
+github.com URL. If you ran `git clone` from GitHub, this is almost 100% the
+case & no further action is needed. If you run `git remote -v` in your
+repository, you should see your repo's URL.
 
-Alternatively, you can set the repo NWO as either the `PAGES_REPO_NWO`
-environment variable:
+If you don't have a git remote available, you have two other options:
 
-```shell
-$ PAGES_REPO_NWO=username/repo-name bundle exec jekyll build
-```
-
-... or add your repo name to your `_config.yml`:
+1. Set the environment variable `PAGES_REPO_NWO` to your repository name
+   with owner, e.g. `"jekyll/github-metadata"`. This is useful if you don't
+   want to commit your repository to your git history.
+2. Add your repository name with organization to your site's configuration
+   in the `repository` key.
 
 ```yaml
 repository: username/repo-name
