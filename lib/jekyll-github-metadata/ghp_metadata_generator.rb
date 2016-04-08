@@ -45,8 +45,8 @@ module Jekyll
       end
 
       def nwo_from_config(site)
-        nwo = site.config['repository']
-        nwo if nwo && nwo.is_a?(String) && nwo.include?('/')
+        repo = site.config['repository']
+        repo if repo && repo.is_a?(String) && repo.include?('/')
       end
 
       # Public: fetches the repository name with owner to fetch metadata for.
@@ -61,7 +61,7 @@ module Jekyll
       # error if one cannot be found.
       def nwo(site)
         nwo_from_env || \
-          nwo_from_config || \
+          nwo_from_config(site) || \
           nwo_from_git_origin_remote || \
           proc {
             raise GitHubMetadata::NoRepositoryError, "No repo name found. " \
