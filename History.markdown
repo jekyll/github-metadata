@@ -1,4 +1,4 @@
-## HEAD
+## 1.11.0 / 2016-04-08
 
   * make empty string fallback for missing git remote (#54)
   * Refactor some of the git things & better docs (#55)
