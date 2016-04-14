@@ -1,11 +1,4 @@
 require 'octokit'
-if defined?(Jekyll) && Jekyll.respond_to?(:env) && Jekyll.env == 'development'
-  begin
-    require 'dotenv'
-    Dotenv.load
-  rescue LoadError
-  end
-end
 
 module Jekyll
   unless const_defined? :Errors
