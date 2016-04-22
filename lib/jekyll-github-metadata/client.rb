@@ -6,7 +6,7 @@ module Jekyll
       InvalidMethodError = Class.new(NoMethodError)
 
       # Whitelisted API calls.
-      API_CALLS = %w{
+      API_CALLS = Set.new(%w{
         repository
         organization
         repository?
@@ -15,7 +15,7 @@ module Jekyll
         releases
         list_repos
         organization_public_members
-      }.freeze
+      })
 
       def initialize(options = nil)
         @client = build_octokit_client(options)
