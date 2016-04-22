@@ -1,6 +1,6 @@
-## HEAD
+## 1.11.1 / 2016-04-22
 
-  * Make the Client::API_CALLS a Set (#56)
+  * Make the `Client::API_CALLS` a Set (#56)
 
 ## 1.11.0 / 2016-04-08
 
