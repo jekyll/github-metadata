@@ -1,3 +1,7 @@
+## HEAD
+
+  * Make the Client::API_CALLS a Set (#56)
+
 ## 1.11.0 / 2016-04-08
 
   * make empty string fallback for missing git remote (#54)
