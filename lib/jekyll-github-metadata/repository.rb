@@ -69,7 +69,7 @@ module Jekyll
       end
 
       def owner_public_repositories
-        memoize_value :@owner_public_repositories, Value.new(proc { |c| c.list_repos(owner, "type" => "public") })
+        memoize_value :@owner_public_repositories, Value.new(proc { |c| c.list_repos(owner) })
       end
 
       def organization_public_members
