@@ -81,6 +81,7 @@ module Jekyll
 
         # The Juicy Stuff
         register_value('public_repositories',  proc { |_,r| r.owner_public_repositories })
+        register_value('private_repositories', proc { |_,r| r.accessible_private_repositories  })
         register_value('organization_members', proc { |_,r| r.organization_public_members })
         register_value('build_revision',       proc {
           ENV['JEKYLL_BUILD_REVISION'] || `git rev-parse HEAD`.strip
