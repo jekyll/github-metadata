@@ -72,6 +72,10 @@ module Jekyll
         memoize_value :@owner_public_repositories, Value.new(proc { |c| c.list_repos(owner, "type" => "public") })
       end
 
+      def accessible_private_repositories
+        memoize_value :@accessible_private_repositories, Value.new(proc { |c| c.list_repos(nil, "type" => "private") })
+      end
+
       def organization_public_members
         memoize_value :@organization_public_members, Value.new(proc { |c|
           c.organization_public_members(owner) if organization_repository?
