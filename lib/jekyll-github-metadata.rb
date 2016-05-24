@@ -17,12 +17,13 @@ module Jekyll
   module GitHubMetadata
     NoRepositoryError = Class.new(Jekyll::Errors::FatalException)
 
-    autoload :Client,     'jekyll-github-metadata/client'
-    autoload :Pages,      'jekyll-github-metadata/pages'
-    autoload :Repository, 'jekyll-github-metadata/repository'
-    autoload :Sanitizer,  'jekyll-github-metadata/sanitizer'
-    autoload :Value,      'jekyll-github-metadata/value'
-    autoload :VERSION,    'jekyll-github-metadata/version'
+    autoload :Client,           'jekyll-github-metadata/client'
+    autoload :Pages,            'jekyll-github-metadata/pages'
+    autoload :Repository,       'jekyll-github-metadata/repository'
+    autoload :RepositoryCompat, 'jekyll-github-metadata/repository_compat'
+    autoload :Sanitizer,        'jekyll-github-metadata/sanitizer'
+    autoload :Value,            'jekyll-github-metadata/value'
+    autoload :VERSION,          'jekyll-github-metadata/version'
 
     class << self
       attr_accessor :repository

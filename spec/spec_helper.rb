@@ -9,8 +9,7 @@ module WebMockHelper
     'Accept'          => 'application/vnd.github.v3+json',
     'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
     'Content-Type'    => 'application/json',
-    'User-Agent'      => "Octokit Ruby Gem #{Octokit::VERSION}",
-    'Authorization'   => 'token 1234abc'
+    'User-Agent'      => "Octokit Ruby Gem #{Octokit::VERSION}"
   }.freeze
   RESPONSE_HEADERS = {
     'Transfer-Encoding'   => 'chunked',
@@ -23,7 +22,7 @@ module WebMockHelper
   def stub_api(path, filename)
     WebMock.disable_net_connect!
     stub_request(:get, url(path)).
-      with(:headers => REQUEST_HEADERS).
+      with(:headers => request_headers).
       to_return(
         :status  => 200,
         :headers => RESPONSE_HEADERS,
@@ -33,7 +32,13 @@ module WebMockHelper
 
   def expect_api_call(path)
     expect(WebMock).to have_requested(:get, url(path)).
-      with(:headers => REQUEST_HEADERS).once
+      with(:headers => request_headers).once
+  end
+
+  def request_headers
+    REQUEST_HEADERS.merge({
+      'Authorization' => "token #{ENV.fetch("JEKYLL_GITHUB_TOKEN", "1234abc")}"
+    })
   end
 
   private
