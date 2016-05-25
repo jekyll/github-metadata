@@ -73,20 +73,24 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
       it "uses Pages.scheme to determine scheme for pages URL" do
         # With SSL=true
         with_env({
-          "PAGES_ENV" => "enterprise",
-          "SSL"       => "true"
+          "PAGES_ENV"             => "enterprise",
+          "SSL"                   => "true",
+          "PAGES_GITHUB_HOSTNAME" => "github.acme.com"
         }) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(true)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("https")
+          expect(repo.pages_url).to eql("https://github.acme.com/pages/#{nwo}")
           expect(repo.url_scheme).to eql("https")
         end
 
         # With no SSL
         with_env({
-          "PAGES_ENV" => "enterprise"
+          "PAGES_ENV" => "enterprise",
+          "PAGES_PAGES_HOSTNAME" => "pages.acme.com"
         }) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(false)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("http")
+          expect(repo.pages_url).to eql("https://enterprise.github.com/#{nwo}/pages")
           expect(repo.url_scheme).to eql("http")
         end
       end

@@ -52,6 +52,16 @@ module WebMockHelper
   end
 end
 
+class ApiStub
+  attr_reader :path, :file
+  attr_accessor :stub
+
+  def initialize(path, file)
+    @path = path
+    @file = file
+  end
+end
+
 module EnvHelper
   def with_env(*args)
     env_hash = env_args_to_hash(*args)
