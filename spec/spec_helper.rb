@@ -129,8 +129,11 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 
   config.include WebMockHelper
+  WebMock.enable!
   WebMock.disable_net_connect!
   config.include EnvHelper
+
+  Jekyll::GitHubMetadata.logger = Logger.new(StringIO.new) unless ENV["DEBUG"]
 
   config.before(:each) { Jekyll::GitHubMetadata.init! }
 end

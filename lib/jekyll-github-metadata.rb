@@ -1,4 +1,6 @@
 require 'octokit'
+require 'logger'
+
 if defined?(Jekyll) && Jekyll.respond_to?(:env) && Jekyll.env == 'development'
   begin
     require 'dotenv'
@@ -27,10 +29,26 @@ module Jekyll
 
     class << self
       attr_accessor :repository
-      attr_writer :client
+      attr_writer :client, :logger
 
       def environment
         Jekyll.respond_to?(:env) ? Jekyll.env : (Pages.env || 'development')
+      end
+
+      def logger
+        @logger ||= if Jekyll.respond_to?(:logger)
+          Jekyll.logger
+        else
+          Logger.new($stdout)
+        end
+      end
+
+      def log(severity, message)
+        if logger.method(severity).arity.abs >= 2
+          logger.public_send(severity, "GitHub Metadata:", message.to_s)
+        else
+          logger.public_send(severity, "GitHub Metadata: #{message}")
+        end
       end
 
       def client

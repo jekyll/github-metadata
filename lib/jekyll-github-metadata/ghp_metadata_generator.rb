@@ -4,9 +4,9 @@ module Jekyll
       safe true
 
       def generate(site)
-        Jekyll.logger.debug "Generator:", "Calling GHPMetadataGenerator"
+        Jekyll::GitHubMetadata.log :debug, "Calling GHPMetadataGenerator"
         initialize_repo! nwo(site)
-        Jekyll.logger.debug "GitHub Metadata:", "Generating for #{GitHubMetadata.repository.nwo}"
+        Jekyll::GitHubMetadata.log :debug, "Generating for #{GitHubMetadata.repository.nwo}"
 
         site.config['github'] =
           case site.config['github']
