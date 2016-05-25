@@ -65,16 +65,16 @@ end
 module EnvHelper
   def with_env(*args)
     env_hash = env_args_to_hash(*args)
-	old_env = {}
-	env_hash.each do |name, value|
-	  old_env[name] = ENV[name]
-	  ENV[name] = value
-	end
-	yield
+    old_env = {}
+    env_hash.each do |name, value|
+      old_env[name] = ENV[name]
+      ENV[name] = value
+    end
+    yield
   ensure
-	old_env.each do |name, value|
-	  ENV[name] = value
-	end
+    old_env.each do |name, value|
+      ENV[name] = value
+    end
   end
 
   private

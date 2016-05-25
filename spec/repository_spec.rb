@@ -70,7 +70,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     context "on enterprise" do
       let(:stub) { ApiStub.new("/repos/#{nwo}/pages", "jldec_enterprise_repo_pages") }
 
-      it "uses Pages.scheme to determine scheme for pages URL" do
+      it "uses Pages.scheme when SSL set to determine scheme for Pages URL" do
         # With SSL=true
         with_env({
           "PAGES_ENV"             => "enterprise",
@@ -82,15 +82,16 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
           expect(repo.pages_url).to eql("https://github.acme.com/pages/#{nwo}")
           expect(repo.url_scheme).to eql("https")
         end
+      end
 
-        # With no SSL
+      it "uses Pages.scheme when SSL not set to determine scheme for Pages URL" do
         with_env({
           "PAGES_ENV" => "enterprise",
-          "PAGES_PAGES_HOSTNAME" => "pages.acme.com"
+          "PAGES_GITHUB_HOSTNAME" => "github.acme.com"
         }) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(false)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("http")
-          expect(repo.pages_url).to eql("https://enterprise.github.com/#{nwo}/pages")
+          expect(repo.pages_url).to eql("http://github.acme.com/pages/#{nwo}")
           expect(repo.url_scheme).to eql("http")
         end
       end
