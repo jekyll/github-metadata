@@ -35,7 +35,7 @@ module Jekyll
         end
         @value = Sanitizer.sanitize(@value)
       rescue RuntimeError, NameError => e
-        Jekyll.logger.error "GitHubMetadata:", "Error processing value '#{key}':"
+        Jekyll::GitHubMetadata.log :error, "Error processing value '#{key}':"
         raise e
       end
 
