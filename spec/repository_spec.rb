@@ -42,7 +42,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     let(:stub) { ApiStub.new("/repos/#{nwo}/pages", "hubot_repo_pages") }
 
     it "forces HTTPS for the URL" do
-      expect(repo.pages_url).to eql("https://hubot.github.com")
+      expect(repo.html_url).to eql("https://hubot.github.com")
     end
   end
 
@@ -59,7 +59,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     end
 
     it "uses Pages.scheme to determine scheme for domain" do
-      expect(repo.pages_url).to eql("http://ben.balter.com")
+      expect(repo.html_url).to eql("http://ben.balter.com")
     end
   end
 
@@ -76,7 +76,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     end
 
     it "uses Pages.scheme to determine scheme for domain" do
-      expect(repo.pages_url).to eql("http://parkermoore.de")
+      expect(repo.html_url).to eql("http://parkermoore.de")
     end
   end
 
@@ -93,7 +93,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     end
 
     it "uses Pages.scheme to determine scheme for domain" do
-      expect(repo.pages_url).to eql("https://jldec.github.io")
+      expect(repo.html_url).to eql("https://jldec.github.io")
     end
 
     context "on enterprise" do
@@ -108,7 +108,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
         }) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(true)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("https")
-          expect(repo.pages_url).to eql("https://github.acme.com/pages/#{nwo}")
+          expect(repo.html_url).to eql("https://github.acme.com/pages/#{nwo}")
           expect(repo.url_scheme).to eql("https")
         end
       end
@@ -120,7 +120,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
         }) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(false)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("http")
-          expect(repo.pages_url).to eql("http://github.acme.com/pages/#{nwo}")
+          expect(repo.html_url).to eql("http://github.acme.com/pages/#{nwo}")
           expect(repo.url_scheme).to eql("http")
         end
       end

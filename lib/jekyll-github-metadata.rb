@@ -122,7 +122,7 @@ module Jekyll
         register_value('is_user_page',         proc { |_,r| r.user_page? })
         register_value('is_project_page',      proc { |_,r| r.project_page? })
         register_value('show_downloads',       proc { |_,r| r.show_downloads? })
-        register_value('url',                  proc { |_,r| r.pages_url })
+        register_value('url',                  proc { |_,r| r.html_url })
         register_value('contributors',         proc { |_,r| r.contributors })
         register_value('releases',             proc { |_,r| r.releases })
 

@@ -45,6 +45,7 @@ module Jekyll
           URI.join("#{url_scheme}://#{domain}", repo.name).to_s
         end
       end
+      alias_method :html_url, :pages_url
 
       def domain
         @domain ||=

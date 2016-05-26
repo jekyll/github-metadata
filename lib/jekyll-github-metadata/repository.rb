@@ -146,7 +146,6 @@ module Jekyll
       def html_url
         @html_url ||= (repo_pages_info["html_url"] || repo_compat.pages_url)
       end
-      alias_method :pages_url, :html_url
 
       def uri
         @uri ||= URI(html_url)
