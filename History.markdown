@@ -1,5 +1,9 @@
 ## 2.0.0 / 2016-05-26
 
+### Major Enhancements
+
+  * Only allow Jekyll 3.1 and above (#61)
+
 ### Minor Enhancements
 
   * Use html_url from Pages endpoint (behind preview env flag) (#60)
