@@ -3,6 +3,7 @@
 ### Minor Enhancements
 
   * Use html_url from Pages endpoint (behind preview env flag) (#60)
+  * Only determine repo when data is requested using a Drop (#61)
 
 ## 1.11.1 / 2016-04-22
 
