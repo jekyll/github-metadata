@@ -1,3 +1,9 @@
+## HEAD
+
+### Minor Enhancements
+
+  * Use html_url from Pages endpoint (behind preview env flag) (#60)
+
 ## 1.11.1 / 2016-04-22
 
   * Make the `Client::API_CALLS` a Set (#56)
