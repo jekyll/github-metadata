@@ -6,6 +6,8 @@ module Jekyll
     class MetadataDrop < Jekyll::Drops::Drop
       extend Forwardable
 
+      mutable true
+
       def initialize(site)
         @site = site
         super(nil)

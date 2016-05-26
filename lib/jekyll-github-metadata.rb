@@ -59,6 +59,11 @@ module Jekyll
       def client
         @client ||= Client.new
       end
+
+      def reset!
+        @logger = nil
+        @client = nil
+      end
     end
   end
 end
