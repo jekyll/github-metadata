@@ -5,7 +5,36 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
   before(:each) do
     ENV['JEKYLL_GITHUB_TOKEN'] = "allthespecs"
     Jekyll::GitHubMetadata.reset!
-    stub.stub = stub_api(stub.path, stub.file)
+    stub.stub = stub_api(stub.path, stub.file, stub.request_headers)
+  end
+
+  context "with the html_url preview API turned on" do
+    let(:nwo) { "jekyll/jekyll" }
+    let(:stub) do
+      ApiStub.new(
+        "/repos/#{nwo}/pages",
+        "jekyll_repo_pages",
+        { "Accept" => "application/vnd.github.mister-fantastic-preview+json" }
+      )
+    end
+
+    before(:each) { ENV["PAGES_PREVIEW_HTML_URL"] = "true" }
+    after(:each) { ENV.delete("PAGES_PREVIEW_HTML_URL") }
+
+    it "uses the html_url" do
+      expect(repo.html_url).to eql("http://jekyllrb.com")
+      expect(repo.repo_pages_info["html_url"]).to eql(repo.html_url)
+    end
+
+    it "sees the preview env" do
+      expect(Jekyll::GitHubMetadata::Pages.repo_pages_html_url_preview?).to be_truthy
+    end
+
+    it "uses the preview accept header" do
+      expect(repo.repo_pages_info_opts).to eql({
+        :accept => "application/vnd.github.mister-fantastic-preview+json"
+      })
+    end
   end
 
   context "hubot.github.com" do

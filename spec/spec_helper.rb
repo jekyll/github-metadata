@@ -19,10 +19,10 @@ module WebMockHelper
     'X-GitHub-Media-Type' => 'github.v3; format=json'
   }.freeze
 
-  def stub_api(path, filename)
+  def stub_api(path, filename, req_headers = {})
     WebMock.disable_net_connect!
     stub_request(:get, url(path)).
-      with(:headers => request_headers).
+      with(:headers => request_headers.merge(req_headers)).
       to_return(
         :status  => 200,
         :headers => RESPONSE_HEADERS,
@@ -53,12 +53,13 @@ module WebMockHelper
 end
 
 class ApiStub
-  attr_reader :path, :file
+  attr_reader :path, :file, :request_headers
   attr_accessor :stub
 
-  def initialize(path, file)
+  def initialize(path, file, req_headers = {})
     @path = path
     @file = file
+    @request_headers = req_headers || {}
   end
 end
 

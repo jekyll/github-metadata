@@ -17,7 +17,15 @@ module Jekyll
       end
 
       def repo_pages_info
-        @repo_pages_info ||= (Value.new(proc { |c| c.pages(nwo) }).render || Hash.new)
+        @repo_pages_info ||= (Value.new(proc { |c| c.pages(nwo, repo_pages_info_opts) }).render || Hash.new)
+      end
+
+      def repo_pages_info_opts
+        if Pages.repo_pages_html_url_preview?
+          { :accept => "application/vnd.github.mister-fantastic-preview+json" }
+        else
+          {}
+        end
       end
 
       def language
