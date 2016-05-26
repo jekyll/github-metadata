@@ -10,7 +10,7 @@ matrix:
       env: GITHUB_PAGES=80
 env:
   matrix:
-    - JEKYLL_VERSION=3.0
+    - JEKYLL_VERSION=3.1
 branches:
   only:
     - master
