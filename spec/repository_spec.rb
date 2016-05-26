@@ -4,7 +4,6 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
   let(:repo) { described_class.new(nwo) }
   before(:each) do
     ENV['JEKYLL_GITHUB_TOKEN'] = "allthespecs"
-    Jekyll::GitHubMetadata.reset!
     stub.stub = stub_api(stub.path, stub.file, stub.request_headers)
   end
 

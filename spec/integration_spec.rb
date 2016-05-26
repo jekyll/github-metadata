@@ -30,7 +30,6 @@ RSpec.describe("integration into a jekyll site") do
     ENV['JEKYLL_GITHUB_TOKEN'] = "1234abc"
     ENV['PAGES_REPO_NWO'] = "jekyll/github-metadata"
     ENV['PAGES_ENV'] = "dotcom"
-    Jekyll::GitHubMetadata.reset!
 
     # Stub Requests
     API_STUBS.each { |stub| stub.stub = stub_api(stub.path, stub.file) }
