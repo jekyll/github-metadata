@@ -1,3 +1,7 @@
+## HEAD
+
+  * Fix issue where `git` not being in `$PATH` would error (#57)
+
 ## 2.0.0 / 2016-05-26
 
 ### Major Enhancements
