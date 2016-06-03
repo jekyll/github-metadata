@@ -54,4 +54,17 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
       expect(subject.send(:nwo, site)).to eql("jekyll/another-repo")
     end
   end
+
+  context "when determining the nwo via git" do
+    context "when git doesn't exist" do
+      before(:each) { @old_path = ENV.delete("PATH").to_s.split(File::PATH_SEPARATOR) }
+      after(:each)  { ENV["PATH"] = @old_path.join(File::PATH_SEPARATOR) }
+
+      it "fails with a nice error message" do
+        allow(subject).to receive(:git_remote_url).and_call_original
+        expect(subject.send(:git_exe_path)).to eql(nil)
+        expect(subject.send(:git_remote_url)).to be_empty
+      end
+    end
+  end
 end

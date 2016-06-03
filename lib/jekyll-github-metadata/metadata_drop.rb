@@ -72,8 +72,13 @@ module Jekyll
         end
       end
 
+      def git_exe_path
+        ENV["PATH"].to_s.split(File::PATH_SEPARATOR).map { |path| File.join(path, "git") }.find { |path| File.exist?(path) }
+      end
+
       def git_remote_url
-        `git remote --verbose`.split("\n").grep(%r{\Aorigin\t}).map do |remote|
+        return "" if git_exe_path.nil?
+        `#{git_exe_path} remote --verbose`.split("\n").grep(%r{\Aorigin\t}).map do |remote|
           remote.sub(/\Aorigin\t(.*) \([a-z]+\)/, "\\1")
         end.uniq.first || ""
       end
