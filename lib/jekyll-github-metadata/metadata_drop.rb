@@ -76,16 +76,20 @@ module Jekyll
         ENV["PATH"].to_s.split(File::PATH_SEPARATOR).map { |path| File.join(path, "git") }.find { |path| File.exist?(path) }
       end
 
+      def git_remotes
+        return [] if git_exe_path.nil?
+        `#{git_exe_path} remote --verbose`.to_s.strip.split("\n")
+      end
+
       def git_remote_url
-        return "" if git_exe_path.nil?
-        `#{git_exe_path} remote --verbose`.split("\n").grep(%r{\Aorigin\t}).map do |remote|
+        git_remotes.grep(%r{\Aorigin\t}).map do |remote|
           remote.sub(/\Aorigin\t(.*) \([a-z]+\)/, "\\1")
         end.uniq.first || ""
       end
 
       def nwo_from_git_origin_remote
         return unless Jekyll.env == "development"
-        matches = git_remote_url.match %r{github.com(:|/)([\w-]+)/([\w-]+)}
+        matches = git_remote_url.chomp(".git").match %r{github.com(:|/)([\w-]+)/([\w\.-]+)}
         matches[2..3].join("/") if matches
       end
 

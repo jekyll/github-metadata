@@ -56,6 +56,14 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
   end
 
   context "when determining the nwo via git" do
+    it "handles periods in repo names" do
+      allow(subject).to receive(:git_remote_url).and_return <<-EOS
+origin  https://github.com/afeld/hackerhours.org.git (fetch)
+origin  https://github.com/afeld/hackerhours.org.git (push)
+EOS
+      expect(subject.send(:nwo_from_git_origin_remote)).to include("afeld/hackerhours.org")
+    end
+
     context "when git doesn't exist" do
       before(:each) { @old_path = ENV.delete("PATH").to_s.split(File::PATH_SEPARATOR) }
       after(:each)  { ENV["PATH"] = @old_path.join(File::PATH_SEPARATOR) }
