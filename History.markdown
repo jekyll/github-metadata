@@ -1,9 +1,6 @@
-## HEAD
+## 2.0.1 / 2016-06-19
 
   * Fix issue where `git` not being in `$PATH` would error (#57)
-
-### Bug Fixes
-
   * Handle dots in repository names when parsing from Git remote output (#63)
 
 ## 2.0.0 / 2016-05-26
