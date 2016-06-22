@@ -22,7 +22,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
 
     it "uses the html_url" do
       expect(repo.html_url).to eql("http://jekyllrb.com")
-      expect(repo.repo_pages_info["html_url"]).to eql(repo.html_url)
+      expect(repo.repo_pages_info["html_url"]).to eql("#{repo.html_url}/")
     end
 
     it "sees the preview env" do
