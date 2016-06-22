@@ -144,7 +144,7 @@ module Jekyll
       end
 
       def html_url
-        @html_url ||= (repo_pages_info["html_url"].chomp("/") || repo_compat.pages_url)
+        @html_url ||= (repo_pages_info["html_url"] || repo_compat.pages_url).chomp("/")
       end
 
       def uri
