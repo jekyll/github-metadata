@@ -52,7 +52,8 @@ module Jekyll
             "#{scheme}://#{github_hostname}"
           end
         end
-
+        alias_method :mention_url_base, :github_url
+        
         def api_url
           trim_last_slash env_var('PAGES_API_URL', ENV['API_URL'])
         end

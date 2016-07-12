@@ -23,6 +23,7 @@ module Jekyll
       def_delegator :"Jekyll::GitHubMetadata::Pages", :pages_hostname, :pages_hostname
       def_delegator :"Jekyll::GitHubMetadata::Pages", :api_url, :api_url
       def_delegator :"Jekyll::GitHubMetadata::Pages", :help_url, :help_url
+      def_delegator :"Jekyll::GitHubMetadata::Pages", :mention_url_base
 
       def versions
         @versions ||= begin
