@@ -1,7 +1,11 @@
+## HEAD
+
+  * Fix a typo in the documentation of `PAGES_API_URL` (#66)
+
 ## 2.0.2 / 2016-06-22
 
   * Remove trailing slash from html_url if present (#64)
-  
+
 ## 2.0.1 / 2016-06-19
 
   * Fix issue where `git` not being in `$PATH` would error (#57)
