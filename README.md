@@ -82,7 +82,7 @@ Some `site.github` values can be overridden by environment variables.
 
 - `JEKYLL_BUILD_REVISION` – the `site.github.build_revision`, git SHA of the source site being built. (default: `git rev-parse HEAD`)
 - `PAGES_ENV` – the `site.github.pages_env` (default: `dotcom`)
-- `PAGES_API_URL` – the `site.github.api_url` (default: `https://api/github.com`)
+- `PAGES_API_URL` – the `site.github.api_url` (default: `https://api.github.com`)
 - `PAGES_HELP_URL` – the `site.github.help_url` (default: `https://help.github.com`)
 - `PAGES_GITHUB_HOSTNAME` – the `site.github.hostname` (default: `https://github.com`)
 - `PAGES_PAGES_HOSTNAME` – the `site.github.pages_hostname` (default: `github.io`)
