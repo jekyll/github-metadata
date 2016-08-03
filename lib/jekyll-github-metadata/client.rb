@@ -63,10 +63,11 @@ module Jekyll
         else
           block.call
         end
-      rescue Faraday::Error::ConnectionFailed,
-        Octokit::NotFound,
-        Octokit::Unauthorized,
-        Octokit::TooManyRequests
+      rescue Faraday::Error::ConnectionFailed, Octokit::TooManyRequests => e
+        Jekyll::GitHubMetadata.log :warn, e.message
+        default
+      rescue Octokit::NotFound, Octokit::Unauthorized => e
+        Jekyll::GitHubMetadata.log :error, e.message
         default
       end
 
