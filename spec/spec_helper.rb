@@ -9,8 +9,7 @@ module WebMockHelper
     'Accept'          => 'application/vnd.github.v3+json',
     'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
     'Content-Type'    => 'application/json',
-    'User-Agent'      => "Octokit Ruby Gem #{Octokit::VERSION}",
-    'Authorization'   => 'token 1234abc'
+    'User-Agent'      => "Octokit Ruby Gem #{Octokit::VERSION}"
   }.freeze
   RESPONSE_HEADERS = {
     'Transfer-Encoding'   => 'chunked',
@@ -20,10 +19,10 @@ module WebMockHelper
     'X-GitHub-Media-Type' => 'github.v3; format=json'
   }.freeze
 
-  def stub_api(path, filename)
+  def stub_api(path, filename, req_headers = {})
     WebMock.disable_net_connect!
     stub_request(:get, url(path)).
-      with(:headers => REQUEST_HEADERS).
+      with(:headers => request_headers.merge(req_headers)).
       to_return(
         :status  => 200,
         :headers => RESPONSE_HEADERS,
@@ -33,7 +32,13 @@ module WebMockHelper
 
   def expect_api_call(path)
     expect(WebMock).to have_requested(:get, url(path)).
-      with(:headers => REQUEST_HEADERS).once
+      with(:headers => request_headers).once
+  end
+
+  def request_headers
+    REQUEST_HEADERS.merge({
+      'Authorization' => "token #{ENV.fetch("JEKYLL_GITHUB_TOKEN", "1234abc")}"
+    })
   end
 
   private
@@ -47,19 +52,30 @@ module WebMockHelper
   end
 end
 
+class ApiStub
+  attr_reader :path, :file, :request_headers
+  attr_accessor :stub
+
+  def initialize(path, file, req_headers = {})
+    @path = path
+    @file = file
+    @request_headers = req_headers || {}
+  end
+end
+
 module EnvHelper
   def with_env(*args)
     env_hash = env_args_to_hash(*args)
-	old_env = {}
-	env_hash.each do |name, value|
-	  old_env[name] = ENV[name]
-	  ENV[name] = value
-	end
-	yield
+    old_env = {}
+    env_hash.each do |name, value|
+      old_env[name] = ENV[name]
+      ENV[name] = value
+    end
+    yield
   ensure
-	old_env.each do |name, value|
-	  ENV[name] = value
-	end
+    old_env.each do |name, value|
+      ENV[name] = value
+    end
   end
 
   private
@@ -124,8 +140,12 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 
   config.include WebMockHelper
+  WebMock.enable!
   WebMock.disable_net_connect!
   config.include EnvHelper
 
-  config.before(:each) { Jekyll::GitHubMetadata.init! }
+  config.before(:each) do
+    Jekyll::GitHubMetadata.reset!
+    Jekyll::GitHubMetadata.logger = Logger.new(StringIO.new) unless ENV["DEBUG"]
+  end
 end

@@ -13,15 +13,42 @@ Usage of this gem is pretty straight-forward. Add it to your bundle like this:
 gem 'jekyll-github-metadata'
 ```
 
-Then go ahead and run `bundle install`. Once you've done that, add your repo & the gem to your `_config.yml`:
+Now add it to your `_config.yml`:
 
 ```yaml
-# or use PAGES_REPO_NWO in the env
-repository: me/super-cool-project
 gems: ['jekyll-github-metadata']
 ```
 
-Then run `jekyll` like you normally would and your `site.github.*` fields should fill in like normal.
+Then go ahead and run `bundle install`. Once you've done that jekyll-github-metadata will run when you run Jekyll.
+
+In order for jekyll-github-metadata to know what metadata to fetch it must
+be able to determine the repository to ask GitHub about.
+
+The easiest way to accomplish this is by setting an "origin" remote with a
+github.com URL. If you ran `git clone` from GitHub, this is almost 100% the
+case & no further action is needed. If you run `git remote -v` in your
+repository, you should see your repo's URL.
+
+If you don't have a git remote available, you have two other options:
+
+1. Set the environment variable `PAGES_REPO_NWO` to your repository name
+   with owner, e.g. `"jekyll/github-metadata"`. This is useful if you don't
+   want to commit your repository to your git history.
+2. Add your repository name with organization to your site's configuration
+   in the `repository` key.
+
+```yaml
+repository: username/repo-name
+```
+
+"NWO" stands for "name with owner." It is GitHub lingo for the username of
+the owner of the repository plus a forward slash plus the name of the
+repository, e.g. 'parkr/blog', where 'parkr' is the owner and 'blog' is the
+repository name.
+
+Your `site.github.*` fields should fill in like normal. If you run Jekyll
+with the `--verbose` flag, you should be able to see all the API calls
+made.
 
 ## Authentication
 
@@ -55,7 +82,7 @@ Some `site.github` values can be overridden by environment variables.
 
 - `JEKYLL_BUILD_REVISION` – the `site.github.build_revision`, git SHA of the source site being built. (default: `git rev-parse HEAD`)
 - `PAGES_ENV` – the `site.github.pages_env` (default: `dotcom`)
-- `PAGES_API_URL` – the `site.github.api_url` (default: `https://api/github.com`)
+- `PAGES_API_URL` – the `site.github.api_url` (default: `https://api.github.com`)
 - `PAGES_HELP_URL` – the `site.github.help_url` (default: `https://help.github.com`)
 - `PAGES_GITHUB_HOSTNAME` – the `site.github.hostname` (default: `https://github.com`)
 - `PAGES_PAGES_HOSTNAME` – the `site.github.pages_hostname` (default: `github.io`)

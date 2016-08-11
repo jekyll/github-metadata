@@ -3,13 +3,14 @@ module Jekyll
     class Pages
       class << self
         DEFAULTS = {
-          'PAGES_ENV'             => 'development'.freeze,
-          'PAGES_API_URL'         => 'https://api.github.com'.freeze,
-          'PAGES_HELP_URL'        => 'https://help.github.com'.freeze,
-          'PAGES_GITHUB_HOSTNAME' => 'github.com'.freeze,
-          'PAGES_PAGES_HOSTNAME'  => 'github.io'.freeze,
-          'SSL'                   => 'false'.freeze,
-          'SUBDOMAIN_ISOLATION'   => 'false'.freeze
+          'PAGES_ENV'              => 'development'.freeze,
+          'PAGES_API_URL'          => 'https://api.github.com'.freeze,
+          'PAGES_HELP_URL'         => 'https://help.github.com'.freeze,
+          'PAGES_GITHUB_HOSTNAME'  => 'github.com'.freeze,
+          'PAGES_PAGES_HOSTNAME'   => 'github.io'.freeze,
+          'SSL'                    => 'false'.freeze,
+          'SUBDOMAIN_ISOLATION'    => 'false'.freeze,
+          'PAGES_PREVIEW_HTML_URL' => nil
         }.freeze
 
         # Whether the GitHub instance supports HTTPS
@@ -38,6 +39,10 @@ module Jekyll
 
         def env
           env_var 'PAGES_ENV'
+        end
+
+        def repo_pages_html_url_preview?
+          env_var "PAGES_PREVIEW_HTML_URL"
         end
 
         def github_url

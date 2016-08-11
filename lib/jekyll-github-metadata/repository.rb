@@ -8,12 +8,24 @@ module Jekyll
         @name  = nwo.split("/").last
       end
 
-      def git_ref
-        user_page? ? 'master' : 'gh-pages'
+      def repo_compat
+        @repo_compat ||= Jekyll::GitHubMetadata::RepositoryCompat.new(self)
       end
 
       def repo_info
         @repo_info ||= (Value.new(proc { |c| c.repository(nwo) }).render || Hash.new)
+      end
+
+      def repo_pages_info
+        @repo_pages_info ||= (Value.new(proc { |c| c.pages(nwo, repo_pages_info_opts) }).render || Hash.new)
+      end
+
+      def repo_pages_info_opts
+        if Pages.repo_pages_html_url_preview?
+          { :accept => "application/vnd.github.mister-fantastic-preview+json" }
+        else
+          {}
+        end
       end
 
       def language
@@ -86,6 +98,10 @@ module Jekyll
         memoize_value :@releases, Value.new(proc { |c| c.releases(nwo) })
       end
 
+      def git_ref
+        user_page? ? 'master' : 'gh-pages'
+      end
+
       def user_page?
         primary?
       end
@@ -106,18 +122,10 @@ module Jekyll
         end
       end
 
-      # In enterprise, the site's scheme will be the same as the instance's
-      # In dotcom, this will be `https` for GitHub-owned sites that end with
-      # `.github.com` and will be `http` for all other sites.
-      # Note: This is not the same as *instance*'s scheme, which may differ
-      def url_scheme
-        if Pages.enterprise?
-          Pages.scheme
-        elsif owner == 'github' && domain.end_with?('.github.com')
-          'https'
-        else
-          'http'
-        end
+      def user_page_domains
+        domains = [default_user_domain]
+        domains.push "#{owner}.github.com".downcase unless Pages.enterprise?
+        domains
       end
 
       def default_user_domain
@@ -130,56 +138,25 @@ module Jekyll
         end
       end
 
-      def user_page_domains
-        domains = [default_user_domain]
-        domains.push "#{owner}.github.com".downcase unless Pages.enterprise?
-        domains
-      end
-
-      def user_domain
-        domain = default_user_domain
-        user_page_domains.each do |user_repo|
-          candidate_nwo = "#{owner}/#{user_repo}"
-          next unless Value.new(proc { |client| client.repository? candidate_nwo }).render
-          domain = self.class.new(candidate_nwo).domain
-        end
-        domain
-      end
-
-      def pages_url
-        if !Pages.custom_domains_enabled?
-          path = user_page? ? owner : nwo
-          if Pages.subdomain_isolation?
-            URI.join("#{Pages.scheme}://#{Pages.pages_hostname}/", path).to_s
-          else
-            URI.join("#{Pages.github_url}/pages/", path).to_s
-          end
-        elsif cname || primary?
-          "#{url_scheme}://#{domain}"
-        else
-          URI.join("#{url_scheme}://#{domain}", name).to_s
-        end
-      end
-
       def cname
-        memoize_value :@cname, Value.new(proc { |c|
-          if Pages.custom_domains_enabled?
-            (c.pages(nwo) || {'cname' => nil})['cname']
-          end
-        })
+        return nil unless Pages.custom_domains_enabled?
+        repo_pages_info["cname"]
+      end
+
+      def html_url
+        @html_url ||= (repo_pages_info["html_url"] || repo_compat.pages_url).chomp("/")
+      end
+
+      def uri
+        @uri ||= URI(html_url)
       end
 
       def domain
-        @domain ||=
-          if !Pages.custom_domains_enabled?
-            Pages.pages_hostname
-          elsif cname # explicit CNAME
-            cname
-          elsif primary? # user/org repo
-            default_user_domain
-          else # project repo
-            user_domain
-          end
+        uri.host
+      end
+
+      def url_scheme
+        uri.scheme
       end
 
       private

@@ -1,0 +1,6 @@
+{
+  "url": "https://api.github.com/repos/github/hubot.github.com/pages",
+  "status": "built",
+  "cname": "hubot.github.com",
+  "custom_404": false
+}
