@@ -3,14 +3,14 @@ module Jekyll
     class Pages
       class << self
         DEFAULTS = {
-          'PAGES_ENV'              => 'dotcom'.freeze,
-          'PAGES_API_URL'          => 'https://api.github.com'.freeze,
-          'PAGES_HELP_URL'         => 'https://help.github.com'.freeze,
-          'PAGES_GITHUB_HOSTNAME'  => 'github.com'.freeze,
-          'PAGES_PAGES_HOSTNAME'   => 'github.io'.freeze,
-          'SSL'                    => 'false'.freeze,
-          'SUBDOMAIN_ISOLATION'    => 'false'.freeze,
-          'PAGES_PREVIEW_HTML_URL' => nil
+          "PAGES_ENV"              => "dotcom".freeze,
+          "PAGES_API_URL"          => "https://api.github.com".freeze,
+          "PAGES_HELP_URL"         => "https://help.github.com".freeze,
+          "PAGES_GITHUB_HOSTNAME"  => "github.com".freeze,
+          "PAGES_PAGES_HOSTNAME"   => "github.io".freeze,
+          "SSL"                    => "false".freeze,
+          "SUBDOMAIN_ISOLATION"    => "false".freeze,
+          "PAGES_PREVIEW_HTML_URL" => nil
         }.freeze
 
         # Whether the GitHub instance supports HTTPS
@@ -18,7 +18,7 @@ module Jekyll
         # but may be different from how sites are served on GitHub.com.
         # See Repository#url_scheme
         def ssl?
-          env_var('SSL') == 'true' || test?
+          env_var("SSL") == "true" || test?
         end
 
         def scheme
@@ -26,19 +26,21 @@ module Jekyll
         end
 
         def subdomain_isolation?
-          env_var('SUBDOMAIN_ISOLATION').eql? 'true'
+          env_var("SUBDOMAIN_ISOLATION").eql? "true"
         end
 
-        def test?;       env == 'test' end
-        def dotcom?;     env == 'dotcom' end
-        def enterprise?; env == 'enterprise' end
+        def test?;       env == "test" end
+
+        def dotcom?;     env == "dotcom" end
+
+        def enterprise?; env == "enterprise" end
 
         def custom_domains_enabled?
           dotcom? || test?
         end
 
         def env
-          env_var 'PAGES_ENV'
+          env_var "PAGES_ENV"
         end
 
         def repo_pages_html_url_preview?
@@ -54,19 +56,19 @@ module Jekyll
         end
 
         def api_url
-          trim_last_slash env_var('PAGES_API_URL', ENV['API_URL'])
+          trim_last_slash env_var("PAGES_API_URL", ENV["API_URL"])
         end
 
         def help_url
-          trim_last_slash env_var('PAGES_HELP_URL', ENV['HELP_URL'])
+          trim_last_slash env_var("PAGES_HELP_URL", ENV["HELP_URL"])
         end
 
         def github_hostname
-          trim_last_slash env_var('PAGES_GITHUB_HOSTNAME', ENV['GITHUB_HOSTNAME'])
+          trim_last_slash env_var("PAGES_GITHUB_HOSTNAME", ENV["GITHUB_HOSTNAME"])
         end
 
         def pages_hostname
-          trim_last_slash env_var('PAGES_PAGES_HOSTNAME', ENV['PAGES_HOSTNAME'])
+          trim_last_slash env_var("PAGES_PAGES_HOSTNAME", ENV["PAGES_HOSTNAME"])
         end
 
         private

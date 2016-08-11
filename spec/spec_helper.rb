@@ -1,29 +1,29 @@
-require 'jekyll-github-metadata'
-require 'webmock/rspec'
-require 'pathname'
+require "jekyll-github-metadata"
+require "webmock/rspec"
+require "pathname"
 
 SPEC_DIR = Pathname.new(File.expand_path("../", __FILE__))
 
 module WebMockHelper
   REQUEST_HEADERS = {
-    'Accept'          => 'application/vnd.github.v3+json',
-    'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-    'Content-Type'    => 'application/json',
-    'User-Agent'      => "Octokit Ruby Gem #{Octokit::VERSION}"
+    "Accept"          => "application/vnd.github.v3+json",
+    "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+    "Content-Type"    => "application/json",
+    "User-Agent"      => "Octokit Ruby Gem #{Octokit::VERSION}"
   }.freeze
   RESPONSE_HEADERS = {
-    'Transfer-Encoding'   => 'chunked',
-    'Content-Type'        => 'application/json; charset=utf-8',
-    'Vary'                => 'Accept-Encoding',
-    'Content-Encoding'    => 'gzip',
-    'X-GitHub-Media-Type' => 'github.v3; format=json'
+    "Transfer-Encoding"   => "chunked",
+    "Content-Type"        => "application/json; charset=utf-8",
+    "Vary"                => "Accept-Encoding",
+    "Content-Encoding"    => "gzip",
+    "X-GitHub-Media-Type" => "github.v3; format=json"
   }.freeze
 
   def stub_api(path, filename, req_headers = {})
     WebMock.disable_net_connect!
-    stub_request(:get, url(path)).
-      with(:headers => request_headers.merge(req_headers)).
-      to_return(
+    stub_request(:get, url(path))
+      .with(:headers => request_headers.merge(req_headers))
+      .to_return(
         :status  => 200,
         :headers => RESPONSE_HEADERS,
         :body    => webmock_data(filename)
@@ -31,13 +31,13 @@ module WebMockHelper
   end
 
   def expect_api_call(path)
-    expect(WebMock).to have_requested(:get, url(path)).
-      with(:headers => request_headers).once
+    expect(WebMock).to have_requested(:get, url(path))
+      .with(:headers => request_headers).once
   end
 
   def request_headers
     REQUEST_HEADERS.merge({
-      'Authorization' => "token #{ENV.fetch("JEKYLL_GITHUB_TOKEN", "1234abc")}"
+      "Authorization" => "token #{ENV.fetch("JEKYLL_GITHUB_TOKEN", "1234abc")}"
     })
   end
 
@@ -119,7 +119,7 @@ RSpec.configure do |config|
     # Use the documentation formatter for detailed output,
     # unless a formatter has already been configured
     # (e.g. via a command-line flag).
-    config.default_formatter = 'doc'
+    config.default_formatter = "doc"
   end
 
   # Print the 10 slowest examples and example groups at the
@@ -148,4 +148,11 @@ RSpec.configure do |config|
     Jekyll::GitHubMetadata.reset!
     Jekyll::GitHubMetadata.logger = Logger.new(StringIO.new) unless ENV["DEBUG"]
   end
+end
+
+def versions
+  require "github-pages"
+  GitHubPages.versions
+rescue LoadError
+  {}
 end

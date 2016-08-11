@@ -1,3 +1,5 @@
 #!/bin/bash
 echo Testing with $(bundle exec jekyll --version)
 bundle exec rspec --color --require spec_helper $@
+bundle exec rubocop -S -D
+bundle exec gem build jekyll-github-metadata.gemspec

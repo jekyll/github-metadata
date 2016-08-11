@@ -26,10 +26,10 @@ RSpec.describe("integration into a jekyll site") do
 
   before(:each) do
     # Reset some stuffs
-    ENV['NO_NETRC'] = "true"
-    ENV['JEKYLL_GITHUB_TOKEN'] = "1234abc"
-    ENV['PAGES_REPO_NWO'] = "jekyll/github-metadata"
-    ENV['PAGES_ENV'] = "dotcom"
+    ENV["NO_NETRC"] = "true"
+    ENV["JEKYLL_GITHUB_TOKEN"] = "1234abc"
+    ENV["PAGES_REPO_NWO"] = "jekyll/github-metadata"
+    ENV["PAGES_ENV"] = "dotcom"
 
     # Stub Requests
     API_STUBS.each { |stub| stub.stub = stub_api(stub.path, stub.file) }
@@ -39,10 +39,10 @@ RSpec.describe("integration into a jekyll site") do
     Jekyll::Commands::Build.process({
       "source"      => SOURCE_DIR.to_s,
       "destination" => DEST_DIR.to_s,
-      "gems"        => %w{jekyll-github-metadata}
+      "gems"        => %w(jekyll-github-metadata)
     })
   end
-  subject { SafeYAML::load(dest_dir("rendered.txt").read) }
+  subject { SafeYAML.load(dest_dir("rendered.txt").read) }
 
   {
     "environment"          => "dotcom",
@@ -51,17 +51,10 @@ RSpec.describe("integration into a jekyll site") do
     "pages_hostname"       => "github.io",
     "help_url"             => "https://help.github.com",
     "api_url"              => "https://api.github.com",
-    "versions"             => proc {
-      begin
-        require 'github-pages'
-        GitHubPages.versions
-      rescue LoadError
-        {}
-      end
-    }.call,
+    "versions"             => versions,
     "public_repositories"  => Regexp.new('"id"=>17261694, "name"=>"atom-jekyll"'),
     "organization_members" => Regexp.new('"login"=>"parkr", "id"=>237985'),
-    "build_revision"       => /[a-f0-9]{40}/,
+    "build_revision"       => %r![a-f0-9]{40}!,
     "project_title"        => "github-metadata",
     "project_tagline"      => ":octocat: `site.github`",
     "owner_name"           => "jekyll",
@@ -81,8 +74,8 @@ RSpec.describe("integration into a jekyll site") do
     "is_project_page"      => true,
     "show_downloads"       => true,
     "url"                  => "http://jekyll.github.io/github-metadata",
-    "contributors"         => /"login"=>"parkr", "id"=>237985/,
-    "releases"             => /"tag_name"=>"v1.1.0"/,
+    "contributors"         => %r!"login"=>"parkr", "id"=>237985!,
+    "releases"             => %r!"tag_name"=>"v1.1.0"!
   }.each do |key, value|
     it "contains the correct #{key}" do
       expect(subject).to have_key(key)
@@ -99,5 +92,4 @@ RSpec.describe("integration into a jekyll site") do
       expect(stub.stub).to have_been_requested
     end
   end
-
 end

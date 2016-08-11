@@ -1,4 +1,4 @@
-require 'digest'
+require "digest"
 
 module Jekyll
   module GitHubMetadata
@@ -6,7 +6,7 @@ module Jekyll
       InvalidMethodError = Class.new(NoMethodError)
 
       # Whitelisted API calls.
-      API_CALLS = Set.new(%w{
+      API_CALLS = Set.new(%w(
         repository
         organization
         repository?
@@ -15,7 +15,7 @@ module Jekyll
         releases
         list_repos
         organization_public_members
-      })
+      ))
 
       def initialize(options = nil)
         @client = build_octokit_client(options)
@@ -29,18 +29,18 @@ module Jekyll
       end
 
       def build_octokit_client(options = nil)
-        options = options || Hash.new
+        options ||= {}
         unless options.key? :access_token
           options.merge! pluck_auth_method
         end
-        Octokit::Client.new({:auto_paginate => true}.merge(options))
+        Octokit::Client.new({ :auto_paginate => true }.merge(options))
       end
 
       def accepts_client_method?(method_name)
         API_CALLS.include?(method_name.to_s) && @client.respond_to?(method_name)
       end
 
-      def respond_to?(method_name, include_private = false)
+      def respond_to_missing?(method_name, include_private = false)
         accepts_client_method?(method_name) || super
       end
 
@@ -59,9 +59,9 @@ module Jekyll
 
       def save_from_errors(default = false, &block)
         if block.arity == 1
-          block.call(@client)
+          yield(@client)
         else
-          block.call
+          yield
         end
       rescue Faraday::Error::ConnectionFailed, Octokit::TooManyRequests => e
         Jekyll::GitHubMetadata.log :warn, e.message
@@ -86,9 +86,9 @@ module Jekyll
       end
 
       def pluck_auth_method
-        if ENV['JEKYLL_GITHUB_TOKEN'] || Octokit.access_token
-          { :access_token => ENV['JEKYLL_GITHUB_TOKEN'] || Octokit.access_token }
-        elsif !ENV['NO_NETRC'] && File.exist?(File.join(ENV['HOME'], '.netrc')) && safe_require('netrc')
+        if ENV["JEKYLL_GITHUB_TOKEN"] || Octokit.access_token
+          { :access_token => ENV["JEKYLL_GITHUB_TOKEN"] || Octokit.access_token }
+        elsif !ENV["NO_NETRC"] && File.exist?(File.join(ENV["HOME"], ".netrc")) && safe_require("netrc")
           { :netrc => true }
         else
           Jekyll::GitHubMetadata.log :warn, "No GitHub API authentication could be found." \

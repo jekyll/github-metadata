@@ -43,7 +43,7 @@ module Jekyll
       #
       # Returns the sanitized sawyer resource or hash as a hash.
       def sanitize_resource(resource)
-        resource.to_hash.inject({}) do |result, (k, v)|
+        resource.to_hash.each_with_object({}) do |(k, v), result|
           result[k.to_s] = sanitize(v)
           result
         end

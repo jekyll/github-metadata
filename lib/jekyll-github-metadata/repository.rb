@@ -13,11 +13,11 @@ module Jekyll
       end
 
       def repo_info
-        @repo_info ||= (Value.new(proc { |c| c.repository(nwo) }).render || Hash.new)
+        @repo_info ||= (Value.new(proc { |c| c.repository(nwo) }).render || {})
       end
 
       def repo_pages_info
-        @repo_pages_info ||= (Value.new(proc { |c| c.pages(nwo, repo_pages_info_opts) }).render || Hash.new)
+        @repo_pages_info ||= (Value.new(proc { |c| c.pages(nwo, repo_pages_info_opts) }).render || {})
       end
 
       def repo_pages_info_opts
@@ -85,9 +85,9 @@ module Jekyll
       end
 
       def organization_public_members
-        memoize_value :@organization_public_members, Value.new(proc { |c|
+        memoize_value :@organization_public_members, Value.new(proc do |c|
           c.organization_public_members(owner) if organization_repository?
-        })
+        end)
       end
 
       def contributors
@@ -99,7 +99,7 @@ module Jekyll
       end
 
       def git_ref
-        user_page? ? 'master' : 'gh-pages'
+        user_page? ? "master" : "gh-pages"
       end
 
       def user_page?
@@ -111,7 +111,7 @@ module Jekyll
       end
 
       def github_repo?
-        !Pages.enterprise? && owner.eql?('github')
+        !Pages.enterprise? && owner.eql?("github")
       end
 
       def primary?

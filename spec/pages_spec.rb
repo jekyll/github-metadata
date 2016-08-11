@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe(Jekyll::GitHubMetadata::Pages) do
   context "enterprise" do
@@ -68,7 +68,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
     it "is true in PAGES_ENV=test" do
       with_env({
         "PAGES_ENV" => "test",
-        "SSL" => "false"
+        "SSL"       => "false"
       }) do
         expect(described_class.ssl?).to be true
       end
