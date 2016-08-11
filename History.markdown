@@ -5,6 +5,7 @@
 ### Major Enhancements
 
   * Use localhost:4000 as the default pages host in development (#50)
+  * Default to development in dev (#49)
 
 ## 2.0.2 / 2016-06-22
 
