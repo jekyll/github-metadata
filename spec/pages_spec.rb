@@ -35,7 +35,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
 
     it "picks up on JEKYLL_ENV" do
       with_env "PAGES_ENV", "" do
-        with_env("JEKYLL_ENV", "halp") do
+        with_env "JEKYLL_ENV", "halp" do
           expect(described_class.env).to eql("halp")
         end
       end
