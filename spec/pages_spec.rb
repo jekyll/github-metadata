@@ -33,21 +33,38 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
       end
     end
 
+    it "picks up on JEKYLL_ENV" do
+      with_env "PAGES_ENV", "" do
+        with_env "JEKYLL_ENV", "halp" do
+          expect(described_class.env).to eql("halp")
+        end
+      end
+    end
+
     it "has convenience methods for various envs" do
       with_env("PAGES_ENV", "test") do
         expect(described_class.test?).to be true
         expect(described_class.dotcom?).to be false
         expect(described_class.enterprise?).to be false
+        expect(described_class.development?).to be false
       end
       with_env("PAGES_ENV", "dotcom") do
         expect(described_class.test?).to be false
         expect(described_class.dotcom?).to be true
         expect(described_class.enterprise?).to be false
+        expect(described_class.development?).to be false
       end
       with_env("PAGES_ENV", "enterprise") do
         expect(described_class.test?).to be false
         expect(described_class.dotcom?).to be false
         expect(described_class.enterprise?).to be true
+        expect(described_class.development?).to be false
+      end
+      with_env("PAGES_ENV", "development") do
+        expect(described_class.test?).to be false
+        expect(described_class.dotcom?).to be false
+        expect(described_class.enterprise?).to be false
+        expect(described_class.development?).to be true
       end
     end
   end
@@ -85,6 +102,14 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
     it "returns false for any other value" do
       with_env "SUBDOMAIN_ISOLATION", "" do
         expect(described_class.subdomain_isolation?).to be false
+      end
+    end
+  end
+
+  context "development" do
+    it "uses the local pages hostname" do
+      with_env "PAGES_ENV", "development" do
+        expect(described_class.pages_hostname).to eql("localhost:4000")
       end
     end
   end

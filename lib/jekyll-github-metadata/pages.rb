@@ -3,7 +3,7 @@ module Jekyll
     class Pages
       class << self
         DEFAULTS = {
-          "PAGES_ENV"              => "dotcom".freeze,
+          "PAGES_ENV"              => "development".freeze,
           "PAGES_API_URL"          => "https://api.github.com".freeze,
           "PAGES_HELP_URL"         => "https://help.github.com".freeze,
           "PAGES_GITHUB_HOSTNAME"  => "github.com".freeze,
@@ -29,18 +29,20 @@ module Jekyll
           env_var("SUBDOMAIN_ISOLATION").eql? "true"
         end
 
-        def test?;       env == "test" end
+        def test?;        env == "test" end
 
-        def dotcom?;     env == "dotcom" end
+        def dotcom?;      env == "dotcom" end
 
-        def enterprise?; env == "enterprise" end
+        def enterprise?;  env == "enterprise" end
+
+        def development?; env == "development" end
 
         def custom_domains_enabled?
           dotcom? || test?
         end
 
         def env
-          env_var "PAGES_ENV"
+          env_var "PAGES_ENV", ENV["JEKYLL_ENV"]
         end
 
         def repo_pages_html_url_preview?
@@ -68,7 +70,9 @@ module Jekyll
         end
 
         def pages_hostname
-          trim_last_slash env_var("PAGES_PAGES_HOSTNAME", ENV["PAGES_HOSTNAME"])
+          intermediate_default = ENV["PAGES_HOSTNAME"]
+          intermediate_default ||= "localhost:4000" if development?
+          trim_last_slash env_var("PAGES_PAGES_HOSTNAME", intermediate_default)
         end
 
         private

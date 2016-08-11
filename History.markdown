@@ -2,6 +2,11 @@
 
   * Fix a typo in the documentation of `PAGES_API_URL` (#66)
 
+### Major Enhancements
+
+  * Use localhost:4000 as the default pages host in development (#50)
+  * Default to development in dev (#49)
+
 ## 2.0.2 / 2016-06-22
 
   * Remove trailing slash from html_url if present (#64)

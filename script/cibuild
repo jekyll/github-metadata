@@ -1,2 +1,7 @@
 #!/bin/bash
+
+set -e
+
 script/test
+bundle exec rubocop -S -D
+bundle exec gem build jekyll-github-metadata.gemspec
