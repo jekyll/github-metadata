@@ -3,7 +3,7 @@ module Jekyll
     class Pages
       class << self
         DEFAULTS = {
-          'PAGES_ENV'              => 'dotcom'.freeze,
+          'PAGES_ENV'              => 'development'.freeze,
           'PAGES_API_URL'          => 'https://api.github.com'.freeze,
           'PAGES_HELP_URL'         => 'https://help.github.com'.freeze,
           'PAGES_GITHUB_HOSTNAME'  => 'github.com'.freeze,
