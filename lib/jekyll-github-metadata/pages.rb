@@ -29,16 +29,17 @@ module Jekyll
           env_var('SUBDOMAIN_ISOLATION').eql? 'true'
         end
 
-        def test?;       env == 'test' end
-        def dotcom?;     env == 'dotcom' end
-        def enterprise?; env == 'enterprise' end
+        def test?;        env == 'test' end
+        def dotcom?;      env == 'dotcom' end
+        def enterprise?;  env == 'enterprise' end
+        def development?; env == 'development' end
 
         def custom_domains_enabled?
           dotcom? || test?
         end
 
         def env
-          env_var 'PAGES_ENV'
+          env_var 'PAGES_ENV', ENV['JEKYLL_ENV']
         end
 
         def repo_pages_html_url_preview?
@@ -66,7 +67,9 @@ module Jekyll
         end
 
         def pages_hostname
-          trim_last_slash env_var('PAGES_PAGES_HOSTNAME', ENV['PAGES_HOSTNAME'])
+          intermediate_default = ENV['PAGES_HOSTNAME']
+          intermediate_default ||= 'localhost:4000' if development?
+          trim_last_slash env_var('PAGES_PAGES_HOSTNAME', intermediate_default)
         end
 
         private
