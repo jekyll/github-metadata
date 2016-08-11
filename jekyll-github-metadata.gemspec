@@ -16,11 +16,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "octokit", "~> 4.0"
+  spec.add_runtime_dependency "jekyll", ENV["JEKYLL_VERSION"] ? "~> #{ENV["JEKYLL_VERSION"]}" : "~> 3.1"
 
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "netrc"
   spec.add_development_dependency "rspec"
-  spec.add_development_dependency "jekyll", ENV["JEKYLL_VERSION"] ? "~> #{ENV["JEKYLL_VERSION"]}" : ">= 2.0"
   spec.add_development_dependency "github-pages", ENV["GITHUB_PAGES"] if ENV["GITHUB_PAGES"]
 end

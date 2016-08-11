@@ -1,5 +1,39 @@
 ## HEAD
 
+  * Fix a typo in the documentation of `PAGES_API_URL` (#66)
+
+## 2.0.2 / 2016-06-22
+
+  * Remove trailing slash from html_url if present (#64)
+  * Additional feedback for failed Octokit calls (#68)
+
+## 2.0.1 / 2016-06-19
+
+  * Fix issue where `git` not being in `$PATH` would error (#57)
+  * Handle dots in repository names when parsing from Git remote output (#63)
+
+## 2.0.0 / 2016-05-26
+
+### Major Enhancements
+
+  * Only allow Jekyll 3.1 and above (#61)
+
+### Minor Enhancements
+
+  * Use html_url from Pages endpoint (behind preview env flag) (#60)
+  * Only determine repo when data is requested using a Drop (#61)
+
+## 1.11.1 / 2016-04-22
+
+  * Make the `Client::API_CALLS` a Set (#56)
+
+## 1.11.0 / 2016-04-08
+
+  * make empty string fallback for missing git remote (#54)
+  * Refactor some of the git things & better docs (#55)
+
+## 1.10.0 / 2016-03-25
+
   * Use git remote url to determine nwo (#45)
 
 ## 1.9.0 / 2016-03-16

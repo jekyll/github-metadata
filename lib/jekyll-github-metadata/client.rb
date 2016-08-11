@@ -6,7 +6,7 @@ module Jekyll
       InvalidMethodError = Class.new(NoMethodError)
 
       # Whitelisted API calls.
-      API_CALLS = %w{
+      API_CALLS = Set.new(%w{
         repository
         organization
         repository?
@@ -15,7 +15,7 @@ module Jekyll
         releases
         list_repos
         organization_public_members
-      }.freeze
+      })
 
       def initialize(options = nil)
         @client = build_octokit_client(options)
@@ -48,7 +48,7 @@ module Jekyll
         method = method_name.to_s
         if accepts_client_method?(method_name)
           key = cache_key(method_name, args)
-          Jekyll.logger.debug "GitHub Metadata:", "Calling @client.#{method}(#{args.map(&:inspect).join(", ")})"
+          Jekyll::GitHubMetadata.log :debug, "Calling @client.#{method}(#{args.map(&:inspect).join(", ")})"
           cache[key] ||= save_from_errors { @client.public_send(method_name, *args, &block) }
         elsif @client.respond_to?(method_name)
           raise InvalidMethodError, "#{method_name} is not whitelisted on #{inspect}"
@@ -63,10 +63,11 @@ module Jekyll
         else
           block.call
         end
-      rescue Faraday::Error::ConnectionFailed,
-        Octokit::NotFound,
-        Octokit::Unauthorized,
-        Octokit::TooManyRequests
+      rescue Faraday::Error::ConnectionFailed, Octokit::TooManyRequests => e
+        Jekyll::GitHubMetadata.log :warn, e.message
+        default
+      rescue Octokit::NotFound, Octokit::Unauthorized => e
+        Jekyll::GitHubMetadata.log :error, e.message
         default
       end
 
@@ -90,7 +91,7 @@ module Jekyll
         elsif !ENV['NO_NETRC'] && File.exist?(File.join(ENV['HOME'], '.netrc')) && safe_require('netrc')
           { :netrc => true }
         else
-          Jekyll.logger.warn "GitHub Metadata:", "No GitHub API authentication could be found." +
+          Jekyll::GitHubMetadata.log :warn, "No GitHub API authentication could be found." \
             " Some fields may be missing or have incorrect data."
           {}.freeze
         end

@@ -10,16 +10,6 @@ RSpec.describe("integration into a jekyll site") do
     DEST_DIR.join(*files)
   end
 
-  class ApiStub
-    attr_reader :path, :file
-    attr_accessor :stub
-
-    def initialize(path, file)
-      @path = path
-      @file = file
-    end
-  end
-
   API_STUBS = {
     "/users/jekyll/repos?per_page=100&type=public"            => "owner_repos",
     "/repos/jekyll/github-metadata"                           => "repo",
@@ -40,7 +30,6 @@ RSpec.describe("integration into a jekyll site") do
     ENV['JEKYLL_GITHUB_TOKEN'] = "1234abc"
     ENV['PAGES_REPO_NWO'] = "jekyll/github-metadata"
     ENV['PAGES_ENV'] = "dotcom"
-    Jekyll::GitHubMetadata.reset!
 
     # Stub Requests
     API_STUBS.each { |stub| stub.stub = stub_api(stub.path, stub.file) }
@@ -48,9 +37,9 @@ RSpec.describe("integration into a jekyll site") do
     # Run Jekyll
     Jekyll.logger.log_level = :error
     Jekyll::Commands::Build.process({
-      "source" => SOURCE_DIR.to_s,
+      "source"      => SOURCE_DIR.to_s,
       "destination" => DEST_DIR.to_s,
-      "gems" => %w{jekyll-github-metadata}
+      "gems"        => %w{jekyll-github-metadata}
     })
   end
   subject { SafeYAML::load(dest_dir("rendered.txt").read) }
