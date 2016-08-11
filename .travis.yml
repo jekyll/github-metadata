@@ -1,22 +1,20 @@
 sudo: false
 language: ruby
 rvm:
-- 2.1.7
-- 2.2
-- 2.3.0
-matrix:
-  include:
-    - rvm: 2.1.7
-      env: GITHUB_PAGES=83
+  - 2.1
+  - 2.2
+  - 2.3.0
 env:
   matrix:
     - JEKYLL_VERSION=3.1
+    - JEKYLL_VERSION=3.2
 branches:
   only:
     - master
 install:
-- travis_retry script/bootstrap
+  - travis_retry script/bootstrap
 script: script/cibuild
+cache: bundler
 notifications:
   irc:
     on_success: change
