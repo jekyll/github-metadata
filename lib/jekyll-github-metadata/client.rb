@@ -57,12 +57,8 @@ module Jekyll
         end
       end
 
-      def save_from_errors(default = false, &block)
-        if block.arity == 1
-          yield(@client)
-        else
-          yield
-        end
+      def save_from_errors(default = false)
+        yield @client
       rescue Faraday::Error::ConnectionFailed, Octokit::TooManyRequests => e
         Jekyll::GitHubMetadata.log :warn, e.message
         default
