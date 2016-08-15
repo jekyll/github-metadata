@@ -149,10 +149,3 @@ RSpec.configure do |config|
     Jekyll::GitHubMetadata.logger = Logger.new(StringIO.new) unless ENV["DEBUG"]
   end
 end
-
-def versions
-  require "github-pages"
-  GitHubPages.versions
-rescue LoadError
-  {}
-end
