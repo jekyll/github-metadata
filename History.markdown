@@ -1,6 +1,7 @@
 ## HEAD
 
   * Fix a typo in the documentation of `PAGES_API_URL` (#66)
+  * Additional feedback for failed Octokit calls (#68)
 
 ### Major Enhancements
 
@@ -10,7 +11,6 @@
 ## 2.0.2 / 2016-06-22
 
   * Remove trailing slash from html_url if present (#64)
-  * Additional feedback for failed Octokit calls (#68)
 
 ## 2.0.1 / 2016-06-19
 
