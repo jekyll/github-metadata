@@ -1,12 +1,15 @@
 ## HEAD
 
-  * Fix a typo in the documentation of `PAGES_API_URL` (#66)
-  * Additional feedback for failed Octokit calls (#68)
-
 ### Major Enhancements
 
   * Use localhost:4000 as the default pages host in development (#50)
   * Default to development in dev (#49)
+
+### Minor Enhancements
+
+  * Fix a typo in the documentation of `PAGES_API_URL` (#66)
+  * Additional feedback for failed Octokit calls (#68)
+  * Add Rubocop (#69)
 
 ## 2.0.2 / 2016-06-22
 
