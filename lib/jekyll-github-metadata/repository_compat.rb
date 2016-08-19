@@ -14,10 +14,10 @@ module Jekyll
       def url_scheme
         if Pages.enterprise?
           Pages.scheme
-        elsif repo.owner == 'github' && domain.end_with?('.github.com')
-          'https'
+        elsif repo.owner == "github" && domain.end_with?(".github.com")
+          "https"
         else
-          'http'
+          "http"
         end
       end
 
@@ -32,14 +32,9 @@ module Jekyll
       end
 
       def pages_url
-        if !Pages.custom_domains_enabled?
-          path = repo.user_page? ? repo.owner : repo.nwo
-          if Pages.subdomain_isolation?
-            URI.join("#{Pages.scheme}://#{Pages.pages_hostname}/", path).to_s
-          else
-            URI.join("#{Pages.github_url}/pages/", path).to_s
-          end
-        elsif repo.cname || repo.primary?
+        return enterprise_url unless Pages.custom_domains_enabled?
+
+        if repo.cname || repo.primary?
           "#{url_scheme}://#{domain}"
         else
           URI.join("#{url_scheme}://#{domain}", repo.name).to_s
@@ -58,6 +53,17 @@ module Jekyll
           else # project repo
             user_domain
           end
+      end
+
+      private
+
+      def enterprise_url
+        path = repo.user_page? ? repo.owner : repo.nwo
+        if Pages.subdomain_isolation?
+          URI.join("#{Pages.scheme}://#{Pages.pages_hostname}/", path).to_s
+        else
+          URI.join("#{Pages.github_url}/pages/", path).to_s
+        end
       end
     end
   end

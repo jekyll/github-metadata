@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe(Jekyll::GitHubMetadata::RepositoryCompat) do
   let(:repo) { Jekyll::GitHubMetadata::Repository.new(nwo) }

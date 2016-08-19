@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe(Jekyll::GitHubMetadata::Pages) do
   context "enterprise" do
@@ -85,7 +85,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
     it "is true in PAGES_ENV=test" do
       with_env({
         "PAGES_ENV" => "test",
-        "SSL" => "false"
+        "SSL"       => "false"
       }) do
         expect(described_class.ssl?).to be true
       end
@@ -109,7 +109,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
   context "development" do
     it "uses the local pages hostname" do
       with_env "PAGES_ENV", "development" do
-        expect(described_class.pages_hostname).to eql('localhost:4000')
+        expect(described_class.pages_hostname).to eql("localhost:4000")
       end
     end
   end

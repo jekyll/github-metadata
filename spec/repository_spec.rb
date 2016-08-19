@@ -1,9 +1,9 @@
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe(Jekyll::GitHubMetadata::Repository) do
   let(:repo) { described_class.new(nwo) }
   before(:each) do
-    ENV['JEKYLL_GITHUB_TOKEN'] = "allthespecs"
+    ENV["JEKYLL_GITHUB_TOKEN"] = "allthespecs"
     stub.stub = stub_api(stub.path, stub.file, stub.request_headers)
   end
 
@@ -114,7 +114,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
 
       it "uses Pages.scheme when SSL not set to determine scheme for Pages URL" do
         with_env({
-          "PAGES_ENV" => "enterprise",
+          "PAGES_ENV"             => "enterprise",
           "PAGES_GITHUB_HOSTNAME" => "github.acme.com"
         }) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(false)

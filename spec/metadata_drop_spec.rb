@@ -1,23 +1,23 @@
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
-  let(:overrides) { {"repository" => "jekyll/another-repo"} }
+  let(:overrides) { { "repository" => "jekyll/another-repo" } }
   let(:config) { Jekyll::Configuration::DEFAULTS.merge(overrides) }
   let(:site) { Jekyll::Site.new config }
   subject { described_class.new(site) }
 
   context "with no repository set" do
     before(:each) do
-      site.config.delete('repository')
-      ENV['PAGES_REPO_NWO'] = nil
+      site.config.delete("repository")
+      ENV["PAGES_REPO_NWO"] = nil
     end
 
     context "without a git nwo" do
       it "raises a NoRepositoryError" do
         allow(subject).to receive(:git_remote_url).and_return("")
-        expect(-> {
+        expect(lambda do
           subject.send(:nwo, site)
-        }).to raise_error(Jekyll::GitHubMetadata::NoRepositoryError)
+        end).to raise_error(Jekyll::GitHubMetadata::NoRepositoryError)
       end
     end
 
@@ -27,8 +27,8 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
     end
 
     {
-      https: "https://github.com/foo/bar",
-      ssh:   "git@github.com:foo/bar.git"
+      :https => "https://github.com/foo/bar",
+      :ssh   => "git@github.com:foo/bar.git"
     }.each do |type, url|
       context "with a #{type} git URL" do
         it "parses the name with owner from the git URL" do
@@ -40,7 +40,7 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
   end
 
   context "with PAGES_REPO_NWO and site.repository set" do
-    before(:each) { ENV['PAGES_REPO_NWO'] = "jekyll/some-repo" }
+    before(:each) { ENV["PAGES_REPO_NWO"] = "jekyll/some-repo" }
 
     it "uses the value from PAGES_REPO_NWO" do
       expect(subject.send(:nwo, site)).to eql("jekyll/some-repo")
@@ -48,7 +48,7 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
   end
 
   context "with only site.repository set" do
-    before(:each) { ENV['PAGES_REPO_NWO'] = nil }
+    before(:each) { ENV["PAGES_REPO_NWO"] = nil }
 
     it "uses the value from site.repository" do
       expect(subject.send(:nwo, site)).to eql("jekyll/another-repo")

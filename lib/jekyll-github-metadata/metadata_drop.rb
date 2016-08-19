@@ -1,5 +1,5 @@
-require 'jekyll'
-require 'forwardable'
+require "jekyll"
+require "forwardable"
 
 module Jekyll
   module GitHubMetadata
@@ -26,7 +26,7 @@ module Jekyll
 
       def versions
         @versions ||= begin
-          require 'github-pages'
+          require "github-pages"
           GitHubPages.versions
         rescue LoadError
           {}
@@ -35,7 +35,7 @@ module Jekyll
 
       def build_revision
         @build_revision ||= (
-          ENV['JEKYLL_BUILD_REVISION'] || `git rev-parse HEAD`.strip
+          ENV["JEKYLL_BUILD_REVISION"] || `git rev-parse HEAD`.strip
         )
       end
 
@@ -82,24 +82,24 @@ module Jekyll
       end
 
       def git_remote_url
-        git_remotes.grep(%r{\Aorigin\t}).map do |remote|
-          remote.sub(/\Aorigin\t(.*) \([a-z]+\)/, "\\1")
+        git_remotes.grep(%r!\Aorigin\t!).map do |remote|
+          remote.sub(%r!\Aorigin\t(.*) \([a-z]+\)!, "\\1")
         end.uniq.first || ""
       end
 
       def nwo_from_git_origin_remote
         return unless Jekyll.env == "development"
-        matches = git_remote_url.chomp(".git").match %r{github.com(:|/)([\w-]+)/([\w\.-]+)}
+        matches = git_remote_url.chomp(".git").match %r!github.com(:|/)([\w-]+)/([\w\.-]+)!
         matches[2..3].join("/") if matches
       end
 
       def nwo_from_env
-        ENV['PAGES_REPO_NWO']
+        ENV["PAGES_REPO_NWO"]
       end
 
       def nwo_from_config(site)
-        repo = site.config['repository']
-        repo if repo && repo.is_a?(String) && repo.include?('/')
+        repo = site.config["repository"]
+        repo if repo && repo.is_a?(String) && repo.include?("/")
       end
 
       # Public: fetches the repository name with owner to fetch metadata for.
@@ -116,12 +116,12 @@ module Jekyll
         nwo_from_env || \
           nwo_from_config(site) || \
           nwo_from_git_origin_remote || \
-          proc {
+          proc do
             raise GitHubMetadata::NoRepositoryError, "No repo name found. " \
               "Specify using PAGES_REPO_NWO environment variables, " \
               "'repository' in your configuration, or set up an 'origin' " \
               "git remote pointing to your github.com repository."
-          }.call
+          end.call
       end
 
       # Nothing to see here.

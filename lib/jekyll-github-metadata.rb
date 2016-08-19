@@ -1,11 +1,12 @@
-require 'octokit'
-require 'logger'
+require "octokit"
+require "logger"
 
-if defined?(Jekyll) && Jekyll.respond_to?(:env) && Jekyll.env == 'development'
+if defined?(Jekyll) && Jekyll.respond_to?(:env) && Jekyll.env == "development"
   begin
-    require 'dotenv'
+    require "dotenv"
     Dotenv.load
   rescue LoadError
+    Jekyll.logger.debug "Dotenv not found. Skipping"
   end
 end
 
@@ -19,17 +20,17 @@ module Jekyll
   module GitHubMetadata
     NoRepositoryError = Class.new(Jekyll::Errors::FatalException)
 
-    autoload :Client,           'jekyll-github-metadata/client'
-    autoload :MetadataDrop,     'jekyll-github-metadata/metadata_drop'
-    autoload :Pages,            'jekyll-github-metadata/pages'
-    autoload :Repository,       'jekyll-github-metadata/repository'
-    autoload :RepositoryCompat, 'jekyll-github-metadata/repository_compat'
-    autoload :Sanitizer,        'jekyll-github-metadata/sanitizer'
-    autoload :Value,            'jekyll-github-metadata/value'
-    autoload :VERSION,          'jekyll-github-metadata/version'
+    autoload :Client,           "jekyll-github-metadata/client"
+    autoload :MetadataDrop,     "jekyll-github-metadata/metadata_drop"
+    autoload :Pages,            "jekyll-github-metadata/pages"
+    autoload :Repository,       "jekyll-github-metadata/repository"
+    autoload :RepositoryCompat, "jekyll-github-metadata/repository_compat"
+    autoload :Sanitizer,        "jekyll-github-metadata/sanitizer"
+    autoload :Value,            "jekyll-github-metadata/value"
+    autoload :VERSION,          "jekyll-github-metadata/version"
 
     if Jekyll.const_defined? :Site
-      require_relative 'jekyll-github-metadata/ghp_metadata_generator'
+      require_relative "jekyll-github-metadata/ghp_metadata_generator"
     end
 
     class << self
@@ -37,15 +38,15 @@ module Jekyll
       attr_writer :client, :logger
 
       def environment
-        Jekyll.respond_to?(:env) ? Jekyll.env : (Pages.env || 'development')
+        Jekyll.respond_to?(:env) ? Jekyll.env : (Pages.env || "development")
       end
 
       def logger
         @logger ||= if Jekyll.respond_to?(:logger)
-          Jekyll.logger
-        else
-          Logger.new($stdout)
-        end
+                      Jekyll.logger
+                    else
+                      Logger.new($stdout)
+                    end
       end
 
       def log(severity, message)
