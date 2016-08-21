@@ -11,7 +11,7 @@ RSpec.describe("integration into a jekyll site") do
   end
 
   API_STUBS = {
-    "/users/jekyll/repos?per_page=100&type=public"            => "owner_repos",
+    "/users/jekyll/repos?per_page=100"                        => "owner_repos",
     "/repos/jekyll/github-metadata"                           => "repo",
     "/orgs/jekyll"                                            => "org",
     "/orgs/jekyll/public_members?per_page=100"                => "org_members",
