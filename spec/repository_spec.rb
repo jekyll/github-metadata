@@ -60,6 +60,10 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     it "uses Pages.scheme to determine scheme for domain" do
       expect(repo.html_url).to eql("http://ben.balter.com")
     end
+
+    it "parses the baseurl" do
+      expect(repo.baseurl).to eql("")
+    end
   end
 
   context "parkr.github.io" do
@@ -76,6 +80,10 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
 
     it "uses Pages.scheme to determine scheme for domain" do
       expect(repo.html_url).to eql("http://parkermoore.de")
+    end
+
+    it "parses the baseurl" do
+      expect(repo.baseurl).to eql("")
     end
   end
 
@@ -95,6 +103,10 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
       expect(repo.html_url).to eql("https://jldec.github.io")
     end
 
+    it "parses the baseurl" do
+      expect(repo.baseurl).to eql("")
+    end
+
     context "on enterprise" do
       let(:stub) { ApiStub.new("/repos/#{nwo}/pages", "jldec_enterprise_repo_pages") }
 
@@ -109,6 +121,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("https")
           expect(repo.html_url).to eql("https://github.acme.com/pages/#{nwo}")
           expect(repo.url_scheme).to eql("https")
+          expect(repo.baseurl).to eql("/pages/#{nwo}")
         end
       end
 

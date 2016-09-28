@@ -5,18 +5,31 @@ module Jekyll
     class GHPMetadataGenerator < Jekyll::Generator
       safe true
 
+      attr_reader :site
+
       def generate(site)
         Jekyll::GitHubMetadata.log :debug, "Initializing..."
+        @site = site
+        site.config["github"]  = github_namespace
+        site.config["url"]     = drop.url if site.config["url"].nil?
+        site.config["baseurl"] = drop.baseurl if site.config["baseurl"].nil?
+      end
 
-        site.config["github"] =
-          case site.config["github"]
-          when nil
-            MetadataDrop.new(site)
-          when Hash, Liquid::Drop
-            Jekyll::Utils.deep_merge_hashes(MetadataDrop.new(site), site.config["github"])
-          else
-            site.config["github"]
-          end
+      private
+
+      def github_namespace
+        case site.config["github"]
+        when nil
+          drop
+        when Hash, Liquid::Drop
+          Jekyll::Utils.deep_merge_hashes(drop, site.config["github"])
+        else
+          site.config["github"]
+        end
+      end
+
+      def drop
+        @drop ||= MetadataDrop.new(site)
       end
     end
   end

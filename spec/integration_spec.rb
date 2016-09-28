@@ -74,6 +74,7 @@ RSpec.describe("integration into a jekyll site") do
     "is_project_page"      => true,
     "show_downloads"       => true,
     "url"                  => "http://jekyll.github.io/github-metadata",
+    "baseurl"              => "/github-metadata",
     "contributors"         => %r!"login"=>"parkr", "id"=>237985!,
     "releases"             => %r!"tag_name"=>"v1.1.0"!
   }.each do |key, value|
