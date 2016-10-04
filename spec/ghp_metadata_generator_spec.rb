@@ -3,11 +3,12 @@ require "jekyll"
 require "jekyll-github-metadata/ghp_metadata_generator"
 
 RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
+<<<<<<< HEAD
   let(:source) { File.expand_path("../test-site", __FILE__) }
   let(:dest) { File.expand_path("../../tmp/test-site-build", __FILE__) }
   let(:user_config) { {} }
   let(:site) { Jekyll::Site.new(Jekyll::Configuration.from(user_config)) }
-  subject { site.generators.find{ |k| k.instance_of?(described_class) } }
+  subject { site.generators.find { |k| k.instance_of?(described_class) } }
 
   it "is safe" do
     expect(described_class.safe).to be(true)
@@ -58,9 +59,9 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
     end
 
     it "does not fail upon call to #generate" do
-      expect(-> {
+      expect(lambda do
         subject.generate(site)
-      }).not_to raise_error
+      end).not_to raise_error
     end
 
     it "sets the site.github config" do
@@ -74,8 +75,8 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
       Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new({ :access_token => "1234abc" })
       stub_request(:get, url("/user"))
         .with(:headers => request_headers.merge({
-            "Authorization" => "token 1234abc"
-          }))
+          "Authorization" => "token 1234abc"
+        }))
         .to_return(
           :status  => 401,
           :headers => WebMockHelper::RESPONSE_HEADERS,
@@ -84,9 +85,9 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
     end
 
     it "fails loudly upon call to #generate" do
-      expect(-> {
+      expect(lambda do
         subject.generate(site)
-      }).to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)
+      end).to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)
     end
   end
 end

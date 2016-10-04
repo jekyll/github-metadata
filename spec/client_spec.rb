@@ -25,15 +25,15 @@ RSpec.describe(Jekyll::GitHubMetadata::Client) do
   it "raises an error with bad credentials" do
     stub_request(:get, url("/user"))
       .with(:headers => request_headers.merge({
-          "Authorization" => "token #{token}"
-        }))
+        "Authorization" => "token #{token}"
+      }))
       .to_return(
         :status  => 401,
         :headers => WebMockHelper::RESPONSE_HEADERS,
         :body    => webmock_data("bad_credentials")
       )
-    expect(-> {
+    expect(lambda do
       subject.check_credentials!
-    }).to raise_error(described_class::BadCredentialsError)
+    end).to raise_error(described_class::BadCredentialsError)
   end
 end
