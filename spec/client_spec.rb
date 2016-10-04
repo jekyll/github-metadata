@@ -15,4 +15,25 @@ RSpec.describe(Jekyll::GitHubMetadata::Client) do
       subject.combined_status("jekyll/github-metadata", "refs/master")
     end).to raise_error(described_class::InvalidMethodError, "combined_status is not whitelisted on #<Jekyll::GitHubMetadata::Client @client=#<Octokit::Client (authenticated)>>")
   end
+
+  it "can check if it's authenticated" do
+    expect(subject.authenticated?).to be(true)
+    expect(described_class.new({ :access_token => nil }).authenticated?).to be(false)
+    expect(described_class.new({ :access_token => "" }).authenticated?).to be(false)
+  end
+
+  it "raises an error with bad credentials" do
+    stub_request(:get, url("/user"))
+      .with(:headers => request_headers.merge({
+          "Authorization" => "token #{token}"
+        }))
+      .to_return(
+        :status  => 401,
+        :headers => WebMockHelper::RESPONSE_HEADERS,
+        :body    => webmock_data("bad_credentials")
+      )
+    expect(-> {
+      subject.check_credentials!
+    }).to raise_error(described_class::BadCredentialsError)
+  end
 end

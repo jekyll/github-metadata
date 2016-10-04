@@ -11,6 +11,10 @@ module Jekyll
       def generate(site)
         Jekyll::GitHubMetadata.log :debug, "Initializing..."
         @site = site
+
+        # Fail loudly if credentials are provided but aren't valid.
+        Jekyll::GitHubMetadata.client.check_credentials!
+
         site.config["github"] = github_namespace
         set_url_and_baseurl_fallbacks!
         @site = nil

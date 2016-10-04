@@ -4,6 +4,7 @@ module Jekyll
   module GitHubMetadata
     class Client
       InvalidMethodError = Class.new(NoMethodError)
+      BadCredentialsError = Class.new(StandardError)
 
       # Whitelisted API calls.
       API_CALLS = Set.new(%w(
@@ -71,13 +72,25 @@ module Jekyll
         "#<#{self.class.name} @client=#{client_inspect}>"
       end
 
+      def authenticated?
+        !@client.access_token.nil? && !@client.access_token.empty?
+      end
+
+      # Raise an error if credentials are provided and they cause a 401.
+      def check_credentials!
+        return unless authenticated?
+        @client.user
+      rescue Octokit::Unauthorized
+        raise BadCredentialsError, "The GitHub API credentials you provided aren't valid."
+      end
+
       private
 
       def client_inspect
         if @client.nil?
           "nil"
         else
-          "#<#{@client.class.name} (#{"un" unless @client.access_token}authenticated)>"
+          "#<#{@client.class.name} (#{"un" unless authenticated?}authenticated)>"
         end
       end
 

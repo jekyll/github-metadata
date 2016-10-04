@@ -3,11 +3,11 @@ require "jekyll"
 require "jekyll-github-metadata/ghp_metadata_generator"
 
 RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
-  subject { described_class.new }
   let(:source) { File.expand_path("../test-site", __FILE__) }
   let(:dest) { File.expand_path("../../tmp/test-site-build", __FILE__) }
   let(:user_config) { {} }
   let(:site) { Jekyll::Site.new(Jekyll::Configuration.from(user_config)) }
+  subject { site.generators.find{ |k| k.instance_of?(described_class) } }
 
   it "is safe" do
     expect(described_class.safe).to be(true)
@@ -49,6 +49,44 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
       it "sets site.baseurl" do
         expect(site.config["baseurl"]).to eql("/github-metadata")
       end
+    end
+  end
+
+  context "with a client with no credentials" do
+    before(:each) do
+      Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new({ :access_token => "" })
+    end
+
+    it "does not fail upon call to #generate" do
+      expect(-> {
+        subject.generate(site)
+      }).not_to raise_error
+    end
+
+    it "sets the site.github config" do
+      subject.generate(site)
+      expect(site.config["github"]).to be_instance_of(Jekyll::GitHubMetadata::MetadataDrop)
+    end
+  end
+
+  context "with a client with bad credentials" do
+    before(:each) do
+      Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new({ :access_token => "1234abc" })
+      stub_request(:get, url("/user"))
+        .with(:headers => request_headers.merge({
+            "Authorization" => "token 1234abc"
+          }))
+        .to_return(
+          :status  => 401,
+          :headers => WebMockHelper::RESPONSE_HEADERS,
+          :body    => webmock_data("bad_credentials")
+        )
+    end
+
+    it "fails loudly upon call to #generate" do
+      expect(-> {
+        subject.generate(site)
+      }).to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)
     end
   end
 end
