@@ -73,7 +73,7 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
   context "with a client with bad credentials" do
     before(:each) do
       Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new({ :access_token => "1234abc" })
-      stub_request(:get, url("/user"))
+      stub_request(:get, url("/repos/jekyll/github-metadata/pages"))
         .with(:headers => request_headers.merge({
           "Authorization" => "token 1234abc"
         }))
@@ -84,9 +84,10 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
         )
     end
 
-    it "fails loudly upon call to #generate" do
+    it "fails loudly upon call to any drop method" do
+      subject.generate(site)
       expect(lambda do
-        subject.generate(site)
+        site.config["github"]["url"]
       end).to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)
     end
   end

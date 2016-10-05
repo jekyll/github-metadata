@@ -22,7 +22,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Client) do
     expect(described_class.new({ :access_token => "" }).authenticated?).to be(false)
   end
 
-  it "raises an error with bad credentials" do
+  it "raises an error for any api call with bad credentials" do
     stub_request(:get, url("/user"))
       .with(:headers => request_headers.merge({
         "Authorization" => "token #{token}"
@@ -33,7 +33,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Client) do
         :body    => webmock_data("bad_credentials")
       )
     expect(lambda do
-      subject.check_credentials!
+      subject.user
     end).to raise_error(described_class::BadCredentialsError)
   end
 end

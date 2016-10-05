@@ -16,6 +16,7 @@ module Jekyll
         releases
         list_repos
         organization_public_members
+        user
       ))
 
       def initialize(options = nil)
@@ -60,10 +61,12 @@ module Jekyll
 
       def save_from_errors(default = false)
         yield @client
+      rescue Octokit::Unauthorized
+        raise BadCredentialsError, "The GitHub API credentials you provided aren't valid."
       rescue Faraday::Error::ConnectionFailed, Octokit::TooManyRequests => e
         Jekyll::GitHubMetadata.log :warn, e.message
         default
-      rescue Octokit::NotFound, Octokit::Unauthorized => e
+      rescue Octokit::NotFound => e
         Jekyll::GitHubMetadata.log :error, e.message
         default
       end
@@ -74,14 +77,6 @@ module Jekyll
 
       def authenticated?
         !@client.access_token.nil? && !@client.access_token.empty?
-      end
-
-      # Raise an error if credentials are provided and they cause a 401.
-      def check_credentials!
-        return unless authenticated?
-        @client.user
-      rescue Octokit::Unauthorized
-        raise BadCredentialsError, "The GitHub API credentials you provided aren't valid."
       end
 
       private
