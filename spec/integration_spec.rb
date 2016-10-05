@@ -10,30 +10,9 @@ RSpec.describe("integration into a jekyll site") do
     DEST_DIR.join(*files)
   end
 
-  API_STUBS = {
-    "/users/jekyll/repos?per_page=100&type=public"            => "owner_repos",
-    "/repos/jekyll/github-metadata"                           => "repo",
-    "/orgs/jekyll"                                            => "org",
-    "/orgs/jekyll/public_members?per_page=100"                => "org_members",
-    "/repos/jekyll/github-metadata/pages"                     => "repo_pages",
-    "/repos/jekyll/github-metadata/releases?per_page=100"     => "repo_releases",
-    "/repos/jekyll/github-metadata/contributors?per_page=100" => "repo_contributors",
-    "/repos/jekyll/jekyll.github.io"                          => "not_found",
-    "/repos/jekyll/jekyll.github.com"                         => "repo",
-    "/repos/jekyll/jekyll.github.com/pages"                   => "repo_pages",
-    "/repos/jekyll/jekyll.github.io/pages"                    => "repo_pages"
-  }.map { |path, file| ApiStub.new(path, file) }
+  let!(:stubs) { stub_all_api_requests }
 
   before(:each) do
-    # Reset some stuffs
-    ENV["NO_NETRC"] = "true"
-    ENV["JEKYLL_GITHUB_TOKEN"] = "1234abc"
-    ENV["PAGES_REPO_NWO"] = "jekyll/github-metadata"
-    ENV["PAGES_ENV"] = "dotcom"
-
-    # Stub Requests
-    API_STUBS.each { |stub| stub.stub = stub_api(stub.path, stub.file) }
-
     # Run Jekyll
     Jekyll.logger.log_level = :error
     Jekyll::Commands::Build.process({
@@ -89,8 +68,8 @@ RSpec.describe("integration into a jekyll site") do
   end
 
   it "calls all the stubs" do
-    API_STUBS.each do |stub|
-      expect(stub.stub).to have_been_requested
+    stubs.each do |stub|
+      expect(stub).to have_been_requested
     end
   end
 end

@@ -7,34 +7,20 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
   let(:source) { File.expand_path("../test-site", __FILE__) }
   let(:dest) { File.expand_path("../../tmp/test-site-build", __FILE__)}
   let(:user_config) { {} }
-  let(:configuration) do
-    merged_config = user_config.merge({source: source, dest: dest, quiet: true})
-    Jekyll.configuration(merged_config)
-  end
-  let(:site) { Jekyll::Site.new(configuration) }
+  let(:site) { Jekyll::Site.new(Jekyll::Configuration.from(user_config)) }
 
   it "is safe" do
     expect(described_class.safe).to be(true)
   end
 
   context "generating" do
-    before { stub_api("/repos/jekyll/github-metadata" , "repo") }
-    before { stub_api("/repos/jekyll/github-metadata/pages" , "repo_pages") }
-    before { stub_api("/repos/jekyll/jekyll.github.io" , "repo") }
-    before { stub_api("/repos/jekyll/jekyll.github.io/pages" , "repo_pages") }
-    before { stub_api("/repos/jekyll/jekyll.github.com" , "repo") }
-    before { stub_api("/repos/jekyll/jekyll.github.com/pages" , "repo_pages") }
-
-    before do
-      ENV["NO_NETRC"] = "true"
-      ENV["JEKYLL_GITHUB_TOKEN"] = "1234abc"
-      ENV["PAGES_REPO_NWO"] = "jekyll/github-metadata"
-      ENV["PAGES_ENV"] = "dotcom"
+    let!(:stubs) { stub_all_api_requests }
+    before(:each) do
+      subject.generate(site)
     end
-    before(:each) { site.process }
 
     context "with site.url set" do
-      let(:user_config) { { url: "http://example.com" } }
+      let(:user_config) { { "url" => "http://example.com" } }
 
       it "doesn't mangle site.url" do
         expect(site.config["url"]).to eql("http://example.com")
@@ -42,7 +28,7 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
     end
 
     context "with site.baseurl set" do
-      let(:user_config) { { baseurl: "/foo" } }
+      let(:user_config) { { "baseurl" => "/foo" } }
 
       it "doesn't mangle site.url" do
         expect(site.config["baseurl"]).to eql("/foo")
