@@ -1,5 +1,7 @@
 ## HEAD
 
+## 2.1.0 / 2016-10-05
+
 ### Major Enhancements
 
   * Set site.url and site.baseurl (#76)
