@@ -76,7 +76,7 @@ module Jekyll
       end
 
       def authenticated?
-        !@client.access_token.nil? && !@client.access_token.empty?
+        !@client.access_token.to_s.empty?
       end
 
       private
