@@ -5,7 +5,7 @@ require "jekyll-github-metadata/ghp_metadata_generator"
 RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
   subject { described_class.new }
   let(:source) { File.expand_path("../test-site", __FILE__) }
-  let(:dest) { File.expand_path("../../tmp/test-site-build", __FILE__)}
+  let(:dest) { File.expand_path("../../tmp/test-site-build", __FILE__) }
   let(:user_config) { {} }
   let(:site) { Jekyll::Site.new(Jekyll::Configuration.from(user_config)) }
 
@@ -16,7 +16,11 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
   context "generating" do
     let!(:stubs) { stub_all_api_requests }
     before(:each) do
+      ENV["JEKYLL_ENV"] = "production"
       subject.generate(site)
+    end
+    after(:each) do
+      ENV.delete("JEKYLL_ENV")
     end
 
     context "with site.url set" do

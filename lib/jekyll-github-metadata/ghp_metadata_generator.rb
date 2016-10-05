@@ -11,8 +11,14 @@ module Jekyll
         Jekyll::GitHubMetadata.log :debug, "Initializing..."
         @site = site
         site.config["github"] = github_namespace
-        site.config["url"] ||= drop.url
-        site.config["baseurl"] ||= drop.baseurl
+
+        # Set `site.url` and `site.baseurl` if unset and in production mode.
+        if Jekyll.env == "production"
+          site.config["url"] ||= drop.url
+          site.config["baseurl"] = drop.baseurl if site.config["baseurl"].to_s.empty?
+        end
+
+        @site = nil
       end
 
       private
