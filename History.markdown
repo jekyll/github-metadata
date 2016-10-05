@@ -2,9 +2,9 @@
 
 ### Major Enhancements
 
-  * Use localhost:4000 as the default pages host in development (#50)
-  * Default to development in dev (#49)
   * Set site.url and site.baseurl (#76)
+  * Use `localhost:4000` as the default pages host in development (#50)
+  * Default to development in dev (#49)
 
 ### Minor Enhancements
 
