@@ -52,14 +52,33 @@ module WebMockHelper
   end
 end
 
-class ApiStub
-  attr_reader :path, :file, :request_headers
-  attr_accessor :stub
+module StubHelper
+  include WebMockHelper
 
-  def initialize(path, file, req_headers = {})
-    @path = path
-    @file = file
-    @request_headers = req_headers || {}
+  # Returns all stubs created.
+  def stub_all_api_requests
+    reset_env_for_stubs
+    {
+      "/users/jekyll/repos?per_page=100&type=public"            => "owner_repos",
+      "/repos/jekyll/github-metadata"                           => "repo",
+      "/orgs/jekyll"                                            => "org",
+      "/orgs/jekyll/public_members?per_page=100"                => "org_members",
+      "/repos/jekyll/github-metadata/pages"                     => "repo_pages",
+      "/repos/jekyll/github-metadata/releases?per_page=100"     => "repo_releases",
+      "/repos/jekyll/github-metadata/contributors?per_page=100" => "repo_contributors",
+      "/repos/jekyll/jekyll.github.io"                          => "not_found",
+      "/repos/jekyll/jekyll.github.com"                         => "repo",
+      "/repos/jekyll/jekyll.github.com/pages"                   => "repo_pages",
+      "/repos/jekyll/jekyll.github.io/pages"                    => "repo_pages"
+    }.map { |path, file| stub_api(path, file) }
+  end
+
+  def reset_env_for_stubs
+    # Reset some stuffs
+    ENV["NO_NETRC"] = "true"
+    ENV["JEKYLL_GITHUB_TOKEN"] = "1234abc"
+    ENV["PAGES_REPO_NWO"] = "jekyll/github-metadata"
+    ENV["PAGES_ENV"] = "dotcom"
   end
 end
 
@@ -140,6 +159,7 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 
   config.include WebMockHelper
+  config.include StubHelper
   WebMock.enable!
   WebMock.disable_net_connect!
   config.include EnvHelper

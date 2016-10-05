@@ -4,13 +4,12 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
   let(:repo) { described_class.new(nwo) }
   before(:each) do
     ENV["JEKYLL_GITHUB_TOKEN"] = "allthespecs"
-    stub.stub = stub_api(stub.path, stub.file, stub.request_headers)
   end
 
   context "with the html_url preview API turned on" do
     let(:nwo) { "jekyll/jekyll" }
-    let(:stub) do
-      ApiStub.new(
+    let!(:stub) do
+      stub_api(
         "/repos/#{nwo}/pages",
         "jekyll_repo_pages",
         { "Accept" => "application/vnd.github.mister-fantastic-preview+json" }
@@ -37,8 +36,8 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
   end
 
   context "hubot.github.com" do
-    let(:nwo)  { "github/hubot.github.com" }
-    let(:stub) { ApiStub.new("/repos/#{nwo}/pages", "hubot_repo_pages") }
+    let(:nwo) { "github/hubot.github.com" }
+    let!(:stub) { stub_api("/repos/#{nwo}/pages", "hubot_repo_pages") }
 
     it "forces HTTPS for the URL" do
       expect(repo.html_url).to eql("https://hubot.github.com")
@@ -47,7 +46,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
 
   context "ben.balter.com" do
     let(:nwo) { "benbalter/benbalter.github.com" }
-    let(:stub) { ApiStub.new("/repos/#{nwo}/pages", "benbalter_repo_pages") }
+    let!(:stub) { stub_api("/repos/#{nwo}/pages", "benbalter_repo_pages") }
 
     it "returns the CNAME as its domain" do
       expect(repo.domain).to eql("ben.balter.com")
@@ -60,11 +59,15 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     it "uses Pages.scheme to determine scheme for domain" do
       expect(repo.html_url).to eql("http://ben.balter.com")
     end
+
+    it "parses the baseurl" do
+      expect(repo.baseurl).to eql("")
+    end
   end
 
   context "parkr.github.io" do
     let(:nwo) { "parkr/parkr.github.io" }
-    let(:stub) { ApiStub.new("/repos/#{nwo}/pages", "parkr_repo_pages") }
+    let!(:stub) { stub_api("/repos/#{nwo}/pages", "parkr_repo_pages") }
 
     it "returns the CNAME as its domain" do
       expect(repo.domain).to eql("parkermoore.de")
@@ -77,11 +80,15 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     it "uses Pages.scheme to determine scheme for domain" do
       expect(repo.html_url).to eql("http://parkermoore.de")
     end
+
+    it "parses the baseurl" do
+      expect(repo.baseurl).to eql("")
+    end
   end
 
   context "jldec.github.io" do
     let(:nwo) { "jldec/jldec.github.io" }
-    let(:stub) { ApiStub.new("/repos/#{nwo}/pages", "jldec_repo_pages") }
+    let!(:stub) { stub_api("/repos/#{nwo}/pages", "jldec_repo_pages") }
 
     it "returns the CNAME as its domain" do
       expect(repo.domain).to eql("jldec.github.io")
@@ -95,8 +102,12 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
       expect(repo.html_url).to eql("https://jldec.github.io")
     end
 
+    it "parses the baseurl" do
+      expect(repo.baseurl).to eql("")
+    end
+
     context "on enterprise" do
-      let(:stub) { ApiStub.new("/repos/#{nwo}/pages", "jldec_enterprise_repo_pages") }
+      let!(:stub) { stub_api("/repos/#{nwo}/pages", "jldec_enterprise_repo_pages") }
 
       it "uses Pages.scheme when SSL set to determine scheme for Pages URL" do
         # With SSL=true
@@ -109,6 +120,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("https")
           expect(repo.html_url).to eql("https://github.acme.com/pages/#{nwo}")
           expect(repo.url_scheme).to eql("https")
+          expect(repo.baseurl).to eql("/pages/#{nwo}")
         end
       end
 

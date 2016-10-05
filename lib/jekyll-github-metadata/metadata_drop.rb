@@ -60,6 +60,7 @@ module Jekyll
       def_delegator :repository, :project_page?,               :is_project_page
       def_delegator :repository, :show_downloads?,             :show_downloads
       def_delegator :repository, :html_url,                    :url
+      def_delegator :repository, :baseurl,                     :baseurl
       def_delegator :repository, :contributors,                :contributors
       def_delegator :repository, :releases,                    :releases
 

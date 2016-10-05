@@ -159,6 +159,10 @@ module Jekyll
         uri.scheme
       end
 
+      def baseurl
+        uri.path
+      end
+
       private
 
       def memoize_value(var_name, value)
