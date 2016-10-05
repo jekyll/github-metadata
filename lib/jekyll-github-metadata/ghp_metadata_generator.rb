@@ -10,9 +10,9 @@ module Jekyll
       def generate(site)
         Jekyll::GitHubMetadata.log :debug, "Initializing..."
         @site = site
-        site.config["github"]  = github_namespace
-        site.config["url"]     = drop.url if site.config["url"].nil?
-        site.config["baseurl"] = drop.baseurl if site.config["baseurl"].nil?
+        site.config["github"] = github_namespace
+        site.config["url"] ||= drop.url
+        site.config["baseurl"] ||= drop.baseurl
       end
 
       private
