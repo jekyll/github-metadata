@@ -3,5 +3,5 @@
 set -e
 
 script/test
-bundle exec rubocop -S -D
+script/fmt -S -D
 bundle exec gem build jekyll-github-metadata.gemspec
