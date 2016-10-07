@@ -12,21 +12,7 @@ module Jekyll
         Jekyll::GitHubMetadata.log :debug, "Initializing..."
         @site = site
         site.config["github"] = github_namespace
-
-        # Set `site.url` and `site.baseurl` if unset and in production mode.
-        if Jekyll.env == "production"
-          html_url = URI(drop.url)
-
-          # baseurl tho
-          if site.config["baseurl"].to_s.empty? && !["", "/"].include?(html_url.path)
-            site.config["baseurl"] = html_url.path
-          end
-
-          # remove path so URL doesn't have baseurl in it
-          html_url.path = ""
-          site.config["url"] ||= html_url.to_s
-        end
-
+        set_url_and_baseurl_fallbacks!
         @site = nil
       end
 
@@ -45,6 +31,22 @@ module Jekyll
 
       def drop
         @drop ||= MetadataDrop.new(site)
+      end
+
+      # Set `site.url` and `site.baseurl` if unset and in production mode.
+      def set_url_and_baseurl_fallbacks!
+        return unless Jekyll.env == "production"
+
+        parsed_url = URI(drop.url)
+
+        # baseurl tho
+        if site.config["baseurl"].to_s.empty? && !["", "/"].include?(parsed_url.path)
+          site.config["baseurl"] = parsed_url.path
+        end
+
+        # remove path so URL doesn't have baseurl in it
+        parsed_url.path = ""
+        site.config["url"] ||= parsed_url.to_s
       end
     end
   end
