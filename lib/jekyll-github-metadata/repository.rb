@@ -152,7 +152,7 @@ module Jekyll
       end
 
       def url_without_path
-        uri.dup.tap {|u| u.path = "" }.to_s
+        uri.dup.tap { |u| u.path = "" }.to_s
       end
 
       def domain
