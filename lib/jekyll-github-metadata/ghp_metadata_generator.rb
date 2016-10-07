@@ -37,16 +37,11 @@ module Jekyll
       def set_url_and_baseurl_fallbacks!
         return unless Jekyll.env == "production"
 
-        parsed_url = URI(drop.url)
-
-        # baseurl tho
-        if site.config["baseurl"].to_s.empty? && !["", "/"].include?(parsed_url.path)
-          site.config["baseurl"] = parsed_url.path
+        repo = drop.send(:repository)
+        site.config["url"] ||= repo.url_without_path
+        if site.config["baseurl"].to_s.empty? && !["", "/"].include?(repo.baseurl)
+          site.config["baseurl"] = repo.baseurl
         end
-
-        # remove path so URL doesn't have baseurl in it
-        parsed_url.path = ""
-        site.config["url"] ||= parsed_url.to_s
       end
     end
   end
