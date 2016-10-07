@@ -1,4 +1,5 @@
 require "jekyll"
+require "uri"
 
 module Jekyll
   module GitHubMetadata
@@ -11,13 +12,7 @@ module Jekyll
         Jekyll::GitHubMetadata.log :debug, "Initializing..."
         @site = site
         site.config["github"] = github_namespace
-
-        # Set `site.url` and `site.baseurl` if unset and in production mode.
-        if Jekyll.env == "production"
-          site.config["url"] ||= drop.url
-          site.config["baseurl"] = drop.baseurl if site.config["baseurl"].to_s.empty?
-        end
-
+        set_url_and_baseurl_fallbacks!
         @site = nil
       end
 
@@ -36,6 +31,17 @@ module Jekyll
 
       def drop
         @drop ||= MetadataDrop.new(site)
+      end
+
+      # Set `site.url` and `site.baseurl` if unset and in production mode.
+      def set_url_and_baseurl_fallbacks!
+        return unless Jekyll.env == "production"
+
+        repo = drop.send(:repository)
+        site.config["url"] ||= repo.url_without_path
+        if site.config["baseurl"].to_s.empty? && !["", "/"].include?(repo.baseurl)
+          site.config["baseurl"] = repo.baseurl
+        end
       end
     end
   end

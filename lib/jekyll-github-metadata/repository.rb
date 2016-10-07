@@ -151,6 +151,10 @@ module Jekyll
         @uri ||= URI(html_url)
       end
 
+      def url_without_path
+        uri.dup.tap { |u| u.path = "" }.to_s
+      end
+
       def domain
         uri.host
       end
