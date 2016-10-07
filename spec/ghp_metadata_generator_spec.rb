@@ -41,7 +41,7 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
 
     context "without site.url set" do
       it "sets site.url" do
-        expect(site.config["url"]).to eql("http://jekyll.github.io/github-metadata")
+        expect(site.config["url"]).to eql("http://jekyll.github.io")
       end
     end
 
