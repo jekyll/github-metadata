@@ -1,5 +1,9 @@
 ## HEAD
 
+### Bug Fixes
+
+  * Remove the `path` before setting `site.url` (#77)
+
 ## 2.1.0 / 2016-10-05
 
 ### Major Enhancements
