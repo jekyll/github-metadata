@@ -16,12 +16,12 @@ module Jekyll
         # Set `site.url` and `site.baseurl` if unset and in production mode.
         if Jekyll.env == "production"
           html_url = URI(drop.url)
-          
+
           # baseurl tho
           if site.config["baseurl"].to_s.empty? && !["", "/"].include?(html_url.path)
-            site.config["baseurl"] = html_url.path 
+            site.config["baseurl"] = html_url.path
           end
-          
+
           # remove path so URL doesn't have baseurl in it
           html_url.path = ""
           site.config["url"] ||= html_url.to_s
