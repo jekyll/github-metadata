@@ -13,12 +13,15 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
       site.config["github"] = subject
     end
 
-    it "renders as-is in Liquid" do
+    it "renders as a pretty JSON object in Liquid" do
+      require "json"
       payload = site.site_payload
       expect(payload["site"]["github"]).to be_instance_of(described_class)
-      template = Liquid::Template.parse("{{ site.github }}")
-      result = template.render!(payload, :registers => { :site => site })
-      expect(result).to eql(subject.to_s)
+      expect(
+        Liquid::Template.parse("{{ site.github }}").render!(
+          payload, :registers => { :site => site }
+        )
+      ).to eql(JSON.pretty_generate(subject.to_h))
     end
   end
 
