@@ -17,7 +17,7 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
       payload = site.site_payload
       expect(payload["site"]["github"]).to be_instance_of(described_class)
       template = Liquid::Template.parse("{{ site.github }}")
-      result = template.render!(payload, :registers => {:site => site})
+      result = template.render!(payload, :registers => { :site => site })
       expect(result).to eql(subject.to_s)
     end
   end

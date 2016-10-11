@@ -20,7 +20,7 @@ module Jekyll
       alias_method :to_str, :to_s
 
       def content_methods
-        super - ["to_s", "to_str"]
+        super - %w(to_s to_str)
       end
 
       def keys
