@@ -13,6 +13,16 @@ module Jekyll
         super(nil)
       end
 
+      def to_s
+        require "json"
+        JSON.pretty_generate to_h
+      end
+      alias_method :to_str, :to_s
+
+      def content_methods
+        super - ["to_s", "to_str"]
+      end
+
       def keys
         super.sort
       end

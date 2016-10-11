@@ -164,6 +164,10 @@ RSpec.configure do |config|
   WebMock.disable_net_connect!
   config.include EnvHelper
 
+  config.before(:all) do
+    FileUtils.mkdir_p("tmp")
+  end
+
   config.before(:each) do
     Jekyll::GitHubMetadata.reset!
     Jekyll::GitHubMetadata.logger = Logger.new(StringIO.new) unless ENV["DEBUG"]
