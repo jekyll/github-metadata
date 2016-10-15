@@ -1,3 +1,9 @@
+## HEAD
+
+### Bug Fixes
+
+* Add `MetadataDrop#to_s` which outputs pretty JSON representation (#78)
+
 ## 2.1.1 / 2016-10-07
 
 ### Bug Fixes
