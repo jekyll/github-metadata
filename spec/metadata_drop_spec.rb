@@ -2,9 +2,28 @@ require "spec_helper"
 
 RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
   let(:overrides) { { "repository" => "jekyll/another-repo" } }
-  let(:config) { Jekyll::Configuration::DEFAULTS.merge(overrides) }
+  let(:config) { Jekyll::Configuration.from(overrides) }
   let(:site) { Jekyll::Site.new config }
   subject { described_class.new(site) }
+
+  context "in Liquid" do
+    before(:each) do
+      stub_all_api_requests
+      site.config.delete("repository")
+      site.config["github"] = subject
+    end
+
+    it "renders as a pretty JSON object in Liquid" do
+      require "json"
+      payload = site.site_payload
+      expect(payload["site"]["github"]).to be_instance_of(described_class)
+      expect(
+        Liquid::Template.parse("{{ site.github }}").render!(
+          payload, :registers => { :site => site }
+        )
+      ).to eql(JSON.pretty_generate(subject.to_h))
+    end
+  end
 
   context "with no repository set" do
     before(:each) do
@@ -31,6 +50,11 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
       :ssh   => "git@github.com:foo/bar.git"
     }.each do |type, url|
       context "with a #{type} git URL" do
+        before(:each) do
+          site.config.delete("repository")
+          ENV["PAGES_REPO_NWO"] = nil
+        end
+
         it "parses the name with owner from the git URL" do
           allow(subject).to receive(:git_remote_url).and_return(url)
           expect(subject.send(:nwo, site)).to eql("foo/bar")
