@@ -44,9 +44,9 @@ module Jekyll
       end
 
       def build_revision
-        @build_revision ||= (
+        @build_revision ||= begin
           ENV["JEKYLL_BUILD_REVISION"] || `git rev-parse HEAD`.strip
-        )
+        end
       end
 
       def_delegator :repository, :owner_public_repositories,   :public_repositories
