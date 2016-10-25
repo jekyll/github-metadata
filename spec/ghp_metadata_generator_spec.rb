@@ -3,7 +3,6 @@ require "jekyll"
 require "jekyll-github-metadata/ghp_metadata_generator"
 
 RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
-<<<<<<< HEAD
   let(:source) { File.expand_path("../test-site", __FILE__) }
   let(:dest) { File.expand_path("../../tmp/test-site-build", __FILE__) }
   let(:user_config) { {} }
