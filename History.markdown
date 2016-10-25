@@ -1,14 +1,14 @@
-## HEAD
+## 2.2.0 / 2016-10-25
+
+### Minor Enhancements
+
+  * If a user provides bad credentials, throw an error. (#75)
 
 ### Bug Fixes
 
   * Add `MetadataDrop#to_s` which outputs pretty JSON representation (#78)
   * Lock Octokit to v4.3.0 (#79)
   * Revert "Lock Octokit to v4.3.0", but disallow v4.4.0 (#81)
-
-### Minor Enhancements
-
-  * If a user provides bad credentials, throw an error. (#75)
 
 ## 2.1.1 / 2016-10-07
 
