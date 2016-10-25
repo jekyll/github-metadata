@@ -2,7 +2,8 @@
 
 ### Bug Fixes
 
-* Add `MetadataDrop#to_s` which outputs pretty JSON representation (#78)
+  * Add `MetadataDrop#to_s` which outputs pretty JSON representation (#78)
+  * Lock Octokit to v4.3.0 (#79)
 
 ## 2.1.1 / 2016-10-07
 
