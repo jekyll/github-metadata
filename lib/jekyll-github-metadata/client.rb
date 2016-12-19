@@ -29,12 +29,20 @@ module Jekyll
         false
       end
 
+      def default_octokit_options
+        {
+          :api_endpoint  => Jekyll::GitHubMetadata::Pages.api_url,
+          :web_endpoint  => Jekyll::GitHubMetadata::Pages.github_url,
+          :auto_paginate => true
+        }
+      end
+
       def build_octokit_client(options = nil)
         options ||= {}
         unless options.key? :access_token
           options.merge! pluck_auth_method
         end
-        Octokit::Client.new({ :auto_paginate => true }.merge(options))
+        Octokit::Client.new(default_octokit_options.merge(options))
       end
 
       def accepts_client_method?(method_name)
