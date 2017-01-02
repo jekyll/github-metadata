@@ -99,7 +99,7 @@ module Jekyll
       end
 
       def git_ref
-        user_page? ? "master" : "gh-pages"
+        source["branch"] if source
       end
 
       def user_page?
@@ -141,6 +141,14 @@ module Jekyll
       def cname
         return nil unless Pages.custom_domains_enabled?
         repo_pages_info["cname"]
+      end
+
+      def source
+        if repo_pages_info["source"]
+          repo_pages_info["source"]
+        else
+          { "branch" => user_page? ? "master" : "gh-pages" }
+        end
       end
 
       def html_url
