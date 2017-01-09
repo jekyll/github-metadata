@@ -33,6 +33,10 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
         :accept => "application/vnd.github.mister-fantastic-preview+json"
       })
     end
+
+    it "respects the source branch" do
+      expect(repo.git_ref).to eql("master")
+    end
   end
 
   context "hubot.github.com" do
