@@ -1,3 +1,9 @@
+## HEAD
+
+### Minor Enhancements
+
+  * Respect source passed from the API (#85)
+
 ## 2.2.0 / 2016-10-25
 
 ### Minor Enhancements
