@@ -66,7 +66,6 @@ module Jekyll
         Jekyll::GitHubMetadata.log :warn, e.message
         default
       rescue Octokit::NotFound => e
-        Jekyll::GitHubMetadata.log :error, e.message
         default
       end
 
