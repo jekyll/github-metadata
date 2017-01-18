@@ -65,7 +65,7 @@ module Jekyll
       rescue Faraday::Error::ConnectionFailed, Octokit::TooManyRequests => e
         Jekyll::GitHubMetadata.log :warn, e.message
         default
-      rescue Octokit::NotFound => e
+      rescue Octokit::NotFound
         default
       end
 
