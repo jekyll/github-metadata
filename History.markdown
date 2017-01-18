@@ -1,3 +1,7 @@
+## HEAD
+
+  * Remove log on Octokit::NotFound (#86)
+
 ## 2.3.0 / 2017-01-09
 
 ### Minor Enhancements
