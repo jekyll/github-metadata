@@ -59,6 +59,8 @@ module Jekyll
       end
 
       def save_from_errors(default = false)
+        Jekyll::GitHubMetadata.log :warn, "No internet connection." unless internet_connected?
+        return default unless internet_connected?
         yield @client
       rescue Octokit::Unauthorized
         raise BadCredentialsError, "The GitHub API credentials you provided aren't valid."
@@ -70,11 +72,25 @@ module Jekyll
       end
 
       def inspect
-        "#<#{self.class.name} @client=#{client_inspect}>"
+        "#<#{self.class.name} @client=#{client_inspect} @internet_connected=#{internet_connected?}>"
       end
 
       def authenticated?
         !@client.access_token.to_s.empty?
+      end
+
+      def internet_connected?
+        return @internet_connected if defined?(@internet_connected)
+
+        require "resolv"
+        begin
+          Resolv::DNS.open do |dns|
+            dns.getaddress("api.github.com")
+          end
+          @internet_connected = true
+        rescue Resolv::ResolvError
+          @internet_connected = false
+        end
       end
 
       private
