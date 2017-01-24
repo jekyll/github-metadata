@@ -1,3 +1,9 @@
+## HEAD
+
+### Minor Enhancements
+
+  * Add .configuration and .page_build? methods to Pages (#89)
+
 ## 2.3.1 / 2017-01-18
 
   * Remove log on Octokit::NotFound (#86)
