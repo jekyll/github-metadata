@@ -14,6 +14,7 @@ module Jekyll
         pages
         contributors
         releases
+        latest_release
         list_repos
         organization_public_members
       ))

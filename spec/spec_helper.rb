@@ -69,7 +69,8 @@ module StubHelper
       "/repos/jekyll/jekyll.github.io"                          => "not_found",
       "/repos/jekyll/jekyll.github.com"                         => "repo",
       "/repos/jekyll/jekyll.github.com/pages"                   => "repo_pages",
-      "/repos/jekyll/jekyll.github.io/pages"                    => "repo_pages"
+      "/repos/jekyll/jekyll.github.io/pages"                    => "repo_pages",
+      "/repos/jekyll/github-metadata/releases/latest"           => "latest_release"
     }.map { |path, file| stub_api(path, file) }
   end
 

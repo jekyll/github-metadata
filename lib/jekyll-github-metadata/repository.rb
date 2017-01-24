@@ -64,6 +64,10 @@ module Jekyll
         "#{repository_url}/releases"
       end
 
+      def latest_release_url
+        latest_release["url"]
+      end
+
       def issues_url
         "#{repository_url}/issues" if repo_info["has_issues"]
       end
@@ -96,6 +100,10 @@ module Jekyll
 
       def releases
         memoize_value :@releases, Value.new(proc { |c| c.releases(nwo) })
+      end
+
+      def latest_release
+        memoize_value :@latest_release, Value.new(proc { |c| c.latest_release(nwo) })
       end
 
       def git_ref
