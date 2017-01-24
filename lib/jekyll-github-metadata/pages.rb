@@ -75,6 +75,12 @@ module Jekyll
           trim_last_slash env_var("PAGES_PAGES_HOSTNAME", intermediate_default)
         end
 
+        def configuration
+          (methods - Object.methods - [:configuration]).each_with_object({}) do |meth, memo|
+            memo[meth.to_s] = public_send(meth)
+          end
+        end
+
         private
         def env_var(key, intermediate_default = nil)
           !ENV[key].to_s.empty? ? ENV[key] : (intermediate_default || DEFAULTS[key])

@@ -26,6 +26,28 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
     end
   end
 
+  context ".configuration" do
+    it "returns the entire configuration" do
+      expect(described_class.configuration).to eql({
+        "api_url"                      => "https://api.github.com",
+        "custom_domains_enabled?"      => true,
+        "development?"                 => false,
+        "dotcom?"                      => false,
+        "enterprise?"                  => false,
+        "env"                          => "test",
+        "github_hostname"              => "github.com",
+        "github_url"                   => "https://github.com",
+        "help_url"                     => "https://help.github.com",
+        "pages_hostname"               => "github.io",
+        "repo_pages_html_url_preview?" => nil,
+        "scheme"                       => "https",
+        "ssl?"                         => true,
+        "subdomain_isolation?"         => false,
+        "test?"                        => true
+      })
+    end
+  end
+
   context ".env" do
     it "picks up on PAGES_ENV" do
       with_env("PAGES_ENV", "halp") do
