@@ -33,9 +33,9 @@ module Jekyll
         @drop ||= MetadataDrop.new(site)
       end
 
-      # Set `site.url` and `site.baseurl` if unset and in production mode.
+      # Set `site.url` and `site.baseurl` if unset.
       def set_url_and_baseurl_fallbacks!
-        return unless Jekyll.env == "production"
+        return unless Jekyll.env == "production" || Pages.page_build?
 
         repo = drop.send(:repository)
         site.config["url"] ||= repo.url_without_path

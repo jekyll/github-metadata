@@ -38,6 +38,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
         "github_hostname"              => "github.com",
         "github_url"                   => "https://github.com",
         "help_url"                     => "https://help.github.com",
+        "page_build?"                  => false,
         "pages_hostname"               => "github.io",
         "repo_pages_html_url_preview?" => nil,
         "scheme"                       => "https",
@@ -133,6 +134,18 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
       with_env "PAGES_ENV", "development" do
         expect(described_class.pages_hostname).to eql("localhost:4000")
       end
+    end
+  end
+
+  context ".page_build?" do
+    it "returns true when $PAGE_BUILD_ID is set" do
+      with_env "PAGE_BUILD_ID", "123" do
+        expect(described_class.page_build?).to be(true)
+      end
+    end
+
+    it "returns false by default" do
+      expect(described_class.page_build?).to be(false)
     end
   end
 end
