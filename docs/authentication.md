@@ -35,3 +35,8 @@ We use [Octokit](https://github.com/octokit/octokit.rb) to make the appropriate 
 ```bash
 $ OCTOKIT_ACCESS_TOKEN=123abc [bundle exec] jekyll serve
 ```
+
+## DotEnv
+
+Rather than prefixing your shell commands with the environmental variables all the time, you can use the
+[Dotenv](https://github.com/bkeepers/dotenv) gem. Simply install it by adding it to your Gemfile, then create a `.env` file and populate it with your `JEKYLL_GITHUB_TOKEN` or `OCTOKIT_ACCESS_TOKEN`. Be sure you do not commit your `.env` file!
