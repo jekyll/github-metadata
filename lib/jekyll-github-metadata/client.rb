@@ -16,6 +16,7 @@ module Jekyll
         releases
         list_repos
         organization_public_members
+        commits
       ))
 
       def initialize(options = nil)

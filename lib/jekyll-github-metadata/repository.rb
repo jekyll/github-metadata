@@ -98,6 +98,10 @@ module Jekyll
         memoize_value :@releases, Value.new(proc { |c| c.releases(nwo) })
       end
 
+      def commits
+        memoize_value :@commits, Value.new(proc { |c| c.commits(nwo) })
+      end
+
       def git_ref
         if repo_pages_info["source"]
           repo_pages_info["source"]["branch"]
