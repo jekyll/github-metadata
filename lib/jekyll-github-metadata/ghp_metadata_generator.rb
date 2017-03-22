@@ -9,11 +9,17 @@ module Jekyll
       attr_reader :site
 
       def generate(site)
+        if defined?(@_already_generated)
+          Jekyll::GitHubMetadata.log :debug, "Nothing left to do!"
+          return
+        end
+
         Jekyll::GitHubMetadata.log :debug, "Initializing..."
         @site = site
         site.config["github"] = github_namespace
         set_url_and_baseurl_fallbacks!
         @site = nil
+        @_already_generated = true # don't do this again.
       end
 
       private
