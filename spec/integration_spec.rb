@@ -1,6 +1,6 @@
 require "spec_helper"
 require "jekyll"
-require "jekyll-github-metadata/ghp_metadata_generator"
+require "jekyll-github-metadata/site_github_munger"
 
 RSpec.describe("integration into a jekyll site") do
   SOURCE_DIR = Pathname.new(File.expand_path("../test-site", __FILE__))
