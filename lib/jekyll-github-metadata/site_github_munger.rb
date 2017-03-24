@@ -18,7 +18,7 @@ module Jekyll
 
         # This is the good stuff.
         site.config["github"] = github_namespace(site)
-        set_url_and_baseurl_fallbacks(site)
+        add_url_and_baseurl_fallbacks(site)
 
         mark_already_generated(site)
       end
@@ -47,7 +47,7 @@ module Jekyll
       end
 
       # Set `site.url` and `site.baseurl` if unset.
-      def set_url_and_baseurl_fallbacks(site)
+      def add_url_and_baseurl_fallbacks(site)
         return unless Jekyll.env == "production" || Pages.page_build?
 
         repo = drop(site).send(:repository)
