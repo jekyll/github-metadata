@@ -18,7 +18,7 @@ RSpec.describe("integration into a jekyll site") do
     Jekyll::Commands::Build.process({
       "source"      => SOURCE_DIR.to_s,
       "destination" => DEST_DIR.to_s,
-      "gems"        => %w(jekyll-github-metadata)
+      "gems"        => %w(jekyll-github-metadata),
     })
   end
   subject { SafeYAML.load(dest_dir("rendered.txt").read) }
@@ -55,7 +55,7 @@ RSpec.describe("integration into a jekyll site") do
     "url"                  => "http://jekyll.github.io/github-metadata",
     "baseurl"              => "/github-metadata",
     "contributors"         => %r!"login"=>"parkr", "id"=>237985!,
-    "releases"             => %r!"tag_name"=>"v1.1.0"!
+    "releases"             => %r!"tag_name"=>"v1.1.0"!,
   }.each do |key, value|
     it "contains the correct #{key}" do
       expect(subject).to have_key(key)

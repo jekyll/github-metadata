@@ -47,7 +47,7 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
 
     {
       :https => "https://github.com/foo/bar",
-      :ssh   => "git@github.com:foo/bar.git"
+      :ssh   => "git@github.com:foo/bar.git",
     }.each do |type, url|
       context "with a #{type} git URL" do
         before(:each) do

@@ -11,7 +11,7 @@ module Jekyll
           "SSL"                    => "false".freeze,
           "SUBDOMAIN_ISOLATION"    => "false".freeze,
           "PAGES_PREVIEW_HTML_URL" => nil,
-          "PAGE_BUILD_ID"          => nil
+          "PAGE_BUILD_ID"          => nil,
         }.freeze
 
         # Whether the GitHub instance supports HTTPS

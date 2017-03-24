@@ -74,7 +74,7 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
       Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new({ :access_token => "1234abc" })
       stub_request(:get, url("/repos/jekyll/github-metadata/pages"))
         .with(:headers => request_headers.merge({
-          "Authorization" => "token 1234abc"
+          "Authorization" => "token 1234abc",
         }))
         .to_return(
           :status  => 401,
