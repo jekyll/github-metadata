@@ -87,9 +87,9 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
 
     it "handles periods in repo names" do
       allow(subject).to receive(:git_remote_url).and_return <<-EOS
-origin  https://github.com/afeld/hackerhours.org.git (fetch)
-origin  https://github.com/afeld/hackerhours.org.git (push)
-EOS
+  origin  https://github.com/afeld/hackerhours.org.git (fetch)
+  origin  https://github.com/afeld/hackerhours.org.git (push)
+  EOS
       expect(subject.send(:nwo_from_git_origin_remote)).to include("afeld/hackerhours.org")
     end
 
