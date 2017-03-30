@@ -3,54 +3,44 @@ require "uri"
 
 module Jekyll
   module GitHubMetadata
-    module SiteGitHubMunger
-      extend self
+    class SiteGitHubMunger
 
-      def already_generated?(site)
-        @already_generated ||= {}
-        @already_generated.key?(site.object_id)
+      attr_reader :site
+
+      def initialize(site)
+        @site = site
       end
 
-      def munge(site)
-        return if already_generated?(site)
-
+      def munge!
         Jekyll::GitHubMetadata.log :debug, "Initializing..."
 
         # This is the good stuff.
-        site.config["github"] = github_namespace(site)
-        add_url_and_baseurl_fallbacks(site)
-
-        mark_already_generated(site)
+        site.config["github"] = github_namespace
+        add_url_and_baseurl_fallbacks!
       end
 
       private
 
-      def mark_already_generated(site)
-        @already_generated ||= {}
-        @already_generated[site.object_id] = true
-      end
-
-      def github_namespace(site)
+      def github_namespace
         case site.config["github"]
         when nil
-          drop(site)
+          drop
         when Hash, Liquid::Drop
-          Jekyll::Utils.deep_merge_hashes(drop(site), site.config["github"])
+          Jekyll::Utils.deep_merge_hashes(drop, site.config["github"])
         else
           site.config["github"]
         end
       end
 
-      def drop(site)
-        @drop_cache ||= {}
-        @drop_cache[site.object_id] ||= MetadataDrop.new(site)
+      def drop
+        @drop ||= MetadataDrop.new(site)
       end
 
       # Set `site.url` and `site.baseurl` if unset.
-      def add_url_and_baseurl_fallbacks(site)
+      def add_url_and_baseurl_fallbacks!
         return unless Jekyll.env == "production" || Pages.page_build?
 
-        repo = drop(site).send(:repository)
+        repo = drop.send(:repository)
         site.config["url"] ||= repo.url_without_path
         if site.config["baseurl"].to_s.empty? && !["", "/"].include?(repo.baseurl)
           site.config["baseurl"] = repo.baseurl
@@ -60,6 +50,6 @@ module Jekyll
   end
 end
 
-Jekyll::Hooks.register :site, :after_reset do |site|
-  Jekyll::GitHubMetadata::SiteGitHubMunger.munge(site)
+Jekyll::Hooks.register :site, :after_init do |site|
+  Jekyll::GitHubMetadata::SiteGitHubMunger.new(site).munge!
 end

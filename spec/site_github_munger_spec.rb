@@ -7,12 +7,13 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
   let(:dest) { File.expand_path("../../tmp/test-site-build", __FILE__) }
   let(:user_config) { {} }
   let(:site) { Jekyll::Site.new(Jekyll::Configuration.from(user_config)) }
+  subject { described_class.new(site) }
 
   context "generating" do
     let!(:stubs) { stub_all_api_requests }
     before(:each) do
       ENV["JEKYLL_ENV"] = "production"
-      subject.munge(site)
+      subject.munge!
     end
     after(:each) do
       ENV.delete("JEKYLL_ENV")
@@ -54,12 +55,12 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
 
     it "does not fail upon call to #munge" do
       expect(lambda do
-        subject.munge(site)
+        subject.munge!
       end).not_to raise_error
     end
 
     it "sets the site.github config" do
-      subject.munge(site)
+      subject.munge!
       expect(site.config["github"]).to be_instance_of(Jekyll::GitHubMetadata::MetadataDrop)
     end
   end
@@ -79,7 +80,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
     end
 
     it "fails loudly upon call to any drop method" do
-      subject.munge(site)
+      subject.munge!
       expect(lambda do
         site.config["github"]["url"]
       end).to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)
