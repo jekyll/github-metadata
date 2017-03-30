@@ -4,7 +4,6 @@ require "uri"
 module Jekyll
   module GitHubMetadata
     class SiteGitHubMunger
-
       attr_reader :site
 
       def initialize(site)
@@ -51,5 +50,5 @@ module Jekyll
 end
 
 Jekyll::Hooks.register :site, :after_init do |site|
-  Jekyll::GitHubMetadata::SiteGitHubMunger.new(site).munge!
+  Jekyll::GitHubMetadata::SiteGitHubMunger.new(site).munge! unless Jekyll.env == "test"
 end

@@ -16,7 +16,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       subject.munge!
     end
     after(:each) do
-      ENV.delete("JEKYLL_ENV")
+      ENV["JEKYLL_ENV"] = "test"
     end
 
     context "with site.url set" do
