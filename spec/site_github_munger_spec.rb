@@ -15,9 +15,6 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       ENV["JEKYLL_ENV"] = "production"
       subject.munge!
     end
-    after(:each) do
-      ENV["JEKYLL_ENV"] = "test"
-    end
 
     context "with site.url set" do
       let(:user_config) { { "url" => "http://example.com" } }
