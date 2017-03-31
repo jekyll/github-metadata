@@ -24,8 +24,8 @@ module Jekyll
         case site.config["github"]
         when nil
           drop
-        when Hash, Liquid::Drop
-          Jekyll::Utils.deep_merge_hashes(drop, site.config["github"])
+        when Hash
+          Jekyll::Utils.deep_merge_hashes(site.config["github"], drop)
         else
           site.config["github"]
         end
