@@ -1,5 +1,7 @@
 ## HEAD
 
+  * Don't double-process the site.github namespace. (#95)
+
 ### Minor Enhancements
 
   * Add .configuration and .page_build? methods to Pages (#89)
