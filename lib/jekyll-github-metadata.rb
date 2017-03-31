@@ -30,7 +30,7 @@ module Jekyll
     autoload :VERSION,          "jekyll-github-metadata/version"
 
     if Jekyll.const_defined? :Site
-      require_relative "jekyll-github-metadata/ghp_metadata_generator"
+      require_relative "jekyll-github-metadata/site_github_munger"
     end
 
     class << self

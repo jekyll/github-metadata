@@ -3,17 +3,19 @@ require "uri"
 
 module Jekyll
   module GitHubMetadata
-    class GHPMetadataGenerator < Jekyll::Generator
-      safe true
-
+    class SiteGitHubMunger
       attr_reader :site
 
-      def generate(site)
-        Jekyll::GitHubMetadata.log :debug, "Initializing..."
+      def initialize(site)
         @site = site
+      end
+
+      def munge!
+        Jekyll::GitHubMetadata.log :debug, "Initializing..."
+
+        # This is the good stuff.
         site.config["github"] = github_namespace
-        set_url_and_baseurl_fallbacks!
-        @site = nil
+        add_url_and_baseurl_fallbacks!
       end
 
       private
@@ -22,8 +24,8 @@ module Jekyll
         case site.config["github"]
         when nil
           drop
-        when Hash, Liquid::Drop
-          Jekyll::Utils.deep_merge_hashes(drop, site.config["github"])
+        when Hash
+          Jekyll::Utils.deep_merge_hashes(site.config["github"], drop)
         else
           site.config["github"]
         end
@@ -34,7 +36,7 @@ module Jekyll
       end
 
       # Set `site.url` and `site.baseurl` if unset.
-      def set_url_and_baseurl_fallbacks!
+      def add_url_and_baseurl_fallbacks!
         return unless Jekyll.env == "production" || Pages.page_build?
 
         repo = drop.send(:repository)
@@ -45,4 +47,8 @@ module Jekyll
       end
     end
   end
+end
+
+Jekyll::Hooks.register :site, :after_init do |site|
+  Jekyll::GitHubMetadata::SiteGitHubMunger.new(site).munge! unless Jekyll.env == "test"
 end

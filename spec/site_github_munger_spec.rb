@@ -1,26 +1,19 @@
 require "spec_helper"
 require "jekyll"
-require "jekyll-github-metadata/ghp_metadata_generator"
+require "jekyll-github-metadata/site_github_munger"
 
-RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
+RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
   let(:source) { File.expand_path("../test-site", __FILE__) }
   let(:dest) { File.expand_path("../../tmp/test-site-build", __FILE__) }
   let(:user_config) { {} }
   let(:site) { Jekyll::Site.new(Jekyll::Configuration.from(user_config)) }
-  subject { site.generators.find { |k| k.instance_of?(described_class) } }
-
-  it "is safe" do
-    expect(described_class.safe).to be(true)
-  end
+  subject { described_class.new(site) }
 
   context "generating" do
     let!(:stubs) { stub_all_api_requests }
     before(:each) do
       ENV["JEKYLL_ENV"] = "production"
-      subject.generate(site)
-    end
-    after(:each) do
-      ENV.delete("JEKYLL_ENV")
+      subject.munge!
     end
 
     context "with site.url set" do
@@ -57,14 +50,14 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
       Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new({ :access_token => "" })
     end
 
-    it "does not fail upon call to #generate" do
+    it "does not fail upon call to #munge" do
       expect(lambda do
-        subject.generate(site)
+        subject.munge!
       end).not_to raise_error
     end
 
     it "sets the site.github config" do
-      subject.generate(site)
+      subject.munge!
       expect(site.config["github"]).to be_instance_of(Jekyll::GitHubMetadata::MetadataDrop)
     end
   end
@@ -84,7 +77,7 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
     end
 
     it "fails loudly upon call to any drop method" do
-      subject.generate(site)
+      subject.munge!
       expect(lambda do
         site.config["github"]["url"]
       end).to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)

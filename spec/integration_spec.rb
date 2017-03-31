@@ -1,6 +1,6 @@
 require "spec_helper"
 require "jekyll"
-require "jekyll-github-metadata/ghp_metadata_generator"
+require "jekyll-github-metadata/site_github_munger"
 
 RSpec.describe("integration into a jekyll site") do
   SOURCE_DIR = Pathname.new(File.expand_path("../test-site", __FILE__))
@@ -14,12 +14,18 @@ RSpec.describe("integration into a jekyll site") do
 
   before(:each) do
     # Run Jekyll
+    ENV.delete("JEKYLL_ENV")
+    ENV["PAGES_ENV"] = "dotcom"
     Jekyll.logger.log_level = :error
     Jekyll::Commands::Build.process({
       "source"      => SOURCE_DIR.to_s,
       "destination" => DEST_DIR.to_s,
       "gems"        => %w(jekyll-github-metadata),
     })
+  end
+  after(:each) do
+    ENV.delete("PAGES_ENV")
+    ENV["JEKYLL_ENV"] = "test"
   end
   subject { SafeYAML.load(dest_dir("rendered.txt").read) }
 

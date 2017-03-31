@@ -53,7 +53,9 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
         before(:each) do
           site.config.delete("repository")
           ENV["PAGES_REPO_NWO"] = nil
+          ENV.delete("JEKYLL_ENV")
         end
+        after(:each) { ENV["JEKYLL_ENV"] = "test" }
 
         it "parses the name with owner from the git URL" do
           allow(subject).to receive(:git_remote_url).and_return(url)
@@ -80,11 +82,14 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
   end
 
   context "when determining the nwo via git" do
+    before(:each) { ENV.delete("JEKYLL_ENV") }
+    after(:each) { ENV["JEKYLL_ENV"] = "test" }
+
     it "handles periods in repo names" do
       allow(subject).to receive(:git_remote_url).and_return <<-EOS
-origin  https://github.com/afeld/hackerhours.org.git (fetch)
-origin  https://github.com/afeld/hackerhours.org.git (push)
-EOS
+  origin  https://github.com/afeld/hackerhours.org.git (fetch)
+  origin  https://github.com/afeld/hackerhours.org.git (push)
+  EOS
       expect(subject.send(:nwo_from_git_origin_remote)).to include("afeld/hackerhours.org")
     end
 
