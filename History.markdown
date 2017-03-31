@@ -1,9 +1,8 @@
-## HEAD
-
-  * Don't double-process the site.github namespace. (#95)
+## 2.4.0 / 2017-03-30
 
 ### Minor Enhancements
 
+  * Don't double-process the site.github namespace. (#95)
   * Add .configuration and .page_build? methods to Pages (#89)
 
 ## 2.3.1 / 2017-01-18
