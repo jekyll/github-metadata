@@ -177,6 +177,10 @@ module Jekyll
         return instance_variable_get(var_name) if instance_variable_defined?(var_name)
         instance_variable_set(var_name, value.render)
       end
+      
+      def contributors
+        @contributors ||= (Value.new('contributors', proc { |c| c.contributors(nwo) }).render)
+      end
     end
   end
 end
