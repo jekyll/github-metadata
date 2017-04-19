@@ -49,6 +49,10 @@ module Jekyll
         end
       end
 
+      def build_describe
+        @build_describe ||= `git describe --always`.strip
+      end
+
       def_delegator :repository, :owner_public_repositories,   :public_repositories
       def_delegator :repository, :organization_public_members, :organization_members
       def_delegator :repository, :name,                        :project_title
