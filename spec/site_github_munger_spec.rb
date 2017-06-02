@@ -36,7 +36,15 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       let(:user_config) { { "baseurl" => "" } }
 
       it "doesn't mangle site.url" do
-        expect(site.config["baseurl"]).to eql("")
+        expect(site.config["baseurl"]).to eql("/github-metadata")
+      end
+    end
+
+    context "with site.baseurl set to '/'" do
+      let(:user_config) { { "baseurl" => "/" } }
+
+      it "mangles site.url" do
+        expect(site.config["baseurl"]).to eql("/github-metadata")
       end
     end
 
