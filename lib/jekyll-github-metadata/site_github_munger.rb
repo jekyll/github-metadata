@@ -41,7 +41,7 @@ module Jekyll
 
         repo = drop.send(:repository)
         site.config["url"] ||= repo.url_without_path
-        if site.config["baseurl"].to_s.empty? && !["", "/"].include?(repo.baseurl)
+        if site.config["baseurl"].nil? && !["", "/"].include?(repo.baseurl)
           site.config["baseurl"] = repo.baseurl
         end
       end
