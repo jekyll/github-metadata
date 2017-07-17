@@ -15,7 +15,10 @@ module Jekyll
 
         # This is the good stuff.
         site.config["github"] = github_namespace
+
+        return unless should_add_fallbacks?
         add_url_and_baseurl_fallbacks!
+        add_title_and_description_fallbacks!
       end
 
       private
@@ -37,13 +40,24 @@ module Jekyll
 
       # Set `site.url` and `site.baseurl` if unset.
       def add_url_and_baseurl_fallbacks!
-        return unless Jekyll.env == "production" || Pages.page_build?
-
         repo = drop.send(:repository)
         site.config["url"] ||= repo.url_without_path
         if site.config["baseurl"].to_s.empty? && !["", "/"].include?(repo.baseurl)
           site.config["baseurl"] = repo.baseurl
         end
+      end
+
+      def add_title_and_description_fallbacks!
+        site.config["title"] ||= repository.name
+        site.config["description"] ||= repository.tagline
+      end
+
+      def should_add_fallbacks?
+        Jekyll.env == "production" || Pages.page_build?
+      end
+
+      def repository
+        drop.send(:repository)
       end
     end
   end
