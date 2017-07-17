@@ -1,6 +1,7 @@
 ## HEAD
 
   * Set default site.title and site.description (#101)
+  * Modernize Travis configuration (#102)
 
 ## 2.4.0 / 2017-03-30
 
