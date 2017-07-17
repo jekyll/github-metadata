@@ -39,11 +39,19 @@ module Jekyll
       def add_url_and_baseurl_fallbacks!
         return unless Jekyll.env == "production" || Pages.page_build?
 
-        repo = drop.send(:repository)
-        site.config["url"] ||= repo.url_without_path
-        if site.config["baseurl"].to_s.empty? && !["", "/"].include?(repo.baseurl)
-          site.config["baseurl"] = repo.baseurl
-        end
+        site.config["url"] ||= repository.url_without_path
+        site.config["baseurl"] = repository.baseurl if should_set_baseurl?
+      end
+
+      # Set the baseurl only if it is `nil` or `/`
+      # Baseurls should never be "/". See http://bit.ly/2s1Srid
+      def should_set_baseurl?
+        return true if site.config["baseurl"].nil?
+        site.config["baseurl"] == "/"
+      end
+
+      def repository
+        drop.send(:repository)
       end
     end
   end
