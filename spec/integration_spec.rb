@@ -21,6 +21,7 @@ RSpec.describe("integration into a jekyll site") do
       "source"      => SOURCE_DIR.to_s,
       "destination" => DEST_DIR.to_s,
       "gems"        => %w(jekyll-github-metadata),
+      "plugins"     => %w(jekyll-github-metadata),
     })
   end
   after(:each) do
