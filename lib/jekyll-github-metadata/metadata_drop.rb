@@ -63,6 +63,7 @@ module Jekyll
       def_delegator :repository, :tar_url,                     :tar_url
       def_delegator :repository, :repo_clone_url,              :clone_url
       def_delegator :repository, :releases_url,                :releases_url
+      def_delegator :repository, :latest_release_url,          :latest_release_url
       def_delegator :repository, :issues_url,                  :issues_url
       def_delegator :repository, :wiki_url,                    :wiki_url
       def_delegator :repository, :language,                    :language
@@ -73,6 +74,7 @@ module Jekyll
       def_delegator :repository, :baseurl,                     :baseurl
       def_delegator :repository, :contributors,                :contributors
       def_delegator :repository, :releases,                    :releases
+      def_delegator :repository, :latest_release,              :latest_release
 
       private
       attr_reader :site
