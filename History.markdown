@@ -1,8 +1,10 @@
 ## HEAD
 
-  * Set default site.title and site.description (#101)
+## 2.5.0 / 2017-07-17
+
+  * Set default `site.title` and `site.description` (#101)
   * Modernize Travis configuration (#102)
-  * Allow user to set empty baseurl (#97)
+  * Allow user to set empty `baseurl` (#97)
   * add `latest_release` and `latest_release_url` (#88)
   * Make the Octokit client more configurable. (#84)
 
