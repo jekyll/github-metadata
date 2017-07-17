@@ -33,7 +33,7 @@ module Jekyll
         {
           :api_endpoint  => Jekyll::GitHubMetadata::Pages.api_url,
           :web_endpoint  => Jekyll::GitHubMetadata::Pages.github_url,
-          :auto_paginate => true
+          :auto_paginate => true,
         }
       end
 
