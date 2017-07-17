@@ -3,6 +3,7 @@
   * Set default site.title and site.description (#101)
   * Modernize Travis configuration (#102)
   * Allow user to set empty baseurl (#97)
+  * add `latest_release` and `latest_release_url` (#88)
 
 ## 2.4.0 / 2017-03-30
 
