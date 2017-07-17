@@ -25,7 +25,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Client) do
   it "raises an error for any api call with bad credentials" do
     stub_request(:get, url("/repos/jekyll/github-metadata/contributors?per_page=100"))
       .with(:headers => request_headers.merge({
-        "Authorization" => "token #{token}"
+        "Authorization" => "token #{token}",
       }))
       .to_return(
         :status  => 401,

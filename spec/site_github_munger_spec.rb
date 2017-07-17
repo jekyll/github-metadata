@@ -1,26 +1,19 @@
 require "spec_helper"
 require "jekyll"
-require "jekyll-github-metadata/ghp_metadata_generator"
+require "jekyll-github-metadata/site_github_munger"
 
-RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
+RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
   let(:source) { File.expand_path("../test-site", __FILE__) }
   let(:dest) { File.expand_path("../../tmp/test-site-build", __FILE__) }
   let(:user_config) { {} }
   let(:site) { Jekyll::Site.new(Jekyll::Configuration.from(user_config)) }
-  subject { site.generators.find { |k| k.instance_of?(described_class) } }
-
-  it "is safe" do
-    expect(described_class.safe).to be(true)
-  end
+  subject { described_class.new(site) }
 
   context "generating" do
     let!(:stubs) { stub_all_api_requests }
     before(:each) do
       ENV["JEKYLL_ENV"] = "production"
-      subject.generate(site)
-    end
-    after(:each) do
-      ENV.delete("JEKYLL_ENV")
+      subject.munge!
     end
 
     context "with site.url set" do
@@ -39,6 +32,22 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
       end
     end
 
+    context "with site.baseurl set to ''" do
+      let(:user_config) { { "baseurl" => "" } }
+
+      it "doesn't mangle site.baseurl" do
+        expect(site.config["baseurl"]).to eql("")
+      end
+    end
+
+    context "with site.baseurl set to '/'" do
+      let(:user_config) { { "baseurl" => "/" } }
+
+      it "mangles site.url" do
+        expect(site.config["baseurl"]).to eql("/github-metadata")
+      end
+    end
+
     context "without site.url set" do
       it "sets site.url" do
         expect(site.config["url"]).to eql("http://jekyll.github.io")
@@ -50,6 +59,24 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
         expect(site.config["baseurl"]).to eql("/github-metadata")
       end
     end
+
+    context "title and description" do
+      context "with title and description set" do
+        let(:user_config) do
+          { "title" => "My title", "description" => "My description" }
+        end
+
+        it "respects the title and tagline" do
+          expect(site.config["title"]).to eql("My title")
+          expect(site.config["description"]).to eql("My description")
+        end
+      end
+
+      it "sets the title and description" do
+        expect(site.config["title"]).to eql("github-metadata")
+        expect(site.config["description"]).to eql(":octocat: `site.github`")
+      end
+    end
   end
 
   context "with a client with no credentials" do
@@ -57,14 +84,14 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
       Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new({ :access_token => "" })
     end
 
-    it "does not fail upon call to #generate" do
+    it "does not fail upon call to #munge" do
       expect(lambda do
-        subject.generate(site)
+        subject.munge!
       end).not_to raise_error
     end
 
     it "sets the site.github config" do
-      subject.generate(site)
+      subject.munge!
       expect(site.config["github"]).to be_instance_of(Jekyll::GitHubMetadata::MetadataDrop)
     end
   end
@@ -74,7 +101,7 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
       Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new({ :access_token => "1234abc" })
       stub_request(:get, url("/repos/jekyll/github-metadata/pages"))
         .with(:headers => request_headers.merge({
-          "Authorization" => "token 1234abc"
+          "Authorization" => "token 1234abc",
         }))
         .to_return(
           :status  => 401,
@@ -84,7 +111,7 @@ RSpec.describe(Jekyll::GitHubMetadata::GHPMetadataGenerator) do
     end
 
     it "fails loudly upon call to any drop method" do
-      subject.generate(site)
+      subject.munge!
       expect(lambda do
         site.config["github"]["url"]
       end).to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)

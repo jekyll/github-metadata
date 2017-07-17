@@ -1,6 +1,6 @@
 require "spec_helper"
 require "jekyll"
-require "jekyll-github-metadata/ghp_metadata_generator"
+require "jekyll-github-metadata/site_github_munger"
 
 RSpec.describe("integration into a jekyll site") do
   SOURCE_DIR = Pathname.new(File.expand_path("../test-site", __FILE__))
@@ -14,12 +14,19 @@ RSpec.describe("integration into a jekyll site") do
 
   before(:each) do
     # Run Jekyll
+    ENV.delete("JEKYLL_ENV")
+    ENV["PAGES_ENV"] = "dotcom"
     Jekyll.logger.log_level = :error
     Jekyll::Commands::Build.process({
       "source"      => SOURCE_DIR.to_s,
       "destination" => DEST_DIR.to_s,
-      "gems"        => %w(jekyll-github-metadata)
+      "gems"        => %w(jekyll-github-metadata),
+      "plugins"     => %w(jekyll-github-metadata),
     })
+  end
+  after(:each) do
+    ENV.delete("PAGES_ENV")
+    ENV["JEKYLL_ENV"] = "test"
   end
   subject { SafeYAML.load(dest_dir("rendered.txt").read) }
 
@@ -55,7 +62,7 @@ RSpec.describe("integration into a jekyll site") do
     "url"                  => "http://jekyll.github.io/github-metadata",
     "baseurl"              => "/github-metadata",
     "contributors"         => %r!"login"=>"parkr", "id"=>237985!,
-    "releases"             => %r!"tag_name"=>"v1.1.0"!
+    "releases"             => %r!"tag_name"=>"v1.1.0"!,
   }.each do |key, value|
     it "contains the correct #{key}" do
       expect(subject).to have_key(key)

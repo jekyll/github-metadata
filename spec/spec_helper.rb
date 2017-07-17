@@ -9,14 +9,14 @@ module WebMockHelper
     "Accept"          => "application/vnd.github.v3+json",
     "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
     "Content-Type"    => "application/json",
-    "User-Agent"      => "Octokit Ruby Gem #{Octokit::VERSION}"
+    "User-Agent"      => "Octokit Ruby Gem #{Octokit::VERSION}",
   }.freeze
   RESPONSE_HEADERS = {
     "Transfer-Encoding"   => "chunked",
     "Content-Type"        => "application/json; charset=utf-8",
     "Vary"                => "Accept-Encoding",
     "Content-Encoding"    => "gzip",
-    "X-GitHub-Media-Type" => "github.v3; format=json"
+    "X-GitHub-Media-Type" => "github.v3; format=json",
   }.freeze
 
   def stub_api(path, filename, req_headers = {})
@@ -37,7 +37,7 @@ module WebMockHelper
 
   def request_headers
     REQUEST_HEADERS.merge({
-      "Authorization" => "token #{ENV.fetch("JEKYLL_GITHUB_TOKEN", "1234abc")}"
+      "Authorization" => "token #{ENV.fetch("JEKYLL_GITHUB_TOKEN", "1234abc")}",
     })
   end
 
@@ -172,5 +172,8 @@ RSpec.configure do |config|
   config.before(:each) do
     Jekyll::GitHubMetadata.reset!
     Jekyll::GitHubMetadata.logger = Logger.new(StringIO.new) unless ENV["DEBUG"]
+    ENV.delete("JEKYLL_ENV")
+    ENV["PAGES_ENV"] = "test"
+    ENV["PAGES_REPO_NWO"] = nil
   end
 end

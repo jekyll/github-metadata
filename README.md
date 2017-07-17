@@ -22,7 +22,7 @@ gems: ['jekyll-github-metadata']
 Then go ahead and run `bundle install`. Once you've done that jekyll-github-metadata will run when you run Jekyll.
 
 In order for jekyll-github-metadata to know what metadata to fetch it must
-be able to determine the repository to ask GitHub about.
+be able to determine the repository NWO (name with owner, e.g. `jekyll/jekyll-github-metadata`) to ask GitHub about.
 
 The easiest way to accomplish this is by setting an "origin" remote with a
 github.com URL. If you ran `git clone` from GitHub, this is almost 100% the
@@ -52,7 +52,15 @@ made.
 
 ## Authentication
 
-For some fields, like `cname`, you need to authenticate yourself. Luckily it's pretty easy. You have 2 options:
+For some fields, like `cname`, you need to authenticate yourself. Luckily it's pretty easy. First, you need to generate a personal access token (an oauth token will work too but it's good to have a token for each purpose so you can revoke them later without breaking everything):
+
+To generate a new personal access token on GitHub.com:
+
+- Open https://github.com/settings/tokens/new
+- Select the scope *public_repository*, and add a description.
+- Confirm and save the settings. Copy the token you see on the page.
+
+Once you have your token, you have three ways to pass it to this program:
 
 ### 1. `JEKYLL_GITHUB_TOKEN`
 
