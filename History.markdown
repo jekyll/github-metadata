@@ -1,3 +1,7 @@
+## HEAD
+
+  * Set default site.title and site.description (#101)
+
 ## 2.4.0 / 2017-03-30
 
 ### Minor Enhancements
