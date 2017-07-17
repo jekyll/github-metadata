@@ -99,7 +99,7 @@ module Jekyll
       end
 
       def nwo_from_git_origin_remote
-        return unless Jekyll.env == "development"
+        return unless Jekyll.env == "development" || Jekyll.env == "test"
         matches = git_remote_url.chomp(".git").match %r!github.com(:|/)([\w-]+)/([\w\.-]+)!
         matches[2..3].join("/") if matches
       end

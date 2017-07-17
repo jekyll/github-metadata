@@ -59,7 +59,7 @@ RSpec.describe(Jekyll::GitHubMetadata::RepositoryCompat) do
         # With SSL=true
         with_env({
           "PAGES_ENV" => "enterprise",
-          "SSL"       => "true"
+          "SSL"       => "true",
         }) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(true)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("https")
@@ -68,7 +68,7 @@ RSpec.describe(Jekyll::GitHubMetadata::RepositoryCompat) do
 
         # With no SSL
         with_env({
-          "PAGES_ENV" => "enterprise"
+          "PAGES_ENV" => "enterprise",
         }) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(false)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("http")

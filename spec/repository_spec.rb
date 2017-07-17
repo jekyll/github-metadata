@@ -30,8 +30,12 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
 
     it "uses the preview accept header" do
       expect(repo.repo_pages_info_opts).to eql({
-        :accept => "application/vnd.github.mister-fantastic-preview+json"
+        :accept => "application/vnd.github.mister-fantastic-preview+json",
       })
+    end
+
+    it "respects the source branch" do
+      expect(repo.git_ref).to eql("master")
     end
   end
 
@@ -114,7 +118,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
         with_env({
           "PAGES_ENV"             => "enterprise",
           "SSL"                   => "true",
-          "PAGES_GITHUB_HOSTNAME" => "github.acme.com"
+          "PAGES_GITHUB_HOSTNAME" => "github.acme.com",
         }) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(true)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("https")
@@ -127,7 +131,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
       it "uses Pages.scheme when SSL not set to determine scheme for Pages URL" do
         with_env({
           "PAGES_ENV"             => "enterprise",
-          "PAGES_GITHUB_HOSTNAME" => "github.acme.com"
+          "PAGES_GITHUB_HOSTNAME" => "github.acme.com",
         }) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(false)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("http")

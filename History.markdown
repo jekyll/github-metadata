@@ -1,3 +1,26 @@
+## HEAD
+
+  * Set default site.title and site.description (#101)
+  * Modernize Travis configuration (#102)
+  * Allow user to set empty baseurl (#97)
+
+## 2.4.0 / 2017-03-30
+
+### Minor Enhancements
+
+  * Don't double-process the site.github namespace. (#95)
+  * Add .configuration and .page_build? methods to Pages (#89)
+
+## 2.3.1 / 2017-01-18
+
+  * Remove log on Octokit::NotFound (#86)
+
+## 2.3.0 / 2017-01-09
+
+### Minor Enhancements
+
+  * Respect source passed from the API (#85)
+
 ## 2.2.0 / 2016-10-25
 
 ### Minor Enhancements

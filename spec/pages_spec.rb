@@ -26,6 +26,29 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
     end
   end
 
+  context ".configuration" do
+    it "returns the entire configuration" do
+      expect(described_class.configuration).to eql({
+        "api_url"                      => "https://api.github.com",
+        "custom_domains_enabled?"      => true,
+        "development?"                 => false,
+        "dotcom?"                      => false,
+        "enterprise?"                  => false,
+        "env"                          => "test",
+        "github_hostname"              => "github.com",
+        "github_url"                   => "https://github.com",
+        "help_url"                     => "https://help.github.com",
+        "page_build?"                  => false,
+        "pages_hostname"               => "github.io",
+        "repo_pages_html_url_preview?" => nil,
+        "scheme"                       => "https",
+        "ssl?"                         => true,
+        "subdomain_isolation?"         => false,
+        "test?"                        => true,
+      })
+    end
+  end
+
   context ".env" do
     it "picks up on PAGES_ENV" do
       with_env("PAGES_ENV", "halp") do
@@ -85,7 +108,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
     it "is true in PAGES_ENV=test" do
       with_env({
         "PAGES_ENV" => "test",
-        "SSL"       => "false"
+        "SSL"       => "false",
       }) do
         expect(described_class.ssl?).to be true
       end
@@ -111,6 +134,18 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
       with_env "PAGES_ENV", "development" do
         expect(described_class.pages_hostname).to eql("localhost:4000")
       end
+    end
+  end
+
+  context ".page_build?" do
+    it "returns true when $PAGE_BUILD_ID is set" do
+      with_env "PAGE_BUILD_ID", "123" do
+        expect(described_class.page_build?).to be(true)
+      end
+    end
+
+    it "returns false by default" do
+      expect(described_class.page_build?).to be(false)
     end
   end
 end

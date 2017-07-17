@@ -99,7 +99,11 @@ module Jekyll
       end
 
       def git_ref
-        user_page? ? "master" : "gh-pages"
+        if repo_pages_info["source"]
+          repo_pages_info["source"]["branch"]
+        else
+          user_page? ? "master" : "gh-pages"
+        end
       end
 
       def user_page?
