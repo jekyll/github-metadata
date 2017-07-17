@@ -1,6 +1,10 @@
 inherit_gem:
   jekyll: .rubocop.yml
 
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+
 Metrics/LineLength:
   Enabled: false
 
