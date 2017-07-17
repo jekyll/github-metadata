@@ -4,6 +4,7 @@
   * Modernize Travis configuration (#102)
   * Allow user to set empty baseurl (#97)
   * add `latest_release` and `latest_release_url` (#88)
+  * Make the Octokit client more configurable. (#84)
 
 ## 2.4.0 / 2017-03-30
 
