@@ -59,6 +59,24 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
         expect(site.config["baseurl"]).to eql("/github-metadata")
       end
     end
+
+    context "title and description" do
+      context "with title and description set" do
+        let(:user_config) do
+          { "title" => "My title", "description" => "My description" }
+        end
+
+        it "respects the title and tagline" do
+          expect(site.config["title"]).to eql("My title")
+          expect(site.config["description"]).to eql("My description")
+        end
+      end
+
+      it "sets the title and description" do
+        expect(site.config["title"]).to eql("github-metadata")
+        expect(site.config["description"]).to eql(":octocat: `site.github`")
+      end
+    end
   end
 
   context "with a client with no credentials" do
