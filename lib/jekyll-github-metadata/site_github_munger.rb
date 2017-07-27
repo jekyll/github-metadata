@@ -41,8 +41,9 @@ module Jekyll
 
       # Set `site.url` and `site.baseurl` if unset.
       def add_url_and_baseurl_fallbacks!
-        site.config["url"] ||= Value.new(proc { |_c, r| r.url_without_path })
-        site.config["baseurl"] = Value.new(proc { |_c, r| r.baseurl }) if should_set_baseurl?
+        site.config["url"] ||= Value.new("url", proc { |_c, r| r.url_without_path })
+        return unless should_set_baseurl?
+        site.config["baseurl"] = Value.new("baseurl", proc { |_c, r| r.baseurl })
       end
 
       # Set the baseurl only if it is `nil` or `/`
@@ -52,8 +53,8 @@ module Jekyll
       end
 
       def add_title_and_description_fallbacks!
-        site.config["title"] ||= Value.new(proc { |_c, r| r.name })
-        site.config["description"] ||= Value.new(proc { |_c, r| r.tagline })
+        site.config["title"] ||= Value.new("title", proc { |_c, r| r.name })
+        site.config["description"] ||= Value.new("description", proc { |_c, r| r.tagline })
       end
 
       def should_add_url_fallbacks?
