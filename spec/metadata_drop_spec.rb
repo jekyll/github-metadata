@@ -5,11 +5,10 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
   let(:config) { Jekyll::Configuration.from(overrides) }
   let(:site) { Jekyll::Site.new config }
   subject { described_class.new(site) }
-  before { stub_all_api_requests }
-  before { stub_api "/repos/jekyll/another-repo", "repo" }
 
   context "in Liquid" do
     before(:each) do
+      stub_all_api_requests
       site.config.delete("repository")
       site.config["github"] = subject
     end
@@ -68,7 +67,6 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
 
   context "with PAGES_REPO_NWO and site.repository set" do
     before(:each) { ENV["PAGES_REPO_NWO"] = "jekyll/some-repo" }
-    before { stub_api "/repos/jekyll/some-repo", "repo" }
 
     it "uses the value from PAGES_REPO_NWO" do
       expect(subject.send(:nwo, site)).to eql("jekyll/some-repo")

@@ -8,10 +8,9 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
   let(:user_config) { {} }
   let(:site) { Jekyll::Site.new(Jekyll::Configuration.from(user_config)) }
   subject { described_class.new(site) }
-  before { stub_all_api_requests }
-  before { stub_api "/repos/jekyll/another-repo", "repo" }
 
   context "generating" do
+    let!(:stubs) { stub_all_api_requests }
     before(:each) do
       ENV["JEKYLL_ENV"] = "production"
       subject.munge!
@@ -51,7 +50,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
 
     context "without site.url set" do
       it "sets site.url" do
-        expect(site.config["url"]).to eql("http://jekyll.github.io")
+        expect(site.config["url"].to_s).to eql("http://jekyll.github.io")
       end
     end
 
@@ -68,14 +67,14 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
         end
 
         it "respects the title and tagline" do
-          expect(site.config["title"]).to eql("My title")
-          expect(site.config["description"]).to eql("My description")
+          expect(site.config["title"].to_s).to eql("My title")
+          expect(site.config["description"].to_s).to eql("My description")
         end
       end
 
       it "sets the title and description" do
-        expect(site.config["title"]).to eql("github-metadata")
-        expect(site.config["description"]).to eql(":octocat: `site.github`")
+        expect(site.config["title"].to_s).to eql("github-metadata")
+        expect(site.config["description"].to_s).to eql(":octocat: `site.github`")
       end
     end
   end
@@ -83,10 +82,6 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
   context "with a client with no credentials" do
     before(:each) do
       Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new({ :access_token => "" })
-    end
-    before do
-      headers = { "Authorization"=>"token" }
-      stub_api "/repos/jekyll/github-metadata", "repo", headers
     end
 
     it "does not fail upon call to #munge" do

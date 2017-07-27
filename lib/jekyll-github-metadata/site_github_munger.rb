@@ -39,7 +39,7 @@ module Jekyll
 
       # Set `site.url` and `site.baseurl` if unset.
       def add_url_and_baseurl_fallbacks!
-        site.config["url"] ||= repository.url_without_path
+        site.config["url"] ||= Value.new(proc { repository.url_without_path })
         site.config["baseurl"] = repository.baseurl if should_set_baseurl?
       end
 
@@ -50,8 +50,8 @@ module Jekyll
       end
 
       def add_title_and_description_fallbacks!
-        site.config["title"] ||= repository.name
-        site.config["description"] ||= repository.tagline
+        site.config["title"] ||= Value.new(proc { repository.name })
+        site.config["description"] ||= Value.new(proc { repository.tagline })
       end
 
       def should_add_url_fallbacks?
