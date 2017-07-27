@@ -1,5 +1,9 @@
 ## HEAD
 
+### Minor Enhancements
+
+  * Expose repo visibility (#105)
+
 ## 2.5.0 / 2017-07-17
 
   * Set default `site.title` and `site.description` (#101)
