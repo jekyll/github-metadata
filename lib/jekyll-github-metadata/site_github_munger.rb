@@ -16,9 +16,8 @@ module Jekyll
         # This is the good stuff.
         site.config["github"] = github_namespace
 
-        return unless should_add_fallbacks?
-        add_url_and_baseurl_fallbacks!
         add_title_and_description_fallbacks!
+        add_url_and_baseurl_fallbacks! if should_add_url_fallbacks?
       end
 
       private
@@ -55,7 +54,7 @@ module Jekyll
         site.config["description"] ||= repository.tagline
       end
 
-      def should_add_fallbacks?
+      def should_add_url_fallbacks?
         Jekyll.env == "production" || Pages.page_build?
       end
 

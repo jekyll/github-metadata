@@ -8,9 +8,10 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
   let(:user_config) { {} }
   let(:site) { Jekyll::Site.new(Jekyll::Configuration.from(user_config)) }
   subject { described_class.new(site) }
+  before { stub_all_api_requests }
+  before { stub_api "/repos/jekyll/another-repo", "repo" }
 
   context "generating" do
-    let!(:stubs) { stub_all_api_requests }
     before(:each) do
       ENV["JEKYLL_ENV"] = "production"
       subject.munge!
@@ -82,6 +83,10 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
   context "with a client with no credentials" do
     before(:each) do
       Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new({ :access_token => "" })
+    end
+    before do
+      headers = { "Authorization"=>"token" }
+      stub_api "/repos/jekyll/github-metadata", "repo", headers
     end
 
     it "does not fail upon call to #munge" do

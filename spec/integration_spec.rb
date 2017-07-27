@@ -12,7 +12,7 @@ RSpec.describe("integration into a jekyll site") do
 
   let!(:stubs) { stub_all_api_requests }
 
-  before(:each) do
+  before do
     # Run Jekyll
     ENV.delete("JEKYLL_ENV")
     ENV["PAGES_ENV"] = "dotcom"
@@ -24,7 +24,7 @@ RSpec.describe("integration into a jekyll site") do
       "plugins"     => %w(jekyll-github-metadata),
     })
   end
-  after(:each) do
+  after do
     ENV.delete("PAGES_ENV")
     ENV["JEKYLL_ENV"] = "test"
   end
