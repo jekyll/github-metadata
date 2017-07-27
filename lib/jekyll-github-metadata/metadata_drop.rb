@@ -9,7 +9,7 @@ module Jekyll
       mutable true
 
       def initialize(site = nil)
-        GitHubMetadata.site = site
+        GitHubMetadata.site = site unless site.nil?
         super(nil)
       end
 
