@@ -24,6 +24,7 @@ module Jekyll
     autoload :MetadataDrop,     "jekyll-github-metadata/metadata_drop"
     autoload :Pages,            "jekyll-github-metadata/pages"
     autoload :Repository,       "jekyll-github-metadata/repository"
+    autoload :RepositoryFinder, "jekyll-github-metadata/repository_finder"
     autoload :RepositoryCompat, "jekyll-github-metadata/repository_compat"
     autoload :Sanitizer,        "jekyll-github-metadata/sanitizer"
     autoload :Value,            "jekyll-github-metadata/value"
@@ -34,7 +35,7 @@ module Jekyll
     end
 
     class << self
-      attr_accessor :repository
+      attr_accessor :site
       attr_writer :client, :logger
 
       def environment
@@ -61,9 +62,18 @@ module Jekyll
         @client ||= Client.new
       end
 
+      def repository
+        @repository ||= GitHubMetadata::Repository.new(nwo).tap do |repo|
+          Jekyll::GitHubMetadata.log :debug, "Generating for #{repo.nwo}"
+        end
+      end
+
+      def nwo
+        @nwo ||= GitHubMetadata::RepositoryFinder.nwo
+      end
+
       def reset!
-        @logger = nil
-        @client = nil
+        @logger = @client = @repository = @nwo = @site = nil
       end
     end
   end

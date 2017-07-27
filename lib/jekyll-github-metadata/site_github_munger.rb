@@ -4,15 +4,16 @@ require "uri"
 module Jekyll
   module GitHubMetadata
     class SiteGitHubMunger
-      attr_reader :site
+      extend Forwardable
+
+      def_delegators :"Jekyll::GitHubMetadata", :site, :repository
 
       def initialize(site)
-        @site = site
+        Jekyll::GitHubMetadata.site = site
       end
 
       def munge!
         Jekyll::GitHubMetadata.log :debug, "Initializing..."
-        Jekyll::GitHubMetadata.repository = repository
 
         # This is the good stuff.
         site.config["github"] = github_namespace
@@ -57,10 +58,6 @@ module Jekyll
 
       def should_add_url_fallbacks?
         Jekyll.env == "production" || Pages.page_build?
-      end
-
-      def repository
-        drop.send(:repository)
       end
     end
   end

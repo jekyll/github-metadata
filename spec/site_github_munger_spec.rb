@@ -13,6 +13,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
     let!(:stubs) { stub_all_api_requests }
     before(:each) do
       ENV["JEKYLL_ENV"] = "production"
+      Jekyll::GitHubMetadata.instance_variable_set "@repository", nil
       subject.munge!
     end
 
@@ -113,7 +114,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
     it "fails loudly upon call to any drop method" do
       subject.munge!
       expect(lambda do
-        site.config["github"]["url"]
+        puts site.config["github"]["url"].inspect
       end).to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)
     end
   end
