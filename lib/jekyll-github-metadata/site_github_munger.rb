@@ -12,6 +12,7 @@ module Jekyll
 
       def munge!
         Jekyll::GitHubMetadata.log :debug, "Initializing..."
+        Jekyll::GitHubMetadata.repository = repository
 
         # This is the good stuff.
         site.config["github"] = github_namespace
@@ -39,8 +40,8 @@ module Jekyll
 
       # Set `site.url` and `site.baseurl` if unset.
       def add_url_and_baseurl_fallbacks!
-        site.config["url"] ||= Value.new(proc { repository.url_without_path })
-        site.config["baseurl"] = Value.new(proc { repository.baseurl }) if should_set_baseurl?
+        site.config["url"] ||= Value.new(proc { |_c, r| r.url_without_path })
+        site.config["baseurl"] = Value.new(proc { |_c, r| r.baseurl }) if should_set_baseurl?
       end
 
       # Set the baseurl only if it is `nil` or `/`
@@ -50,8 +51,8 @@ module Jekyll
       end
 
       def add_title_and_description_fallbacks!
-        site.config["title"] ||= Value.new(proc { repository.name })
-        site.config["description"] ||= Value.new(proc { repository.tagline })
+        site.config["title"] ||= Value.new(proc { |_c, r| r.name })
+        site.config["description"] ||= Value.new(proc { |_c, r| r.tagline })
       end
 
       def should_add_url_fallbacks?
