@@ -28,7 +28,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       let(:user_config) { { "baseurl" => "/foo" } }
 
       it "doesn't mangle site.url" do
-        expect(site.config["baseurl"]).to eql("/foo")
+        expect(site.config["baseurl"].to_s).to eql("/foo")
       end
     end
 
@@ -36,7 +36,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       let(:user_config) { { "baseurl" => "" } }
 
       it "doesn't mangle site.baseurl" do
-        expect(site.config["baseurl"]).to eql("")
+        expect(site.config["baseurl"].to_s).to eql("")
       end
     end
 
@@ -44,7 +44,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       let(:user_config) { { "baseurl" => "/" } }
 
       it "mangles site.url" do
-        expect(site.config["baseurl"]).to eql("/github-metadata")
+        expect(site.config["baseurl"].to_s).to eql("/github-metadata")
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
 
     context "without site.baseurl set" do
       it "sets site.baseurl" do
-        expect(site.config["baseurl"]).to eql("/github-metadata")
+        expect(site.config["baseurl"].to_s).to eql("/github-metadata")
       end
     end
 
