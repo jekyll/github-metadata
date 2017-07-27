@@ -63,6 +63,7 @@ RSpec.describe("integration into a jekyll site") do
     "baseurl"              => "/github-metadata",
     "contributors"         => %r!"login"=>"parkr", "id"=>237985!,
     "releases"             => %r!"tag_name"=>"v1.1.0"!,
+    "private"              => false,
   }.each do |key, value|
     it "contains the correct #{key}" do
       expect(subject).to have_key(key)

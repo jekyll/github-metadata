@@ -80,6 +80,10 @@ module Jekyll
         !!repo_info["has_downloads"]
       end
 
+      def private?
+        !!repo_info["private"]
+      end
+
       def organization_repository?
         memoize_value :@is_organization_repository, Value.new(proc { |c| !!c.organization(owner) })
       end

@@ -74,6 +74,7 @@ module Jekyll
       def_delegator :repository, :contributors,                :contributors
       def_delegator :repository, :releases,                    :releases
       def_delegator :repository, :latest_release,              :latest_release
+      def_delegator :repository, :private?,                    :private
 
       private
       attr_reader :site
