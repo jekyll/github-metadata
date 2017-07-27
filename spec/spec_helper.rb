@@ -148,6 +148,7 @@ def expected_values
     "contributors"         => %r!"login"=>"parkr", "id"=>237985!,
     "releases"             => %r!"tag_name"=>"v1.1.0"!,
     "latest_release"       => %r!assets_url!,
+    "private"              => false,
   }
 end
 
