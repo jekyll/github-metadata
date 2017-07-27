@@ -113,6 +113,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
     it "fails loudly upon call to any drop method" do
       subject.munge!
       expect(lambda do
+        site.config["github"]["url"]
       end).to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)
     end
   end
