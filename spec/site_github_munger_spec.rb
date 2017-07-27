@@ -13,7 +13,6 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
     let!(:stubs) { stub_all_api_requests }
     before(:each) do
       ENV["JEKYLL_ENV"] = "production"
-      Jekyll::GitHubMetadata.instance_variable_set "@repository", nil
       subject.munge!
     end
 
