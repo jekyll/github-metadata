@@ -8,7 +8,8 @@ module Jekyll
 
       mutable true
 
-      def initialize(_site)
+      def initialize(site = nil)
+        GitHubMetadata.site = site
         super(nil)
       end
 

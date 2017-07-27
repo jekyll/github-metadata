@@ -3,6 +3,9 @@ require "json"
 module Jekyll
   module GitHubMetadata
     class Value
+      extend Forwardable
+      def_delegators :render, :+, :to_s, :to_json
+
       attr_reader :key, :value
 
       def initialize(*args)
@@ -37,14 +40,6 @@ module Jekyll
       rescue RuntimeError, NameError => e
         Jekyll::GitHubMetadata.log :error, "Error processing value '#{key}':"
         raise e
-      end
-
-      def to_s
-        render.to_s
-      end
-
-      def to_json(*)
-        render.to_json
       end
 
       def to_liquid

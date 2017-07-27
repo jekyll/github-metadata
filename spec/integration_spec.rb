@@ -15,6 +15,7 @@ RSpec.describe("integration into a jekyll site") do
   before(:each) do
     # Run Jekyll
     ENV.delete("JEKYLL_ENV")
+    ENV["JEKYLL_ENV"] = "production"
     ENV["PAGES_ENV"] = "dotcom"
     Jekyll.logger.log_level = :error
     Jekyll::Commands::Build.process({

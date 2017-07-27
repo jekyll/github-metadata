@@ -5,7 +5,6 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
   let(:config) { Jekyll::Configuration.from(overrides) }
   let(:site) { Jekyll::Site.new config }
   subject { described_class.new(site) }
-  before { Jekyll::GitHubMetadata.site = site }
   before { stub_all_api_requests }
 
   context "in Liquid" do
