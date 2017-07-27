@@ -28,7 +28,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       let(:user_config) { { "baseurl" => "/foo" } }
 
       it "doesn't mangle site.url" do
-        expect(site.config["baseurl"].to_s).to eql("/foo")
+        expect(site.config["baseurl"]).to eql("/foo")
       end
     end
 
@@ -36,7 +36,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       let(:user_config) { { "baseurl" => "" } }
 
       it "doesn't mangle site.baseurl" do
-        expect(site.config["baseurl"].to_s).to eql("")
+        expect(site.config["baseurl"]).to eql("")
       end
     end
 
@@ -44,19 +44,19 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       let(:user_config) { { "baseurl" => "/" } }
 
       it "mangles site.url" do
-        expect(site.config["baseurl"].to_s).to eql("/github-metadata")
+        expect(site.config["baseurl"]).to eql("/github-metadata")
       end
     end
 
     context "without site.url set" do
       it "sets site.url" do
-        expect(site.config["url"].to_s).to eql("http://jekyll.github.io")
+        expect(site.config["url"]).to eql("http://jekyll.github.io")
       end
     end
 
     context "without site.baseurl set" do
       it "sets site.baseurl" do
-        expect(site.config["baseurl"].to_s).to eql("/github-metadata")
+        expect(site.config["baseurl"]).to eql("/github-metadata")
       end
     end
 
@@ -67,14 +67,14 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
         end
 
         it "respects the title and tagline" do
-          expect(site.config["title"].to_s).to eql("My title")
-          expect(site.config["description"].to_s).to eql("My description")
+          expect(site.config["title"]).to eql("My title")
+          expect(site.config["description"]).to eql("My description")
         end
       end
 
       it "sets the title and description" do
-        expect(site.config["title"].to_s).to eql("github-metadata")
-        expect(site.config["description"].to_s).to eql(":octocat: `site.github`")
+        expect(site.config["title"]).to eql("github-metadata")
+        expect(site.config["description"]).to eql(":octocat: `site.github`")
       end
     end
   end
