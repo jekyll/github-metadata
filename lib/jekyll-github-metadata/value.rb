@@ -4,7 +4,7 @@ module Jekyll
   module GitHubMetadata
     class Value
       extend Forwardable
-      def_delegators :render, :+, :to_s, :to_json, :eql?
+      def_delegators :render, :+, :to_s, :to_json, :eql?, :hash
 
       attr_reader :key, :value
 
