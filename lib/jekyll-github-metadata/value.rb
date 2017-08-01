@@ -22,21 +22,8 @@ module Jekyll
       end
 
       def render
-        @value = if @value.respond_to?(:call)
-                   case @value.arity
-                   when 0
-                     @value.call
-                   when 1
-                     @value.call(GitHubMetadata.client)
-                   when 2
-                     @value.call(GitHubMetadata.client, GitHubMetadata.repository)
-                   else
-                     raise ArgumentError, "Whoa, arity of 0, 1, or 2 please in your procs."
-                   end
-                 else
-                   @value
-                 end
-        @value = Sanitizer.sanitize(@value)
+        return @rendered if defined? @rendered
+        @rendered = @value = Sanitizer.sanitize(call_or_value)
       rescue RuntimeError, NameError => e
         Jekyll::GitHubMetadata.log :error, "Error processing value '#{key}':"
         raise e
@@ -54,6 +41,24 @@ module Jekyll
           value
         else
           to_json
+        end
+      end
+
+      private
+
+      # Calls the value Proc with the appropriate number of arguments
+      # or returns the raw value if it's a literal
+      def call_or_value
+        return value unless value.respond_to?(:call)
+        case value.arity
+        when 0
+          value.call
+        when 1
+          value.call(GitHubMetadata.client)
+        when 2
+          value.call(GitHubMetadata.client, GitHubMetadata.repository)
+        else
+          raise ArgumentError, "Whoa, arity of 0, 1, or 2 please in your procs."
         end
       end
     end
