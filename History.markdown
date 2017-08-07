@@ -1,3 +1,25 @@
+## HEAD
+
+### Minor Enhancements
+
+  * Expose repo visibility (#105)
+  * Set title and description in dev (#104)
+
+## 2.5.0 / 2017-07-17
+
+  * Set default `site.title` and `site.description` (#101)
+  * Modernize Travis configuration (#102)
+  * Allow user to set empty `baseurl` (#97)
+  * add `latest_release` and `latest_release_url` (#88)
+  * Make the Octokit client more configurable. (#84)
+
+## 2.4.0 / 2017-03-30
+
+### Minor Enhancements
+
+  * Don't double-process the site.github namespace. (#95)
+  * Add .configuration and .page_build? methods to Pages (#89)
+
 ## 2.3.1 / 2017-01-18
 
   * Remove log on Octokit::NotFound (#86)

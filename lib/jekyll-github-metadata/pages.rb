@@ -10,7 +10,8 @@ module Jekyll
           "PAGES_PAGES_HOSTNAME"   => "github.io".freeze,
           "SSL"                    => "false".freeze,
           "SUBDOMAIN_ISOLATION"    => "false".freeze,
-          "PAGES_PREVIEW_HTML_URL" => nil
+          "PAGES_PREVIEW_HTML_URL" => nil,
+          "PAGE_BUILD_ID"          => nil,
         }.freeze
 
         # Whether the GitHub instance supports HTTPS
@@ -73,6 +74,16 @@ module Jekyll
           intermediate_default = ENV["PAGES_HOSTNAME"]
           intermediate_default ||= "localhost:4000" if development?
           trim_last_slash env_var("PAGES_PAGES_HOSTNAME", intermediate_default)
+        end
+
+        def page_build?
+          !env_var("PAGE_BUILD_ID").to_s.empty?
+        end
+
+        def configuration
+          (methods - Object.methods - [:configuration]).sort.each_with_object({}) do |meth, memo|
+            memo[meth.to_s] = public_send(meth)
+          end
         end
 
         private

@@ -1,6 +1,7 @@
 require "jekyll-github-metadata"
 require "webmock/rspec"
 require "pathname"
+require "jekyll"
 
 SPEC_DIR = Pathname.new(File.expand_path("../", __FILE__))
 
@@ -9,14 +10,14 @@ module WebMockHelper
     "Accept"          => "application/vnd.github.v3+json",
     "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
     "Content-Type"    => "application/json",
-    "User-Agent"      => "Octokit Ruby Gem #{Octokit::VERSION}"
+    "User-Agent"      => "Octokit Ruby Gem #{Octokit::VERSION}",
   }.freeze
   RESPONSE_HEADERS = {
     "Transfer-Encoding"   => "chunked",
     "Content-Type"        => "application/json; charset=utf-8",
     "Vary"                => "Accept-Encoding",
     "Content-Encoding"    => "gzip",
-    "X-GitHub-Media-Type" => "github.v3; format=json"
+    "X-GitHub-Media-Type" => "github.v3; format=json",
   }.freeze
 
   def stub_api(path, filename, req_headers = {})
@@ -37,7 +38,7 @@ module WebMockHelper
 
   def request_headers
     REQUEST_HEADERS.merge({
-      "Authorization" => "token #{ENV.fetch("JEKYLL_GITHUB_TOKEN", "1234abc")}"
+      "Authorization" => "token #{ENV.fetch("JEKYLL_GITHUB_TOKEN", "1234abc")}",
     })
   end
 
@@ -69,7 +70,8 @@ module StubHelper
       "/repos/jekyll/jekyll.github.io"                          => "not_found",
       "/repos/jekyll/jekyll.github.com"                         => "repo",
       "/repos/jekyll/jekyll.github.com/pages"                   => "repo_pages",
-      "/repos/jekyll/jekyll.github.io/pages"                    => "repo_pages"
+      "/repos/jekyll/jekyll.github.io/pages"                    => "repo_pages",
+      "/repos/jekyll/github-metadata/releases/latest"           => "latest_release",
     }.map { |path, file| stub_api(path, file) }
   end
 
@@ -109,6 +111,45 @@ module EnvHelper
     end
     raise ArgumentError, "Expect 2 strings or a Hash of VAR => VAL"
   end
+end
+
+def expected_values
+  {
+    "environment"          => "dotcom",
+    "hostname"             => "github.com",
+    "pages_env"            => "dotcom",
+    "pages_hostname"       => "github.io",
+    "help_url"             => "https://help.github.com",
+    "api_url"              => "https://api.github.com",
+    "versions"             => {},
+    "public_repositories"  => Regexp.new('"id"=>17261694, "name"=>"atom-jekyll"'),
+    "organization_members" => Regexp.new('"login"=>"parkr", "id"=>237985'),
+    "build_revision"       => %r![a-f0-9]{40}!,
+    "project_title"        => "github-metadata",
+    "project_tagline"      => ":octocat: `site.github`",
+    "owner_name"           => "jekyll",
+    "owner_url"            => "https://github.com/jekyll",
+    "owner_gravatar_url"   => "https://github.com/jekyll.png",
+    "repository_url"       => "https://github.com/jekyll/github-metadata",
+    "repository_nwo"       => "jekyll/github-metadata",
+    "repository_name"      => "github-metadata",
+    "zip_url"              => "https://github.com/jekyll/github-metadata/zipball/gh-pages",
+    "tar_url"              => "https://github.com/jekyll/github-metadata/tarball/gh-pages",
+    "clone_url"            => "https://github.com/jekyll/github-metadata.git",
+    "releases_url"         => "https://github.com/jekyll/github-metadata/releases",
+    "issues_url"           => "https://github.com/jekyll/github-metadata/issues",
+    "wiki_url"             => nil, # disabled
+    "language"             => "Ruby",
+    "is_user_page"         => false,
+    "is_project_page"      => true,
+    "show_downloads"       => true,
+    "url"                  => "http://jekyll.github.io/github-metadata",
+    "baseurl"              => "/github-metadata",
+    "contributors"         => %r!"login"=>"parkr", "id"=>237985!,
+    "releases"             => %r!"tag_name"=>"v1.1.0"!,
+    "latest_release"       => %r!assets_url!,
+    "private"              => false,
+  }
 end
 
 RSpec.configure do |config|
@@ -171,5 +212,8 @@ RSpec.configure do |config|
   config.before(:each) do
     Jekyll::GitHubMetadata.reset!
     Jekyll::GitHubMetadata.logger = Logger.new(StringIO.new) unless ENV["DEBUG"]
+    ENV.delete("JEKYLL_ENV")
+    ENV["PAGES_ENV"] = "test"
+    ENV["PAGES_REPO_NWO"] = nil
   end
 end

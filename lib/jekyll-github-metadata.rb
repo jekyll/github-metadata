@@ -18,24 +18,29 @@ module Jekyll
   end
 
   module GitHubMetadata
-    NoRepositoryError = Class.new(Jekyll::Errors::FatalException)
-
     autoload :Client,           "jekyll-github-metadata/client"
     autoload :MetadataDrop,     "jekyll-github-metadata/metadata_drop"
     autoload :Pages,            "jekyll-github-metadata/pages"
     autoload :Repository,       "jekyll-github-metadata/repository"
+    autoload :RepositoryFinder, "jekyll-github-metadata/repository_finder"
     autoload :RepositoryCompat, "jekyll-github-metadata/repository_compat"
     autoload :Sanitizer,        "jekyll-github-metadata/sanitizer"
     autoload :Value,            "jekyll-github-metadata/value"
     autoload :VERSION,          "jekyll-github-metadata/version"
 
+    NoRepositoryError = RepositoryFinder::NoRepositoryError
+
     if Jekyll.const_defined? :Site
-      require_relative "jekyll-github-metadata/ghp_metadata_generator"
+      require_relative "jekyll-github-metadata/site_github_munger"
     end
 
     class << self
-      attr_accessor :repository
+      attr_reader :repository_finder
       attr_writer :client, :logger
+
+      def site
+        repository_finder.site
+      end
 
       def environment
         Jekyll.respond_to?(:env) ? Jekyll.env : (Pages.env || "development")
@@ -61,9 +66,19 @@ module Jekyll
         @client ||= Client.new
       end
 
+      def repository
+        @repository ||= GitHubMetadata::Repository.new(repository_finder.nwo).tap do |repo|
+          Jekyll::GitHubMetadata.log :debug, "Generating for #{repo.nwo}"
+        end
+      end
+
+      def site=(new_site)
+        reset!
+        @repository_finder = GitHubMetadata::RepositoryFinder.new(new_site)
+      end
+
       def reset!
-        @logger = nil
-        @client = nil
+        @logger = @client = @repository = @nwo = @site = nil
       end
     end
   end
