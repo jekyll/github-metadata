@@ -4,10 +4,13 @@ require "uri"
 module Jekyll
   module GitHubMetadata
     class SiteGitHubMunger
-      attr_reader :site
+      extend Forwardable
+
+      def_delegators :"Jekyll::GitHubMetadata", :site
+      private def_delegator :"Jekyll::GitHubMetadata", :repository
 
       def initialize(site)
-        @site = site
+        Jekyll::GitHubMetadata.site = site
       end
 
       def munge!
@@ -16,9 +19,8 @@ module Jekyll
         # This is the good stuff.
         site.config["github"] = github_namespace
 
-        return unless should_add_fallbacks?
-        add_url_and_baseurl_fallbacks!
         add_title_and_description_fallbacks!
+        add_url_and_baseurl_fallbacks! if should_add_url_fallbacks?
       end
 
       private
@@ -35,13 +37,14 @@ module Jekyll
       end
 
       def drop
-        @drop ||= MetadataDrop.new(site)
+        @drop ||= MetadataDrop.new(GitHubMetadata.site)
       end
 
       # Set `site.url` and `site.baseurl` if unset.
       def add_url_and_baseurl_fallbacks!
-        site.config["url"] ||= repository.url_without_path
-        site.config["baseurl"] = repository.baseurl if should_set_baseurl?
+        site.config["url"] ||= Value.new("url", proc { |_c, r| r.url_without_path })
+        return unless should_set_baseurl?
+        site.config["baseurl"] = Value.new("baseurl", proc { |_c, r| r.baseurl })
       end
 
       # Set the baseurl only if it is `nil` or `/`
@@ -51,16 +54,12 @@ module Jekyll
       end
 
       def add_title_and_description_fallbacks!
-        site.config["title"] ||= repository.name
-        site.config["description"] ||= repository.tagline
+        site.config["title"] ||= Value.new("title", proc { |_c, r| r.name })
+        site.config["description"] ||= Value.new("description", proc { |_c, r| r.tagline })
       end
 
-      def should_add_fallbacks?
+      def should_add_url_fallbacks?
         Jekyll.env == "production" || Pages.page_build?
-      end
-
-      def repository
-        drop.send(:repository)
       end
     end
   end

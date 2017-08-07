@@ -67,4 +67,26 @@ RSpec.describe(Jekyll::GitHubMetadata::Value) do
     expect(key_and_value.key).to eql("my_key2")
     expect(key_and_value.render).to eql("leonard told me")
   end
+
+  context "delegators" do
+    it "delegates +" do
+      expect(key_and_value + " foo").to eql("leonard told me foo")
+    end
+
+    it "delegates to_s" do
+      expect(number_value.to_s).to eql("4")
+    end
+
+    it "delegates to_json" do
+      expect(key_and_value.to_json).to eql('"leonard told me"')
+    end
+
+    it "delegates eql?" do
+      expect(key_and_value).to eql("leonard told me")
+    end
+
+    it "delegates hash" do
+      expect(key_and_value.hash).to eql("leonard told me".hash)
+    end
+  end
 end
