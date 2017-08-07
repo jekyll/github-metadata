@@ -4,8 +4,7 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
   let(:overrides) { { "repository" => "jekyll/another-repo" } }
   let(:config) { Jekyll::Configuration.from(overrides) }
   let(:site) { Jekyll::Site.new config }
-  before { Jekyll::GitHubMetadata.site = site }
-  subject { described_class }
+  subject { described_class.new(site) }
 
   context "with no repository set" do
     before(:each) do
