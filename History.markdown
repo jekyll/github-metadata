@@ -3,6 +3,7 @@
 ### Minor Enhancements
 
   * Expose repo visibility (#105)
+  * Set title and description in dev (#104)
 
 ## 2.5.0 / 2017-07-17
 
