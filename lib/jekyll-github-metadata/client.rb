@@ -59,7 +59,7 @@ module Jekyll
       end
 
       def save_from_errors(default = false)
-        Jekyll::GitHubMetadata.log :warn, "No internet connection." unless internet_connected?
+        Jekyll::GitHubMetadata.log :warn, "No internet connection. GitHub metadata may be missing or incorrect." unless internet_connected?
         return default unless internet_connected?
         yield @client
       rescue Octokit::Unauthorized
@@ -85,6 +85,7 @@ module Jekyll
         require "resolv"
         begin
           Resolv::DNS.open do |dns|
+            dns.timeouts = 2
             dns.getaddress("api.github.com")
           end
           @internet_connected = true
