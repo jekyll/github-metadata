@@ -49,7 +49,7 @@ module Jekyll
         method = method_name.to_s
         if accepts_client_method?(method_name)
           key = cache_key(method_name, args)
-          Jekyll::GitHubMetadata.log :debug, "Calling @client.#{method}(#{args.map(&:inspect).join(", ")})"
+          GitHubMetadata.log :debug, "Calling @client.#{method}(#{args.map(&:inspect).join(", ")})"
           cache[key] ||= save_from_errors { @client.public_send(method_name, *args, &block) }
         elsif @client.respond_to?(method_name)
           raise InvalidMethodError, "#{method_name} is not whitelisted on #{inspect}"
@@ -59,13 +59,16 @@ module Jekyll
       end
 
       def save_from_errors(default = false)
-        Jekyll::GitHubMetadata.log :warn, "No internet connection. GitHub metadata may be missing or incorrect." unless internet_connected?
-        return default unless internet_connected?
+        unless internet_connected?
+          GitHubMetadata.log :warn, "No internet connection. GitHub metadata may be missing or incorrect."
+          return default
+        end
+
         yield @client
       rescue Octokit::Unauthorized
         raise BadCredentialsError, "The GitHub API credentials you provided aren't valid."
       rescue Faraday::Error::ConnectionFailed, Octokit::TooManyRequests => e
-        Jekyll::GitHubMetadata.log :warn, e.message
+        GitHubMetadata.log :warn, e.message
         default
       rescue Octokit::NotFound
         default
@@ -110,7 +113,7 @@ module Jekyll
         elsif !ENV["NO_NETRC"] && File.exist?(File.join(ENV["HOME"], ".netrc")) && safe_require("netrc")
           { :netrc => true }
         else
-          Jekyll::GitHubMetadata.log :warn, "No GitHub API authentication could be found." \
+          GitHubMetadata.log :warn, "No GitHub API authentication could be found." \
             " Some fields may be missing or have incorrect data."
           {}.freeze
         end
