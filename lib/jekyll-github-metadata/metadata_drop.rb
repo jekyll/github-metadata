@@ -8,11 +8,6 @@ module Jekyll
 
       mutable true
 
-      def initialize(site = nil)
-        GitHubMetadata.site = site unless site.nil?
-        super(nil)
-      end
-
       def to_s
         require "json"
         JSON.pretty_generate to_h

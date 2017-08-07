@@ -37,7 +37,7 @@ module Jekyll
       end
 
       def drop
-        @drop ||= MetadataDrop.new
+        @drop ||= MetadataDrop.new(GitHubMetadata.site)
       end
 
       # Set `site.url` and `site.baseurl` if unset.
