@@ -13,8 +13,7 @@ module Jekyll
       #
       # Returns a symbol representing the instance method
       def self.def_hash_delegator(hash, key, method = nil)
-        method ||= key
-        define_method method do
+        define_method(method || key) do
           public_send(hash)[key.to_s]
         end
       end
