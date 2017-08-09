@@ -8,9 +8,9 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
   let(:user_config) { {} }
   let(:site) { Jekyll::Site.new(Jekyll::Configuration.from(user_config)) }
   subject { described_class.new(site) }
+  let!(:stubs) { stub_all_api_requests }
 
   context "generating" do
-    let!(:stubs) { stub_all_api_requests }
     before(:each) do
       ENV["JEKYLL_ENV"] = "production"
       subject.munge!

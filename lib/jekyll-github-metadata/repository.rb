@@ -2,6 +2,34 @@ module Jekyll
   module GitHubMetadata
     class Repository
       attr_reader :nwo, :owner, :name
+
+      # Defines an instance method that delegates to a hash's key
+      #
+      # hash   - a symbol representing the instance method to delegate to. The
+      #          instance method should return a hash or respond to #[]
+      # key    - the key to call within the hash
+      # method - (optional) the instance method the key should be aliased to.
+      #          If not specified, defaults to the hash key
+      #
+      # Returns a symbol representing the instance method
+      def self.def_hash_delegator(hash, key, method = nil)
+        method ||= key
+        define_method method do
+          public_send(hash)[key.to_s]
+        end
+      end
+
+      extend Forwardable
+      def_hash_delegator :repo_info, :license
+      def_hash_delegator :repo_info, :language
+      def_hash_delegator :repo_info, :description, :tagline
+      def_hash_delegator :latest_release, :url, :latest_release_url
+      def_hash_delegator :repo_info, :has_downloads, :show_downloads?
+      def_hash_delegator :repo_info, :private, :private?
+      def_delegator :uri, :host, :domain
+      def_delegator :uri, :scheme, :url_scheme
+      def_delegator :uri, :path, :baseurl
+
       def initialize(name_with_owner)
         @nwo   = name_with_owner
         @owner = nwo.split("/").first
@@ -13,7 +41,10 @@ module Jekyll
       end
 
       def repo_info
-        @repo_info ||= (Value.new(proc { |c| c.repository(nwo) }).render || {})
+        @repo_info ||= begin
+          options = { :accept => "application/vnd.github.drax-preview+json" }
+          (Value.new(proc { |c| c.repository(nwo, options) }).render || {})
+        end
       end
 
       def repo_pages_info
@@ -26,14 +57,6 @@ module Jekyll
         else
           {}
         end
-      end
-
-      def language
-        repo_info["language"]
-      end
-
-      def tagline
-        repo_info["description"]
       end
 
       def owner_url
@@ -64,24 +87,12 @@ module Jekyll
         "#{repository_url}/releases"
       end
 
-      def latest_release_url
-        latest_release["url"]
-      end
-
       def issues_url
         "#{repository_url}/issues" if repo_info["has_issues"]
       end
 
       def wiki_url
         "#{repository_url}/wiki" if repo_info["has_wiki"]
-      end
-
-      def show_downloads?
-        !!repo_info["has_downloads"]
-      end
-
-      def private?
-        !!repo_info["private"]
       end
 
       def organization_repository?
@@ -118,10 +129,6 @@ module Jekyll
         end
       end
 
-      def user_page?
-        primary?
-      end
-
       def project_page?
         !user_page?
       end
@@ -137,6 +144,7 @@ module Jekyll
           user_page_domains.include? name.downcase
         end
       end
+      alias_method :user_page?, :primary?
 
       def user_page_domains
         domains = [default_user_domain]
@@ -169,18 +177,6 @@ module Jekyll
 
       def url_without_path
         uri.dup.tap { |u| u.path = "" }.to_s
-      end
-
-      def domain
-        uri.host
-      end
-
-      def url_scheme
-        uri.scheme
-      end
-
-      def baseurl
-        uri.path
       end
 
       private

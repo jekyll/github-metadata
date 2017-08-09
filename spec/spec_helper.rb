@@ -7,7 +7,7 @@ SPEC_DIR = Pathname.new(File.expand_path("../", __FILE__))
 
 module WebMockHelper
   REQUEST_HEADERS = {
-    "Accept"          => "application/vnd.github.v3+json",
+    "Accept"          => %r!application/vnd\.github\.(v3|drax-preview)\+json!,
     "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
     "Content-Type"    => "application/json",
     "User-Agent"      => "Octokit Ruby Gem #{Octokit::VERSION}",
@@ -149,6 +149,7 @@ def expected_values
     "releases"             => %r!"tag_name"=>"v1.1.0"!,
     "latest_release"       => %r!assets_url!,
     "private"              => false,
+    "license"              => %r!"key"=>"mit"!,
   }
 end
 
