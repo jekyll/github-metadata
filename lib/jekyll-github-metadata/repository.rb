@@ -19,15 +19,16 @@ module Jekyll
       end
 
       extend Forwardable
-      def_hash_delegator :repo_info, :license
-      def_hash_delegator :repo_info, :language
-      def_hash_delegator :repo_info, :description, :tagline
-      def_hash_delegator :latest_release, :url, :latest_release_url
-      def_hash_delegator :repo_info, :has_downloads, :show_downloads?
-      def_hash_delegator :repo_info, :private, :private?
-      def_delegator :uri, :host, :domain
+      def_hash_delegator :repo_info,      :license,       :license
+      def_hash_delegator :repo_info,      :language,      :language
+      def_hash_delegator :repo_info,      :description,   :tagline
+      def_hash_delegator :repo_info,      :has_downloads, :show_downloads?
+      def_hash_delegator :repo_info,      :private,       :private?
+      def_hash_delegator :latest_release, :url,           :latest_release_url
+      
+      def_delegator :uri, :host,   :domain
       def_delegator :uri, :scheme, :url_scheme
-      def_delegator :uri, :path, :baseurl
+      def_delegator :uri, :path,   :baseurl
 
       def initialize(name_with_owner)
         @nwo   = name_with_owner
