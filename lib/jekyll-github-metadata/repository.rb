@@ -25,7 +25,7 @@ module Jekyll
       def_hash_delegator :repo_info,      :has_downloads, :show_downloads?
       def_hash_delegator :repo_info,      :private,       :private?
       def_hash_delegator :latest_release, :url,           :latest_release_url
-      
+
       def_delegator :uri, :host,   :domain
       def_delegator :uri, :scheme, :url_scheme
       def_delegator :uri, :path,   :baseurl
