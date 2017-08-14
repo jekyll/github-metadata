@@ -5,6 +5,7 @@
   * Expose repo visibility (#105)
   * Set title and description in dev (#104)
   * Detect whether the client is connected to the internet. Only allow client calls if connected. (#90)
+  * Expose repo license (#106)
 
 ## 2.5.0 / 2017-07-17
 
