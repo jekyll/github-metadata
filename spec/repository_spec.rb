@@ -46,6 +46,10 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     it "forces HTTPS for the URL" do
       expect(repo.html_url).to eql("https://hubot.github.com")
     end
+
+    it "returns the source" do
+      expect(repo.source).to eql({ "branch" => "gh-pages", "path" => "docs/" })
+    end
   end
 
   context "ben.balter.com" do
@@ -66,6 +70,10 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
 
     it "parses the baseurl" do
       expect(repo.baseurl).to eql("")
+    end
+
+    it "returns the source" do
+      expect(repo.source).to eql({ "branch" => "master", "path" => "/" })
     end
   end
 
@@ -88,6 +96,10 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     it "parses the baseurl" do
       expect(repo.baseurl).to eql("")
     end
+
+    it "returns the source" do
+      expect(repo.source).to eql({ "branch" => "master", "path" => "/" })
+    end
   end
 
   context "jldec.github.io" do
@@ -108,6 +120,10 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
 
     it "parses the baseurl" do
       expect(repo.baseurl).to eql("")
+    end
+
+    it "returns the source" do
+      expect(repo.source).to eql({ "branch" => "master", "path" => "/" })
     end
 
     context "on enterprise" do

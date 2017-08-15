@@ -19,6 +19,10 @@ RSpec.describe(Jekyll::GitHubMetadata::RepositoryCompat) do
     it "forces HTTPS for the URL" do
       expect(repo_compat.pages_url).to eql("https://hubot.github.com")
     end
+
+    it "returns the source" do
+      expect(repo_compat.source).to eql({ "branch" => "gh-pages", "path" => "/" })
+    end
   end
 
   context "ben.balter.com" do
@@ -36,6 +40,10 @@ RSpec.describe(Jekyll::GitHubMetadata::RepositoryCompat) do
     it "uses Pages.scheme to determine scheme for domain" do
       expect(repo_compat.pages_url).to eql("http://ben.balter.com")
     end
+
+    it "returns the source" do
+      expect(repo_compat.source).to eql({ "branch" => "master", "path" => "/" })
+    end
   end
 
   context "parkr.github.io" do
@@ -52,6 +60,10 @@ RSpec.describe(Jekyll::GitHubMetadata::RepositoryCompat) do
 
     it "uses Pages.scheme to determine scheme for domain" do
       expect(repo_compat.pages_url).to eql("http://parkr.github.io")
+    end
+
+    it "returns the source" do
+      expect(repo_compat.source).to eql({ "branch" => "master", "path" => "/" })
     end
 
     context "on enterprise" do
