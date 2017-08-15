@@ -1,5 +1,9 @@
 ## HEAD
 
+### Minor Enhancements
+
+  * Expose site source (#107)
+
 ## 2.7.0 / 2017-08-14
 
 ### Minor Enhancements
