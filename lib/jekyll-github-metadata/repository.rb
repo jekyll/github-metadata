@@ -13,7 +13,7 @@ module Jekyll
       #
       # Returns a symbol representing the instance method
       def self.def_hash_delegator(hash, key, method)
-        define_method(method || key) do
+        define_method(method) do
           public_send(hash)[key.to_s]
         end
       end
@@ -25,6 +25,7 @@ module Jekyll
       def_hash_delegator :repo_info,      :has_downloads, :show_downloads?
       def_hash_delegator :repo_info,      :private,       :private?
       def_hash_delegator :latest_release, :url,           :latest_release_url
+      def_hash_delegator :source,         :branch,        :git_ref
 
       def_delegator :uri, :host,   :domain
       def_delegator :uri, :scheme, :url_scheme
@@ -121,12 +122,8 @@ module Jekyll
         memoize_value :@latest_release, Value.new(proc { |c| c.latest_release(nwo) })
       end
 
-      def git_ref
-        if repo_pages_info["source"]
-          repo_pages_info["source"]["branch"]
-        else
-          user_page? ? "master" : "gh-pages"
-        end
+      def source
+        repo_pages_info["source"] || repo_compat.source
       end
 
       def project_page?
