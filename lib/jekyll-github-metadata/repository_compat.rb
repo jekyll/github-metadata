@@ -55,6 +55,13 @@ module Jekyll
           end
       end
 
+      def source
+        {
+          "branch" => (repo.user_page? ? "master" : "gh-pages"),
+          "path"   => "/",
+        }
+      end
+
       private
 
       def enterprise_url

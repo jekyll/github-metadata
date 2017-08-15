@@ -58,6 +58,7 @@ module Jekyll
       def_delegator :repository, :latest_release,              :latest_release
       def_delegator :repository, :private?,                    :private
       def_delegator :repository, :license,                     :license
+      def_delegator :repository, :source,                      :source
 
       def versions
         @versions ||= begin

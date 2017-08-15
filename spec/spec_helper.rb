@@ -150,6 +150,7 @@ def expected_values
     "latest_release"       => %r!assets_url!,
     "private"              => false,
     "license"              => %r!"key"=>"mit"!,
+    "source"               => { "branch" => "gh-pages", "path" => "/" },
   }
 end
 
