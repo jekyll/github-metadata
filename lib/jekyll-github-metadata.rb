@@ -1,4 +1,5 @@
 require "octokit"
+require "liquid"
 require "logger"
 
 if defined?(Jekyll) && Jekyll.respond_to?(:env) && Jekyll.env == "development"
@@ -19,6 +20,7 @@ module Jekyll
 
   module GitHubMetadata
     autoload :Client,           "jekyll-github-metadata/client"
+    autoload :EditLinkTag,      "jekyll-github-metadata/edit-link-tag"
     autoload :MetadataDrop,     "jekyll-github-metadata/metadata_drop"
     autoload :Pages,            "jekyll-github-metadata/pages"
     autoload :Repository,       "jekyll-github-metadata/repository"
@@ -83,3 +85,5 @@ module Jekyll
     end
   end
 end
+
+Liquid::Template.register_tag("github_edit_link", Jekyll::GitHubMetadata::EditLinkTag)

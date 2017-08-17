@@ -3,156 +3,13 @@ require "webmock/rspec"
 require "pathname"
 require "jekyll"
 
+require_relative "spec_helpers/env_helper"
+require_relative "spec_helpers/integration_helper"
+require_relative "spec_helpers/web_mock_helper"
+require_relative "spec_helpers/stub_helper"
+require_relative "spec_helpers/fixture_helper"
+
 SPEC_DIR = Pathname.new(File.expand_path("../", __FILE__))
-
-module WebMockHelper
-  REQUEST_HEADERS = {
-    "Accept"          => %r!application/vnd\.github\.(v3|drax-preview)\+json!,
-    "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-    "Content-Type"    => "application/json",
-    "User-Agent"      => "Octokit Ruby Gem #{Octokit::VERSION}",
-  }.freeze
-  RESPONSE_HEADERS = {
-    "Transfer-Encoding"   => "chunked",
-    "Content-Type"        => "application/json; charset=utf-8",
-    "Vary"                => "Accept-Encoding",
-    "Content-Encoding"    => "gzip",
-    "X-GitHub-Media-Type" => "github.v3; format=json",
-  }.freeze
-
-  def stub_api(path, filename, req_headers = {})
-    WebMock.disable_net_connect!
-    stub_request(:get, url(path))
-      .with(:headers => request_headers.merge(req_headers))
-      .to_return(
-        :status  => 200,
-        :headers => RESPONSE_HEADERS,
-        :body    => webmock_data(filename)
-      )
-  end
-
-  def expect_api_call(path)
-    expect(WebMock).to have_requested(:get, url(path))
-      .with(:headers => request_headers).once
-  end
-
-  def request_headers
-    REQUEST_HEADERS.merge({
-      "Authorization" => "token #{ENV.fetch("JEKYLL_GITHUB_TOKEN", "1234abc")}",
-    })
-  end
-
-  private
-  def url(path)
-    "#{Jekyll::GitHubMetadata::Pages.api_url}#{path}"
-  end
-
-  def webmock_data(filename)
-    @webmock_data ||= {}
-    @webmock_data[filename] ||= SPEC_DIR.join("webmock/api_get_#{filename}.json").read
-  end
-end
-
-module StubHelper
-  include WebMockHelper
-
-  # Returns all stubs created.
-  def stub_all_api_requests
-    reset_env_for_stubs
-    {
-      "/users/jekyll/repos?per_page=100&type=public"            => "owner_repos",
-      "/repos/jekyll/github-metadata"                           => "repo",
-      "/orgs/jekyll"                                            => "org",
-      "/orgs/jekyll/public_members?per_page=100"                => "org_members",
-      "/repos/jekyll/github-metadata/pages"                     => "repo_pages",
-      "/repos/jekyll/github-metadata/releases?per_page=100"     => "repo_releases",
-      "/repos/jekyll/github-metadata/contributors?per_page=100" => "repo_contributors",
-      "/repos/jekyll/jekyll.github.io"                          => "not_found",
-      "/repos/jekyll/jekyll.github.com"                         => "repo",
-      "/repos/jekyll/jekyll.github.com/pages"                   => "repo_pages",
-      "/repos/jekyll/jekyll.github.io/pages"                    => "repo_pages",
-      "/repos/jekyll/github-metadata/releases/latest"           => "latest_release",
-    }.map { |path, file| stub_api(path, file) }
-  end
-
-  def reset_env_for_stubs
-    # Reset some stuffs
-    ENV["NO_NETRC"] = "true"
-    ENV["JEKYLL_GITHUB_TOKEN"] = "1234abc"
-    ENV["PAGES_REPO_NWO"] = "jekyll/github-metadata"
-    ENV["PAGES_ENV"] = "dotcom"
-  end
-end
-
-module EnvHelper
-  def with_env(*args)
-    env_hash = env_args_to_hash(*args)
-    old_env = {}
-    env_hash.each do |name, value|
-      old_env[name] = ENV[name]
-      ENV[name] = value
-    end
-    yield
-  ensure
-    old_env.each do |name, value|
-      ENV[name] = value
-    end
-  end
-
-  private
-  def env_args_to_hash(*args)
-    case args.length
-    when 2
-      env_hash = {}
-      env_hash[args.first] = args.last
-      return env_hash
-    when 1
-      return args.first if args.first.is_a? Hash
-    end
-    raise ArgumentError, "Expect 2 strings or a Hash of VAR => VAL"
-  end
-end
-
-def expected_values
-  {
-    "environment"          => "dotcom",
-    "hostname"             => "github.com",
-    "pages_env"            => "dotcom",
-    "pages_hostname"       => "github.io",
-    "help_url"             => "https://help.github.com",
-    "api_url"              => "https://api.github.com",
-    "versions"             => {},
-    "public_repositories"  => Regexp.new('"id"=>17261694, "name"=>"atom-jekyll"'),
-    "organization_members" => Regexp.new('"login"=>"parkr", "id"=>237985'),
-    "build_revision"       => %r![a-f0-9]{40}!,
-    "project_title"        => "github-metadata",
-    "project_tagline"      => ":octocat: `site.github`",
-    "owner_name"           => "jekyll",
-    "owner_url"            => "https://github.com/jekyll",
-    "owner_gravatar_url"   => "https://github.com/jekyll.png",
-    "repository_url"       => "https://github.com/jekyll/github-metadata",
-    "repository_nwo"       => "jekyll/github-metadata",
-    "repository_name"      => "github-metadata",
-    "zip_url"              => "https://github.com/jekyll/github-metadata/zipball/gh-pages",
-    "tar_url"              => "https://github.com/jekyll/github-metadata/tarball/gh-pages",
-    "clone_url"            => "https://github.com/jekyll/github-metadata.git",
-    "releases_url"         => "https://github.com/jekyll/github-metadata/releases",
-    "issues_url"           => "https://github.com/jekyll/github-metadata/issues",
-    "wiki_url"             => nil, # disabled
-    "language"             => "Ruby",
-    "is_user_page"         => false,
-    "is_project_page"      => true,
-    "show_downloads"       => true,
-    "url"                  => "http://jekyll.github.io/github-metadata",
-    "baseurl"              => "/github-metadata",
-    "contributors"         => %r!"login"=>"parkr", "id"=>237985!,
-    "releases"             => %r!"tag_name"=>"v1.1.0"!,
-    "latest_release"       => %r!assets_url!,
-    "private"              => false,
-    "license"              => %r!"key"=>"mit"!,
-    "source"               => { "branch" => "gh-pages", "path" => "/" },
-  }
-end
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -203,9 +60,12 @@ RSpec.configure do |config|
 
   config.include WebMockHelper
   config.include StubHelper
+  config.include IntegrationHelper
+  config.include EnvHelper
+  config.include FixtureHelper
+
   WebMock.enable!
   WebMock.disable_net_connect!
-  config.include EnvHelper
 
   config.before(:all) do
     FileUtils.mkdir_p("tmp")

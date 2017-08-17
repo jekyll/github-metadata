@@ -3,12 +3,7 @@ require "jekyll"
 require "jekyll-github-metadata/site_github_munger"
 
 RSpec.describe("integration into a jekyll site") do
-  SOURCE_DIR = Pathname.new(File.expand_path("../test-site", __FILE__))
-  DEST_DIR = Pathname.new(File.expand_path("../../tmp/test-site-build", __FILE__))
-
-  def dest_dir(*files)
-    DEST_DIR.join(*files)
-  end
+  extend IntegrationHelper
 
   let!(:stubs) { stub_all_api_requests }
 
@@ -18,18 +13,13 @@ RSpec.describe("integration into a jekyll site") do
     ENV["JEKYLL_ENV"] = "production"
     ENV["PAGES_ENV"] = "dotcom"
     Jekyll.logger.log_level = :error
-    Jekyll::Commands::Build.process({
-      "source"      => SOURCE_DIR.to_s,
-      "destination" => DEST_DIR.to_s,
-      "gems"        => %w(jekyll-github-metadata),
-      "plugins"     => %w(jekyll-github-metadata),
-    })
+    Jekyll::Commands::Build.process(config_defaults)
   end
   after(:each) do
     ENV.delete("PAGES_ENV")
     ENV["JEKYLL_ENV"] = "test"
   end
-  subject { SafeYAML.load(dest_dir("rendered.txt").read) }
+  subject { SafeYAML.load(in_dest_dir("rendered.txt").read) }
 
   expected_values.each do |key, value|
     it "contains the correct #{key}" do
