@@ -1,6 +1,6 @@
 RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
-  let(:repository_url) { "https://github.com/benbalter/jekyll-edit-link" }
-  let(:branch) { "master" }
+  let(:repository_url) { "https://github.com/jekyll/github-metadata" }
+  let(:branch) { "gh-pages" }
   let(:path) { "/" }
   let(:source) { { "branch" => branch, "path" => path } }
   let(:github) { { "repository_url" => repository_url, "source" => source } }
@@ -18,7 +18,11 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
     Liquid::Template.parse("{% #{tag_name} #{markup} %}").render!(render_context, {})
   end
 
+  before { Jekyll.logger.log_level = :error }
   before { stub_all_api_requests }
+
+  # Allow the stubs above to override any Munger behavior
+  before { site.config["github"] = github }
 
   subject do
     tag = described_class.parse(tag_name, markup, tokenizer, parse_context)
@@ -44,14 +48,14 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
 
   context "building the URL" do
     it "builds the URL" do
-      expect(uri).to eql("#{repository_url}/edit/master/page.md")
+      expect(uri).to eql("#{repository_url}/edit/#{branch}/page.md")
     end
 
     context "a docs/ site" do
       let(:path) { "docs/" }
 
       it "builds the URL" do
-        expect(uri).to eql("#{repository_url}/edit/master/docs/page.md")
+        expect(uri).to eql("#{repository_url}/edit/#{branch}/docs/page.md")
       end
     end
 
@@ -108,12 +112,12 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
 
   context "parts" do
     it "builds the parts" do
-      expected = [github["repository_url"], "edit/", "master", "/", "page.md"]
+      expected = [github["repository_url"], "edit/", branch.to_s, "/", "page.md"]
       expect(subject.send(:parts)).to eql(expected)
     end
 
     it "normalizes parts" do
-      expected = [github["repository_url"] + "/", "edit/", "master/", "", "page.md"]
+      expected = [github["repository_url"] + "/", "edit/", "#{branch}/", "", "page.md"]
       expect(subject.send(:parts_normalized)).to eql(expected)
     end
   end
@@ -136,14 +140,14 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
 
   context "rendering" do
     it "returns a URL" do
-      expect(rendered).to eql("#{repository_url}/edit/master/page.md")
+      expect(rendered).to eql("#{repository_url}/edit/#{branch}/page.md")
     end
 
     context "when passed markup" do
       let(:markup) { '"Improve this page"' }
 
       it "returns a link" do
-        expected = "<a href=\"#{repository_url}/edit/master/page.md\">"
+        expected = "<a href=\"#{repository_url}/edit/#{branch}/page.md\">"
         expected << "Improve this page</a>"
         expect(rendered).to match(expected)
       end
@@ -153,7 +157,7 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
   context "integration" do
     context "when empty" do
       it "renders the URL" do
-        expect(liquid_output).to match("#{repository_url}/edit/master/page.md")
+        expect(liquid_output).to match("#{repository_url}/edit/#{branch}/page.md")
       end
     end
 
@@ -161,7 +165,7 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
       let(:markup) { '"Improve this page"' }
 
       it "renders the link" do
-        expected = "<a href=\"#{repository_url}/edit/master/page.md\">Improve this page</a>"
+        expected = "<a href=\"#{repository_url}/edit/#{branch}/page.md\">Improve this page</a>"
         expect(liquid_output).to match(expected)
       end
     end
