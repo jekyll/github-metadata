@@ -54,7 +54,7 @@ module Jekyll
       end
 
       def link
-        "<a href=\"#{uri.normalize}\">#{link_text}</a>"
+        "<a href=\"#{uri}\">#{link_text}</a>"
       end
 
       def uri
