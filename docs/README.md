@@ -6,7 +6,7 @@ Jekyll plugin to propagate the `site.github` namespace and set default values fo
 
 ## What it does
 
-* Propegates the `site.github` namespace with [repository metadata](https://help.github.com/articles/repository-metadata-on-github-pages/)
+* Propagates the `site.github` namespace with [repository metadata](https://help.github.com/articles/repository-metadata-on-github-pages/)
 * Sets `site.title` as the repository name, if none is set
 * Sets `site.description` as the repository tagline if none is set
 * Sets `site.url` as the GitHub Pages domain (cname or user domain), if none is set

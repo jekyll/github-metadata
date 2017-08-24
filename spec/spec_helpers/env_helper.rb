@@ -1,4 +1,3 @@
-
 module EnvHelper
   def with_env(*args)
     env_hash = env_args_to_hash(*args)
@@ -15,6 +14,7 @@ module EnvHelper
   end
 
   private
+  
   def env_args_to_hash(*args)
     case args.length
     when 2

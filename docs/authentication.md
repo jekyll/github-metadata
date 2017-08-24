@@ -12,7 +12,7 @@ Once you have your token, you have three ways to pass it to this program:
 
 ### 1. `JEKYLL_GITHUB_TOKEN`
 
-These tokens are easy to use and delete so if you move around from machine-to-machine, we'd recommend this route. Set `JEKYLL_GITHUB_TOKEN` to your access token (with `public_repo` scope) when you run `jekyll`, like this:
+These tokens are easy to use and delete so if you move around from machine-to-machine, we'd recommend this route. Set `JEKYLL_GITHUB_TOKEN` to your access token (with `public_repo` scope for public repositories or `repo` scope for private repositories) when you run `jekyll`, like this:
 
 ```bash
 $ JEKYLL_GITHUB_TOKEN=123abc [bundle exec] jekyll serve
@@ -21,6 +21,12 @@ $ JEKYLL_GITHUB_TOKEN=123abc [bundle exec] jekyll serve
 ### 2. `~/.netrc`
 
 If you prefer to use the good ol' `~/.netrc` file, just make sure the `netrc` gem is bundled and run `jekyll` like normal. So if I were to add it, I'd add `gem 'netrc'` to my `Gemfile`, run `bundle install`, then run `bundle exec jekyll build`. The `machine` directive should be `api.github.com`.
+
+```netrc
+machine api.github.com
+    login github-username
+    password 123abc-your-token
+```
 
 ### 3. Octokit
 
