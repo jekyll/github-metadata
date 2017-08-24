@@ -21,7 +21,7 @@ module FixtureHelper
   end
 
   def make_page(options = {})
-    page = Jekyll::Page.new site, config_defaults["source"], "", "page.md"
+    page = Jekyll::Page.new(site, config_defaults["source"], "", "page.md")
     page.data = options
     page
   end
