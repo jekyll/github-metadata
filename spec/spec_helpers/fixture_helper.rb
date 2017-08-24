@@ -20,10 +20,8 @@ module FixtureHelper
     }
   end
 
-  def make_page(options = {})
-    page = Jekyll::Page.new(site, config_defaults["source"], "", "page.md")
-    page.data = options
-    page
+  def make_page(data = {})
+    Jekyll::Page.new(site, config_defaults["source"], "", "page.md").tap { |page| page.data = data }
   end
 
   def make_site(options = {})
