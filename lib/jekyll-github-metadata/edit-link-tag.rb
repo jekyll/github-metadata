@@ -87,7 +87,7 @@ module Jekyll
       end
 
       def remove_leading_slash(part)
-        part.sub(%r!\A/!, "")
+        part.start_with?("/") ? part[1..-1] : part
       end
 
       def ensure_trailing_slash(part)
