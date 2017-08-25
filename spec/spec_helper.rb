@@ -3,7 +3,7 @@ require "webmock/rspec"
 require "pathname"
 require "jekyll"
 
-SPEC_DIR = Pathname.new(File.expand_path("../", __FILE__))
+SPEC_DIR = Pathname.new(__dir__)
 
 module WebMockHelper
   REQUEST_HEADERS = {

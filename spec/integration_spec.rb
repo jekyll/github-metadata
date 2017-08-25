@@ -3,8 +3,8 @@ require "jekyll"
 require "jekyll-github-metadata/site_github_munger"
 
 RSpec.describe("integration into a jekyll site") do
-  SOURCE_DIR = Pathname.new(File.expand_path("../test-site", __FILE__))
-  DEST_DIR = Pathname.new(File.expand_path("../../tmp/test-site-build", __FILE__))
+  SOURCE_DIR = Pathname.new(File.expand_path("test-site", __dir__))
+  DEST_DIR = Pathname.new(File.expand_path("../tmp/test-site-build", __dir__))
 
   def dest_dir(*files)
     DEST_DIR.join(*files)
