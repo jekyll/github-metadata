@@ -3,8 +3,8 @@ require "jekyll"
 require "jekyll-github-metadata/site_github_munger"
 
 RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
-  let(:source) { File.expand_path("../test-site", __FILE__) }
-  let(:dest) { File.expand_path("../../tmp/test-site-build", __FILE__) }
+  let(:source) { File.expand_path("test-site", __dir__) }
+  let(:dest) { File.expand_path("../tmp/test-site-build", __dir__) }
   let(:user_config) { {} }
   let(:site) { Jekyll::Site.new(Jekyll::Configuration.from(user_config)) }
   subject { described_class.new(site) }
