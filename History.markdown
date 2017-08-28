@@ -1,7 +1,9 @@
 ## HEAD
 
-  * define path with __dir__ (#109)
+## 2.9.0 / 2017-08-28
+
   * GitHub edit link tag (#108)
+  * Define path with __dir__ (#109)
 
 ## 2.8.0 / 2017-08-15
 
