@@ -1,5 +1,9 @@
 ## HEAD
 
+## 2.9.1 / 2017-08-28
+
+  * Fix for "undefined method `path` for Hash" error
+  
 ## 2.9.0 / 2017-08-28
 
   * GitHub edit link tag (#108)
