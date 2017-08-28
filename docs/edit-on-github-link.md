@@ -5,7 +5,7 @@ The plugin also makes a tag available that generates links to edit the current p
 ### To generate a link
 
 ```liquid
-<p>This site is open source. {% github_edit_link "Improve this page" %}</p>
+<p>This site is open source. {% raw %}{% github_edit_link "Improve this page" %}{% endraw %}</p>
 ```
 
 Produces:
@@ -19,7 +19,7 @@ Produces:
 If you'd prefer to build your own link, simply don't pass link text
 
 ```liquid
-<p>This site is open source. <a href="{% github_edit_link %}">Improve this page</a></p>
+<p>This site is open source. <a href="{% raw %}{% github_edit_link %}{% endraw %}">Improve this page</a></p>
 ```
 
 Produces:
