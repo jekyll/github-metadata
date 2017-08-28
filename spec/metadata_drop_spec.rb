@@ -1,6 +1,8 @@
 require "spec_helper"
 
 RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
+  extend IntegrationHelper
+
   let(:overrides) { { "repository" => "jekyll/another-repo" } }
   let(:config) { Jekyll::Configuration.from(overrides) }
   let(:site) { Jekyll::Site.new config }
