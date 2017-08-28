@@ -9,7 +9,7 @@ require_relative "spec_helpers/web_mock_helper"
 require_relative "spec_helpers/stub_helper"
 require_relative "spec_helpers/fixture_helper"
 
-SPEC_DIR = Pathname.new(File.expand_path("../", __FILE__))
+SPEC_DIR = Pathname.new(__dir__)
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
