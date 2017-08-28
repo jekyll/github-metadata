@@ -4,11 +4,11 @@ module FixtureHelper
   end
 
   def dest_dir
-    @dest_dir ||= Pathname.new(File.expand_path("../tmp/test-site-build", __dir__))
+    @dest_dir ||= Pathname.new(File.expand_path("../../tmp/test-site-build", __dir__))
   end
 
   def source_dir
-    @soruce_dir ||= Pathname.new(File.expand_path("test-site", __dir__))
+    @soruce_dir ||= Pathname.new(File.expand_path("../test-site", __dir__))
   end
 
   def config_defaults
