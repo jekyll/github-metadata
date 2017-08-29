@@ -30,7 +30,7 @@ module Jekyll
         when nil
           drop
         when Hash
-          Jekyll::Utils.deep_merge_hashes(site.config["github"], drop)
+          Jekyll::Utils.deep_merge_hashes(drop, site.config["github"])
         else
           site.config["github"]
         end
