@@ -43,11 +43,11 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       let(:github_namespace) { { "source" => { "branch" => "foo" } } }
 
       it "lets user-specified values override the drop" do
-        expect(site.config["github"]["source"]["branch"]).to eql("foo")
+        expect(site.config["github"].invoke_drop("source")["branch"]).to eql("foo")
       end
 
       it "still sets other values" do
-        expect(site.config["github"]["source"]["path"]).to eql("/")
+        expect(site.config["github"].invoke_drop("source")["path"]).to eql("/")
       end
     end
 

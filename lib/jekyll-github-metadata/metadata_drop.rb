@@ -8,6 +8,9 @@ module Jekyll
 
       mutable true
 
+      # See https://github.com/jekyll/jekyll/pull/6338
+      alias_method :invoke_drop, :[]
+
       def to_s
         require "json"
         JSON.pretty_generate to_h
