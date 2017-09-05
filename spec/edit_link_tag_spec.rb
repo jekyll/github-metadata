@@ -30,10 +30,6 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
     tag
   end
 
-  before do
-    Jekyll.logger.log_level = :error
-  end
-
   it "knows the page" do
     expect(subject.send(:page)).to be_a(Jekyll::Page)
   end
