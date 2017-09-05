@@ -66,5 +66,5 @@ module Jekyll
 end
 
 Jekyll::Hooks.register :site, :after_init do |site|
-  Jekyll::GitHubMetadata::SiteGitHubMunger.new(site).munge! unless Jekyll.env == "test"
+  Jekyll::GitHubMetadata::SiteGitHubMunger.new(site).munge!
 end
