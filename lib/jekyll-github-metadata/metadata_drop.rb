@@ -10,6 +10,13 @@ module Jekyll
 
       # See https://github.com/jekyll/jekyll/pull/6338
       alias_method :invoke_drop, :[]
+      def key?(key)
+        if self.class.mutable?
+          @mutations.key?(key)
+        else
+          !key.nil? && (respond_to?(key) || fallback_data.key?(key))
+        end
+      end
 
       def to_s
         require "json"
