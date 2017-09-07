@@ -50,4 +50,53 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
       expect(payload.keys).to match_array(expected_values.keys)
     end
   end
+
+  context "returning values" do
+    context "native methods" do
+      it "returns a value via #[]" do
+        expect(subject["url"]).to eql("http://jekyll.github.io/github-metadata")
+      end
+
+      it "returns a value via #invoke_drop" do
+        expect(subject.invoke_drop("url")).to eql("http://jekyll.github.io/github-metadata")
+      end
+
+      it "responds to #key?" do
+        expect(subject.key?("url")).to be_truthy
+      end
+    end
+
+    context "with mutated values" do
+      before { subject["url"] = "foo" }
+
+      it "returns the mutated value via #[]" do
+        expect(subject["url"]).to eql("foo")
+      end
+
+      it "returns the mutated  via #invoke_drop" do
+        expect(subject.invoke_drop("url")).to eql("foo")
+      end
+
+      it "responds to #key?" do
+        expect(subject.key?("url")).to be_truthy
+      end
+    end
+
+    context "with fallback data" do
+      let(:fallback_data) { { "foo" => "bar" } }
+      before { subject.instance_variable_set("@fallback_data", fallback_data) }
+
+      it "returns the mutated value via #[]" do
+        expect(subject["foo"]).to eql("bar")
+      end
+
+      it "returns the mutated  via #invoke_drop" do
+        expect(subject.invoke_drop("foo")).to eql("bar")
+      end
+
+      it "responds to #key?" do
+        expect(subject.key?("foo")).to be_truthy
+      end
+    end
+  end
 end
