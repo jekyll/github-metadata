@@ -1,5 +1,9 @@
 ## HEAD
 
+## 2.9.3 / 2017-09-07
+
+* Mutable drops should fallback to their own methods when a mutation isn't present #112
+
 ## 2.9.2 / 2017-09-07
 
 ### Minor Enhancements
