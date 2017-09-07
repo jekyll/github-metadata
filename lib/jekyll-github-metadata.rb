@@ -70,7 +70,7 @@ module Jekyll
 
       def repository
         @repository ||= GitHubMetadata::Repository.new(repository_finder.nwo).tap do |repo|
-          Jekyll::GitHubMetadata.log :debug, "Generating for #{repo.nwo}"
+          log :debug, "Generating for #{repo.nwo}"
         end
       end
 

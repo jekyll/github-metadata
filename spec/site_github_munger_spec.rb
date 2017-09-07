@@ -5,7 +5,8 @@ require "jekyll-github-metadata/site_github_munger"
 RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
   let(:source) { File.expand_path("test-site", __dir__) }
   let(:dest) { File.expand_path("../tmp/test-site-build", __dir__) }
-  let(:user_config) { {} }
+  let(:github_namespace) { nil }
+  let(:user_config) { { "github" => github_namespace } }
   let(:site) { Jekyll::Site.new(Jekyll::Configuration.from(user_config)) }
   subject { described_class.new(site) }
   let!(:stubs) { stub_all_api_requests }
@@ -14,6 +15,40 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
     before(:each) do
       ENV["JEKYLL_ENV"] = "production"
       subject.munge!
+    end
+
+    context "with site.github as nil" do
+      it "replaces site.github with the drop" do
+        expect(site.config["github"]).to be_a(Liquid::Drop)
+      end
+    end
+
+    context "without site.github" do
+      let(:user_config) { {} }
+
+      it "replaces site.github with the drop" do
+        expect(site.config["github"]).to be_a(Liquid::Drop)
+      end
+    end
+
+    context "with site.github as a non-hash" do
+      let(:github_namespace) { "foo" }
+
+      it "doesn't munge" do
+        expect(site.config["github"]).to eql("foo")
+      end
+    end
+
+    context "with site.github as a hash" do
+      let(:github_namespace) { { "source" => { "branch" => "foo" } } }
+
+      it "lets user-specified values override the drop" do
+        expect(site.config["github"].invoke_drop("source")["branch"]).to eql("foo")
+      end
+
+      it "still sets other values" do
+        expect(site.config["github"].invoke_drop("source")["path"]).to eql("/")
+      end
     end
 
     context "with site.url set" do

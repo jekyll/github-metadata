@@ -4,7 +4,7 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
   let(:path) { "/" }
   let(:source) { { "branch" => branch, "path" => path } }
   let(:github) { { "repository_url" => repository_url, "source" => source } }
-  let(:config) { { "github" => github } }
+  let(:config) { { "github" => github, "plugins" => ["jekyll-github-metadata"] } }
   let(:page) { make_page }
   let(:site) { make_site(config) }
   let(:render_context) { make_context(:page => page, :site => site) }
@@ -28,10 +28,6 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
     tag = described_class.parse(tag_name, markup, tokenizer, parse_context)
     tag.instance_variable_set("@context", render_context)
     tag
-  end
-
-  before do
-    Jekyll.logger.log_level = :error
   end
 
   it "knows the page" do
@@ -64,6 +60,14 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
 
       it "builds the URL" do
         expect(uri).to eql("#{repository_url}/edit/gh-pages/page.md")
+      end
+    end
+
+    context "an arbitrary branch" do
+      let(:branch) { "foo" }
+
+      it "builds the URL" do
+        expect(uri).to eql("#{repository_url}/edit/foo/page.md")
       end
     end
   end

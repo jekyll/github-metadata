@@ -30,7 +30,7 @@ module Jekyll
         when nil
           drop
         when Hash
-          Jekyll::Utils.deep_merge_hashes(site.config["github"], drop)
+          Jekyll::Utils.deep_merge_hashes(drop, site.config["github"])
         else
           site.config["github"]
         end
@@ -66,5 +66,5 @@ module Jekyll
 end
 
 Jekyll::Hooks.register :site, :after_init do |site|
-  Jekyll::GitHubMetadata::SiteGitHubMunger.new(site).munge! unless Jekyll.env == "test"
+  Jekyll::GitHubMetadata::SiteGitHubMunger.new(site).munge!
 end

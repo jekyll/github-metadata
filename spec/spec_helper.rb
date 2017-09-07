@@ -1,7 +1,7 @@
+require "jekyll"
 require "jekyll-github-metadata"
 require "webmock/rspec"
 require "pathname"
-require "jekyll"
 
 require_relative "spec_helpers/env_helper"
 require_relative "spec_helpers/integration_helper"
