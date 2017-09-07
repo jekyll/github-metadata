@@ -1,5 +1,7 @@
 ## HEAD
 
+## 2.9.2 / 2017-09-07
+
 ### Minor Enhancements
 
   * Allow user values to override drop-determined values (#110)
