@@ -12,7 +12,8 @@ module Jekyll
       alias_method :invoke_drop, :[]
       def key?(key)
         return false if key.nil?
-        @mutations.key?(key) || respond_to?(key) || fallback_data.key?(key)
+        return true if self.class.mutable? && @mutations.key?(key)
+        respond_to?(key) || fallback_data.key?(key)
       end
 
       def to_s
