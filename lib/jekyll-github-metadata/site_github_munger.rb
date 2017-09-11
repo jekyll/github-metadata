@@ -47,19 +47,30 @@ module Jekyll
         site.config["baseurl"] = Value.new("baseurl", proc { |_c, r| r.baseurl })
       end
 
+      def add_title_and_description_fallbacks!
+        if should_warn_about_site_name?
+          msg =  "site.name is set in _config.yml, but many plugins and themes expect "
+          msg << "site.title to be used instead. To avoid potential inconsistency, "
+          msg << "Jekyll GitHub Metadata will not set site.title to the repository's name."
+          Jekyll::GitHubMetadata.log :warn, msg
+        else
+          site.config["title"] ||= Value.new("title", proc { |_c, r| r.name })
+        end
+        site.config["description"] ||= Value.new("description", proc { |_c, r| r.tagline })
+      end
+
       # Set the baseurl only if it is `nil` or `/`
       # Baseurls should never be "/". See http://bit.ly/2s1Srid
       def should_set_baseurl?
         site.config["baseurl"].nil? || site.config["baseurl"] == "/"
       end
 
-      def add_title_and_description_fallbacks!
-        site.config["title"] ||= Value.new("title", proc { |_c, r| r.name })
-        site.config["description"] ||= Value.new("description", proc { |_c, r| r.tagline })
-      end
-
       def should_add_url_fallbacks?
         Jekyll.env == "production" || Pages.page_build?
+      end
+
+      def should_warn_about_site_name?
+        site.config["name"] && !site.config["title"]
       end
     end
   end
