@@ -112,6 +112,24 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
         expect(site.config["description"]).to eql(":octocat: `site.github`")
       end
     end
+
+    context "with name set, but no title" do
+      let(:user_config) { { "name" => "My site name" } }
+
+      it "respects the site name" do
+        expect(site.config["name"]).to eql("My site name")
+        expect(site.config["title"]).to be_nil
+      end
+    end
+
+    context "with site name and title" do
+      let(:user_config) { { "name" => "Name", "title" => "Title" } }
+
+      it "respects the user's settings" do
+        expect(site.config["name"]).to eql("Name")
+        expect(site.config["title"]).to eql("Title")
+      end
+    end
   end
 
   context "with a client with no credentials" do
