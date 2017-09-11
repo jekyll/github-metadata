@@ -1,8 +1,12 @@
 ## HEAD
 
+### Minor Enhancements
+
+  * Warn and do nothing when site.name is set (#113)
+
 ## 2.9.3 / 2017-09-07
 
-* Mutable drops should fallback to their own methods when a mutation isn't present #112
+  * Mutable drops should fallback to their own methods when a mutation isn't present #112
 
 ## 2.9.2 / 2017-09-07
 
