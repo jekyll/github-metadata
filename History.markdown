@@ -4,6 +4,10 @@
 
   * Warn and do nothing when site.name is set (#113)
 
+### Documentation
+
+  * Docs: use plugins config key (#115)
+
 ## 2.9.3 / 2017-09-07
 
   * Mutable drops should fallback to their own methods when a mutation isn't present #112
