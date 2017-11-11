@@ -27,7 +27,7 @@ plugins:
   - "jekyll-github-metadata"
 ```
 
-:warning:If you are using Jekyll < 3.5.0 use the gems key instead of plugins.
+:warning: If you are using Jekyll < 3.5.0 use the `gems` key instead of `plugins`.
 
 Then go ahead and run `bundle install`. Once you've done that jekyll-github-metadata will run when you run Jekyll.
 
