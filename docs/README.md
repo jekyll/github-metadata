@@ -16,18 +16,18 @@ Jekyll plugin to propagate the `site.github` namespace and set default values fo
 
 Usage of this gem is pretty straight-forward. Add it to your bundle like this:
 
-```
+```ruby
 gem "jekyll-github-metadata"
 ```
 
 Now add it to your `_config.yml`:
 
-```
+```yaml
 plugins:
   - "jekyll-github-metadata"
 ```
 
-If you are using Jekyll < 3.5.0 use the gems key instead of plugins.
+:warning:If you are using Jekyll < 3.5.0 use the gems key instead of plugins.
 
 Then go ahead and run `bundle install`. Once you've done that jekyll-github-metadata will run when you run Jekyll.
 
