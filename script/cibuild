@@ -5,5 +5,5 @@ set -e
 export PAGES_ENV=test
 export JEKYLL_ENV=test
 script/test
-script/fmt -S -D
-bundle exec gem build jekyll-github-metadata.gemspec
+script/fmt
+bundle exec rake build

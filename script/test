@@ -1,3 +1,3 @@
 #!/bin/bash
 echo Testing with $(bundle exec jekyll --version)
-PAGES_ENV=test bundle exec rspec --color --require spec_helper $@
+PAGES_ENV=test bundle exec rspec $@
