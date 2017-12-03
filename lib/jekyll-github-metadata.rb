@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "octokit"
 require "liquid"
 require "logger"

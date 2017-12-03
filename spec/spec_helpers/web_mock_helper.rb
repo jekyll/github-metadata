@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WebMockHelper
   REQUEST_HEADERS = {
     "Accept"          => %r!application/vnd\.github\.(v3|drax-preview)\+json!,

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FixtureHelper
   def in_dest_dir(*files)
     dest_dir.join(*files)

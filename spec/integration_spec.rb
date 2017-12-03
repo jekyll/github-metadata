@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 require "jekyll"
 require "jekyll-github-metadata/site_github_munger"

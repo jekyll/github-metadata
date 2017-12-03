@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe(Jekyll::GitHubMetadata::Value) do
   let(:simple_value)  { described_class.new(proc { "a value" }) }
   let(:number_value)  { described_class.new(4) }
