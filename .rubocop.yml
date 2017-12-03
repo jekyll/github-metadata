@@ -2,8 +2,9 @@ inherit_gem:
   jekyll: .rubocop.yml
 
 AllCops:
+  TargetRubyVersion: 2.1
   Exclude:
-    - 'vendor/**/*'
+    - vendor/**/*
 
 Metrics/LineLength:
   Enabled: false
@@ -15,3 +16,9 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Exclude:
     - spec/**/*
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - lib/jekyll-github-metadata/site_github_munger.rb
+    - spec/edit_link_tag_spec.rb
+    - spec/site_github_munger_spec.rb
