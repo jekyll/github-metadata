@@ -1,5 +1,7 @@
 ## HEAD
 
+## 2.9.4 / 2017-12-08
+
 ### Minor Enhancements
 
   * Warn and do nothing when site.name is set (#113)
