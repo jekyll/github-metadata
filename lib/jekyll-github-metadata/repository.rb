@@ -147,7 +147,7 @@ module Jekyll
 
       def user_page_domains
         domains = [default_user_domain]
-        domains.push "#{owner}.github.com".downcase unless Pages.enterprise?
+        domains.push "#{owner}.github.io".downcase unless Pages.enterprise?
         domains
       end
 
