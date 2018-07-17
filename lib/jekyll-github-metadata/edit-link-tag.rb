@@ -49,7 +49,7 @@ module Jekyll
       private
 
       def link_text
-        @link_text ||= begin
+        begin
           matches = @markup.match LINK_TEXT_REGEX
           matches[1] || matches[2] if matches
         end
@@ -69,11 +69,11 @@ module Jekyll
       end
 
       def parts
-        @parts ||= [repository_url, "edit/", branch, source_path, page_path]
+        [repository_url, "edit/", branch, source_path, page_path]
       end
 
       def parts_normalized
-        @parts_normalized ||= parts.map.with_index do |part, index|
+        parts.map.with_index do |part, index|
           part = remove_leading_slash(part.to_s)
           part = ensure_trailing_slash(part) unless index == parts.length - 1
           ensure_not_just_a_slash(part)
@@ -81,7 +81,7 @@ module Jekyll
       end
 
       def page
-        @page ||= context.registers[:page]
+        context.registers[:page]
       end
 
       def site
