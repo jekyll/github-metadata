@@ -158,5 +158,27 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
         end
       end
     end
+    
+    context "in development" do
+      let(:nwo) { "jekyll/jekyll" }
+      
+      it "github.com repo URL always https" do
+        with_env({
+          "GITHUB_HOSTNAME" => "github.com",
+          "PAGES_ENV"       => "development"
+        }) do
+          expect(repo.repository_url).to eql("https://github.com/#{nwo}")
+        end
+      end
+      
+      it "non-github.com repo URL always http" do
+        with_env({
+          "GITHUB_HOSTNAME" => "xyz.example",
+          "PAGES_ENV"       => "development"
+        }) do
+          expect(repo.repository_url).to eql("http://xyz.example/#{nwo}")
+        end
+      end
+    end
   end
 end

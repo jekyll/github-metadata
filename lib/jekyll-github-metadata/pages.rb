@@ -53,7 +53,7 @@ module Jekyll
         end
 
         def github_url
-          if dotcom?
+          if dotcom? || github_hostname == "github.com"
             "https://github.com".freeze
           else
             "#{scheme}://#{github_hostname}"
