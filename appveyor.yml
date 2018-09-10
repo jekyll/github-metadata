@@ -27,4 +27,4 @@ test_script:
 
 cache:
   # If one of the files after the right arrow changes, cache will be skipped
-  - 'vendor\bundle -> appveyor.yml,Gemfile,jekyll-sass-converter.gemspec'
+  - 'vendor\bundle -> appveyor.yml,Gemfile,jekyll-github-metadata.gemspec'
