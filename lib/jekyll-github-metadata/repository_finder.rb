@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'open3'
+
 module Jekyll
   module GitHubMetadata
     class RepositoryFinder
@@ -57,7 +59,8 @@ module Jekyll
 
       def git_remotes
         return [] if git_exe_path.nil?
-        `#{git_exe_path} remote --verbose`.to_s.strip.split("\n")
+        output, status = Open3.capture2(git_exe_path, 'remote', '--verbose')
+        output.to_s.strip.split("\n")
       end
 
       def git_remote_url
