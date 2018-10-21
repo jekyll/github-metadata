@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'open3'
+require "open3"
 
 module Jekyll
   module GitHubMetadata
@@ -48,7 +48,7 @@ module Jekyll
       end
 
       def git_exe_path
-        exts = (ENV['PATHEXT'] || '').split(File::PATH_SEPARATOR).push('')
+        exts = (ENV["PATHEXT"] || "").split(File::PATH_SEPARATOR).push("")
         cmds = exts.map { |ext| "git#{ext}" }
         ENV["PATH"].to_s
           .split(File::PATH_SEPARATOR)
@@ -59,7 +59,7 @@ module Jekyll
 
       def git_remotes
         return [] if git_exe_path.nil?
-        output, status = Open3.capture2(git_exe_path, 'remote', '--verbose')
+        output, _status = Open3.capture2(git_exe_path, "remote", "--verbose")
         output.to_s.strip.split("\n")
       end
 
