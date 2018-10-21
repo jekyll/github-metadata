@@ -48,7 +48,7 @@ module Jekyll
       end
 
       def git_exe_path
-        exts = (ENV['PATHEXT'] || '').split(File::PATH_SEPARATOR)
+        exts = (ENV['PATHEXT'] || '').split(File::PATH_SEPARATOR).push('')
         cmds = exts.map { |ext| "git#{ext}" }
         ENV["PATH"].to_s
           .split(File::PATH_SEPARATOR)
