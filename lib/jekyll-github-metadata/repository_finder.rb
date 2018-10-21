@@ -46,10 +46,13 @@ module Jekyll
       end
 
       def git_exe_path
+        exts = (ENV['PATHEXT'] || '').split(File::PATH_SEPARATOR)
+        cmds = exts.map { |ext| "git#{ext}" }
         ENV["PATH"].to_s
           .split(File::PATH_SEPARATOR)
-          .map { |path| File.join(path, "git") }
-          .find { |path| File.exist?(path) }
+          .map { |path| cmds.map { |cmd| File.join(path, cmd) } }
+          .flatten
+          .find { |path| File.executable?(path) && !File.directory?(path) }
       end
 
       def git_remotes
