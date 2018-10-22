@@ -17,6 +17,9 @@ Metrics/MethodLength:
   Exclude:
     - spec/**/*
 
+Style/AccessModifierDeclarations:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   Exclude:
     - lib/jekyll-github-metadata/site_github_munger.rb
