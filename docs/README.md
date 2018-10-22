@@ -1,6 +1,11 @@
 # GitHub Metadata, a.k.a. `site.github`
 
-[![Build Status](https://travis-ci.org/jekyll/github-metadata.svg?branch=test-site)](https://travis-ci.org/jekyll/github-metadata)
+[![Linux Build Status](https://img.shields.io/travis/jekyll/github-metadata/master.svg?label=Linux%20build)][travis]
+[![Windows Build status](https://img.shields.io/appveyor/ci/jekyll/github-metadata/master.svg?label=Windows%20build)][appveyor]
+
+[travis]: https://travis-ci.org/jekyll/github-metadata
+[appveyor]: https://ci.appveyor.com/project/jekyll/github-metadata
+
 
 Jekyll plugin to propagate the `site.github` namespace and set default values for use with GitHub Pages.
 
