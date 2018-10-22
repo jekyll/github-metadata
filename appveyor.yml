@@ -1,23 +1,21 @@
 version: "{build}"
-
-clone_depth: 10
-
+clone_depth: 5
 branches:
   only:
     - master
 
 build: off
 
+environment:
+  matrix:
+    - RUBY_FOLDER_VER: "25-x64"
+    - RUBY_FOLDER_VER: "25"
+    - RUBY_FOLDER_VER: "24"
+    - RUBY_FOLDER_VER: "23"
+
 install:
   - SET PATH=C:\Ruby%RUBY_FOLDER_VER%\bin;%PATH%
   - bundle install --retry 5 --jobs=%NUMBER_OF_PROCESSORS% --clean --path vendor\bundle
-
-environment:
-  matrix:
-    - RUBY_FOLDER_VER: "25"
-    - RUBY_FOLDER_VER: "25-x64"
-    - RUBY_FOLDER_VER: "24"
-    - RUBY_FOLDER_VER: "23"
 
 test_script:
   - ruby --version
@@ -26,5 +24,5 @@ test_script:
   - bash ./script/cibuild
 
 cache:
-  # If one of the files after the right arrow changes, cache will be skipped
+  # If one of the files after the right arrow changes, cache will be invalidated
   - 'vendor\bundle -> appveyor.yml,Gemfile,jekyll-github-metadata.gemspec'
