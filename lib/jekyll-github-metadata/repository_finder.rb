@@ -48,7 +48,7 @@ module Jekyll
       def git_remotes
         output = ""
         begin
-          _p, output = Jekyll::Utils::Exec.run("git", "remote", "--verbose")
+          _process, output = Jekyll::Utils::Exec.run("git", "remote", "--verbose")
         rescue Errno::ENOENT => e
           Jekyll.logger.warn "Git is not installed: ", e.message
         end
