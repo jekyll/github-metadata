@@ -50,7 +50,7 @@ module Jekyll
         begin
           _process, output = Jekyll::Utils::Exec.run("git", "remote", "--verbose")
         rescue Errno::ENOENT => e
-          Jekyll.logger.warn "Git is not installed: ", e.message
+          Jekyll.logger.warn "Not Installed:", e.message
         end
         output.to_s.strip.split("\n")
       end
