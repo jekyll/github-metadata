@@ -82,7 +82,6 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
 
       it "fails with a nice error message" do
         allow(subject).to receive(:git_remote_url).and_call_original
-        expect(subject.send(:git_exe_path)).to eql(nil)
         expect(subject.send(:git_remote_url)).to be_empty
       end
     end
