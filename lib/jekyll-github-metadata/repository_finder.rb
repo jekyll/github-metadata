@@ -47,19 +47,13 @@ module Jekyll
         repo if repo && repo.is_a?(String) && repo.include?("/")
       end
 
-      def git_exe_path
-        exts = (ENV["PATHEXT"] || "").split(File::PATH_SEPARATOR).push("")
-        cmds = exts.map { |ext| "git#{ext}" }
-        ENV["PATH"].to_s
-          .split(File::PATH_SEPARATOR)
-          .map { |path| cmds.map { |cmd| File.join(path, cmd) } }
-          .flatten
-          .find { |path| File.executable?(path) && !File.directory?(path) }
-      end
-
       def git_remotes
-        return [] if git_exe_path.nil?
-        output, _status = Open3.capture2(git_exe_path, "remote", "--verbose")
+        output = ""
+        begin
+          _p, output = Jekyll::Utils::Exec.run("git", "remote", "--verbose")
+        rescue Errno::ENOENT => e
+          Jekyll.logger.warn "Git is not installed: ", e.message
+        end
         output.to_s.strip.split("\n")
       end
 
