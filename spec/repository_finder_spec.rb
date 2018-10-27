@@ -77,8 +77,11 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
     end
 
     context "when git doesn't exist" do
-      before(:each) { @old_path = ENV.delete("PATH").to_s.split(File::PATH_SEPARATOR) }
-      after(:each)  { ENV["PATH"] = @old_path.join(File::PATH_SEPARATOR) }
+      before(:each) do
+        @old_path = ENV["PATH"]
+        ENV["PATH"] = ""
+      end
+      after(:each)  { ENV["PATH"] = @old_path }
 
       it "fails with a nice error message" do
         allow(subject).to receive(:git_remote_url).and_call_original
