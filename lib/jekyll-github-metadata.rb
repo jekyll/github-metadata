@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
+require "jekyll"
 require "octokit"
-require "liquid"
-require "logger"
 
-if defined?(Jekyll) && Jekyll.respond_to?(:env) && Jekyll.env == "development"
+if Jekyll.respond_to?(:env) && Jekyll.env == "development"
   begin
     require "dotenv"
     Dotenv.load
