@@ -3,7 +3,7 @@
 require "jekyll"
 require "octokit"
 
-if Jekyll.respond_to?(:env) && Jekyll.env == "development"
+if Jekyll.env == "development"
   begin
     require "dotenv"
     Dotenv.load
@@ -46,7 +46,7 @@ module Jekyll
       end
 
       def environment
-        Jekyll.respond_to?(:env) ? Jekyll.env : (Pages.env || "development")
+        Jekyll.env
       end
 
       def logger
