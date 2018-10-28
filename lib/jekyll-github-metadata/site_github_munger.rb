@@ -6,8 +6,8 @@ module Jekyll
     class SiteGitHubMunger
       extend Forwardable
 
-      def_delegators :"Jekyll::GitHubMetadata", :site
-      private def_delegator :"Jekyll::GitHubMetadata", :repository
+      def_delegators Jekyll::GitHubMetadata, :site, :repository
+      private :repository
 
       def initialize(site)
         Jekyll::GitHubMetadata.site = site
