@@ -13,12 +13,6 @@ if Jekyll.env == "development"
 end
 
 module Jekyll
-  unless const_defined? :Errors
-    module Errors
-      FatalException = Class.new(::RuntimeError) unless const_defined? :FatalException
-    end
-  end
-
   module GitHubMetadata
     autoload :Client,           "jekyll-github-metadata/client"
     autoload :EditLinkTag,      "jekyll-github-metadata/edit-link-tag"
