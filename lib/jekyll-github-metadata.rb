@@ -44,11 +44,7 @@ module Jekyll
       end
 
       def logger
-        @logger ||= if Jekyll.respond_to?(:logger)
-                      Jekyll.logger
-                    else
-                      Logger.new($stdout)
-                    end
+        @logger ||= Jekyll.logger
       end
 
       def log(severity, message)
