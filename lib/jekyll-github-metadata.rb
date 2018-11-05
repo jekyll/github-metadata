@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
+require "jekyll"
 require "octokit"
-require "liquid"
-require "logger"
 
-if defined?(Jekyll) && Jekyll.respond_to?(:env) && Jekyll.env == "development"
+if Jekyll.env == "development"
   begin
     require "dotenv"
     Dotenv.load
@@ -14,12 +13,6 @@ if defined?(Jekyll) && Jekyll.respond_to?(:env) && Jekyll.env == "development"
 end
 
 module Jekyll
-  unless const_defined? :Errors
-    module Errors
-      FatalException = Class.new(::RuntimeError) unless const_defined? :FatalException
-    end
-  end
-
   module GitHubMetadata
     autoload :Client,           "jekyll-github-metadata/client"
     autoload :EditLinkTag,      "jekyll-github-metadata/edit-link-tag"
@@ -47,15 +40,11 @@ module Jekyll
       end
 
       def environment
-        Jekyll.respond_to?(:env) ? Jekyll.env : (Pages.env || "development")
+        Jekyll.env
       end
 
       def logger
-        @logger ||= if Jekyll.respond_to?(:logger)
-                      Jekyll.logger
-                    else
-                      Logger.new($stdout)
-                    end
+        @logger ||= Jekyll.logger
       end
 
       def log(severity, message)
