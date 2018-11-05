@@ -4,6 +4,10 @@
 
   * Test against Ruby 2.5 (#119)
 
+### Minor Enhancements
+
+  * Remove redundant code (#140)
+
 ## 2.9.4 / 2017-12-08
 
 ### Minor Enhancements
