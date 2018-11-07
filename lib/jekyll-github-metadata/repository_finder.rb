@@ -50,7 +50,7 @@ module Jekyll
         output.to_s.strip.split("\n")
       rescue Errno::ENOENT => e
         Jekyll.logger.warn "Not Installed:", e.message
-        ""
+        []
       end
 
       def git_remote_url
