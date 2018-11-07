@@ -45,16 +45,12 @@ module Jekyll
         repo if repo && repo.is_a?(String) && repo.include?("/")
       end
 
-      def git_exe_path
-        ENV["PATH"].to_s
-          .split(File::PATH_SEPARATOR)
-          .map { |path| File.join(path, "git") }
-          .find { |path| File.exist?(path) }
-      end
-
       def git_remotes
-        return [] if git_exe_path.nil?
-        `#{git_exe_path} remote --verbose`.to_s.strip.split("\n")
+        _process, output = Jekyll::Utils::Exec.run("git", "remote", "--verbose")
+        output.to_s.strip.split("\n")
+      rescue Errno::ENOENT => e
+        Jekyll.logger.warn "Not Installed:", e.message
+        []
       end
 
       def git_remote_url
