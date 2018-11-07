@@ -3,6 +3,16 @@
 ### Development Fixes
 
   * Test against Ruby 2.5 (#119)
+  * Add script/console to help debug (#124)
+
+### Minor Enhancements
+
+  * Remove redundant code (#140)
+
+### Bug Fixes
+
+  * Fixes for repository detection on Windows (#136)
+  * Make github.com repo URLs always https (#133)
 
 ## 2.9.4 / 2017-12-08
 
