@@ -8,6 +8,10 @@
 
   * Remove redundant code (#140)
 
+### Bug Fixes
+
+  * Fixes for repository detection on Windows (#136)
+
 ## 2.9.4 / 2017-12-08
 
 ### Minor Enhancements
