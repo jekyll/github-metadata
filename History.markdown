@@ -3,6 +3,7 @@
 ### Development Fixes
 
   * Test against Ruby 2.5 (#119)
+  * Add script/console to help debug (#124)
 
 ### Minor Enhancements
 
