@@ -32,14 +32,14 @@ module Jekyll
         super.sort
       end
 
-      def_delegator :"Jekyll::GitHubMetadata::Pages", :env, :environment
-      def_delegator :"Jekyll::GitHubMetadata::Pages", :env, :pages_env
-      def_delegator :"Jekyll::GitHubMetadata::Pages", :github_hostname, :hostname
-      def_delegator :"Jekyll::GitHubMetadata::Pages", :pages_hostname, :pages_hostname
-      def_delegator :"Jekyll::GitHubMetadata::Pages", :api_url, :api_url
-      def_delegator :"Jekyll::GitHubMetadata::Pages", :help_url, :help_url
+      def_delegator Jekyll::GitHubMetadata::Pages, :env,             :environment
+      def_delegator Jekyll::GitHubMetadata::Pages, :env,             :pages_env
+      def_delegator Jekyll::GitHubMetadata::Pages, :github_hostname, :hostname
+      def_delegator Jekyll::GitHubMetadata::Pages, :pages_hostname,  :pages_hostname
+      def_delegator Jekyll::GitHubMetadata::Pages, :api_url,         :api_url
+      def_delegator Jekyll::GitHubMetadata::Pages, :help_url,        :help_url
 
-      private def_delegator :"Jekyll::GitHubMetadata", :repository
+      private def_delegator Jekyll::GitHubMetadata, :repository
 
       def_delegator :repository, :owner_public_repositories,   :public_repositories
       def_delegator :repository, :organization_public_members, :organization_members
