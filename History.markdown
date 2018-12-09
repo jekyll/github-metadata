@@ -8,6 +8,7 @@
 ### Minor Enhancements
 
   * Remove redundant code (#140)
+  * Constant accessors for def_delegation (#141)
 
 ### Bug Fixes
 
