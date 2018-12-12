@@ -76,6 +76,15 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
       expect(subject.send(:nwo_from_git_origin_remote)).to include("afeld/hackerhours.org")
     end
 
+    it "handles private github instance addresses" do
+      allow(Jekyll::GitHubMetadata::Pages).to receive(:github_hostname).and_return "github.myorg.com"
+      allow(subject).to receive(:git_remote_url).and_return <<-EOS
+  origin  https://github.myorg.com/myorg/myrepo.git (fetch)
+  origin  https://github.myorg.com/myorg/myrepo.git (push)
+  EOS
+      expect(subject.send(:nwo_from_git_origin_remote)).to include("myorg/myrepo")
+    end
+
     context "when git doesn't exist" do
       before(:each) do
         @old_path = ENV["PATH"]
