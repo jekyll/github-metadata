@@ -2,9 +2,9 @@ language: ruby
 sudo: false
 cache: bundler
 rvm:
+  - 2.6
   - 2.5
   - 2.4
-  - 2.3
 env:
   matrix:
     - JEKYLL_VERSION=3.7
