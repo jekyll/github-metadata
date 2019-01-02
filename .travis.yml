@@ -9,6 +9,9 @@ env:
   matrix:
     - JEKYLL_VERSION=3.7
     - JEKYLL_VERSION=3.8
+os:
+  - linux
+  - windows
 branches:
   only:
     - master
