@@ -1,15 +1,10 @@
-## HEAD
-
-### Development Fixes
-
-  * Test against Ruby 2.5 (#119)
-  * Add script/console to help debug (#124)
+## 2.10.0 / 2019-01-02
 
 ### Minor Enhancements
 
-  * Remove redundant code (#140)
-  * Constant accessors for def_delegation (#141)
   * Allow detecting repository on GitHub Enterprise (#147)
+  * Remove redundant code (#140)
+  * Constant accessors for `def_delegation` (#141)
 
 ### Bug Fixes
 
@@ -19,6 +14,12 @@
 ### Documentation
 
   * Add instructions for using DotEnv (#92)
+
+### Development Fixes
+
+  * Test against Ruby 2.5 (#119)
+  * Add script/console to help debug (#124)
+
 
 ## 2.9.4 / 2017-12-08
 
