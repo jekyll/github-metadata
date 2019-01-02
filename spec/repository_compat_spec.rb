@@ -23,7 +23,7 @@ RSpec.describe(Jekyll::GitHubMetadata::RepositoryCompat) do
     end
 
     it "returns the source" do
-      expect(repo_compat.source).to eql({ "branch" => "gh-pages", "path" => "/" })
+      expect(repo_compat.source).to eql("branch" => "gh-pages", "path" => "/")
     end
   end
 
@@ -44,7 +44,7 @@ RSpec.describe(Jekyll::GitHubMetadata::RepositoryCompat) do
     end
 
     it "returns the source" do
-      expect(repo_compat.source).to eql({ "branch" => "master", "path" => "/" })
+      expect(repo_compat.source).to eql("branch" => "master", "path" => "/")
     end
   end
 
@@ -65,25 +65,25 @@ RSpec.describe(Jekyll::GitHubMetadata::RepositoryCompat) do
     end
 
     it "returns the source" do
-      expect(repo_compat.source).to eql({ "branch" => "master", "path" => "/" })
+      expect(repo_compat.source).to eql("branch" => "master", "path" => "/")
     end
 
     context "on enterprise" do
       it "uses Pages.scheme to determine scheme for pages URL" do
         # With SSL=true
-        with_env({
+        with_env(
           "PAGES_ENV" => "enterprise",
-          "SSL"       => "true",
-        }) do
+          "SSL"       => "true"
+        ) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(true)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("https")
           expect(repo_compat.url_scheme).to eql("https")
         end
 
         # With no SSL
-        with_env({
-          "PAGES_ENV" => "enterprise",
-        }) do
+        with_env(
+          "PAGES_ENV" => "enterprise"
+        ) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(false)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("http")
           expect(repo_compat.url_scheme).to eql("http")

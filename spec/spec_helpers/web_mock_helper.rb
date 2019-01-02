@@ -32,12 +32,13 @@ module WebMockHelper
   end
 
   def request_headers
-    REQUEST_HEADERS.merge({
-      "Authorization" => "token #{ENV.fetch("JEKYLL_GITHUB_TOKEN", "1234abc")}",
-    })
+    REQUEST_HEADERS.merge(
+      "Authorization" => "token #{ENV.fetch("JEKYLL_GITHUB_TOKEN", "1234abc")}"
+    )
   end
 
   private
+
   def url(path)
     "#{Jekyll::GitHubMetadata::Pages.api_url}#{path}"
   end

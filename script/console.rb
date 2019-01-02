@@ -1,5 +1,7 @@
-require 'octokit'
-require 'pry'
+# frozen_string_literal: true
+
+require "octokit"
+require "pry"
 
 stack = Faraday::RackBuilder.new do |builder|
   builder.use Octokit::Middleware::FollowRedirects

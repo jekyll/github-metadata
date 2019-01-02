@@ -10,7 +10,7 @@ module FixtureHelper
   end
 
   def source_dir
-    @soruce_dir ||= Pathname.new(File.expand_path("../test-site", __dir__))
+    @source_dir ||= Pathname.new(File.expand_path("../test-site", __dir__))
   end
 
   def config_defaults

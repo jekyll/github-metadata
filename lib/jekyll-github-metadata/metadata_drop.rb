@@ -15,6 +15,7 @@ module Jekyll
       def key?(key)
         return false if key.nil?
         return true if self.class.mutable? && @mutations.key?(key)
+
         respond_to?(key) || fallback_data.key?(key)
       end
 
@@ -71,11 +72,13 @@ module Jekyll
       def_delegator :repository, :source,                      :source
 
       def versions
-        @versions ||= begin
+        return @versions if defined?(@versions)
+
+        begin
           require "github-pages"
-          GitHubPages.versions
+          @versions = GitHubPages.versions
         rescue LoadError
-          {}
+          @versions = {}
         end
       end
 

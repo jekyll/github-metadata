@@ -134,7 +134,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
 
   context "with a client with no credentials" do
     before(:each) do
-      Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new({ :access_token => "" })
+      Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new(:access_token => "")
     end
 
     it "does not fail upon call to #munge" do
@@ -151,11 +151,11 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
 
   context "with a client with bad credentials" do
     before(:each) do
-      Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new({ :access_token => "1234abc" })
+      Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new(:access_token => "1234abc")
       stub_request(:get, url("/repos/jekyll/github-metadata/pages"))
-        .with(:headers => request_headers.merge({
-          "Authorization" => "token 1234abc",
-        }))
+        .with(:headers => request_headers.merge(
+          "Authorization" => "token 1234abc"
+        ))
         .to_return(
           :status  => 401,
           :headers => WebMockHelper::RESPONSE_HEADERS,

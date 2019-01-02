@@ -28,6 +28,7 @@ module Jekyll
         repo.user_page_domains.each do |user_repo|
           candidate_nwo = "#{repo.owner}/#{user_repo}"
           next unless Jekyll::GitHubMetadata.client.repository?(candidate_nwo)
+
           domain = Jekyll::GitHubMetadata::Repository.new(candidate_nwo).repo_compat.domain
         end
         domain

@@ -44,6 +44,7 @@ module Jekyll
       def add_url_and_baseurl_fallbacks!
         site.config["url"] ||= Value.new("url", proc { |_c, r| r.url_without_path })
         return unless should_set_baseurl?
+
         site.config["baseurl"] = Value.new("baseurl", proc { |_c, r| r.baseurl })
       end
 

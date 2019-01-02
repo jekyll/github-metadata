@@ -95,7 +95,7 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
         @old_path = ENV["PATH"]
         ENV["PATH"] = ""
       end
-      after(:each)  { ENV["PATH"] = @old_path }
+      after(:each) { ENV["PATH"] = @old_path }
 
       it "fails with a nice error message" do
         allow(subject).to receive(:git_remote_url).and_call_original

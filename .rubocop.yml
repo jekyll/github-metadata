@@ -6,6 +6,7 @@ AllCops:
   TargetRubyVersion: 2.4
   Exclude:
     - vendor/**/*
+    - script/*
 
 Metrics/LineLength:
   Enabled: false

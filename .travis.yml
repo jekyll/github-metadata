@@ -8,7 +8,7 @@ rvm:
 env:
   matrix:
     - JEKYLL_VERSION=3.7
-    - JEKYLL_VERSION=3.8
+    - JEKYLL_VERSION=
 os:
   - linux
   - windows
