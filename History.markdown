@@ -9,6 +9,7 @@
 
   * Remove redundant code (#140)
   * Constant accessors for def_delegation (#141)
+  * Allow detecting repository on GitHub Enterprise (#147)
 
 ### Bug Fixes
 
