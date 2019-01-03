@@ -46,6 +46,7 @@ module Jekyll
       def_delegator :repository, :organization_public_members, :organization_members
       def_delegator :repository, :name,                        :project_title
       def_delegator :repository, :tagline,                     :project_tagline
+      def_delegator :repository, :owner_metadata,              :owner
       def_delegator :repository, :owner,                       :owner_name
       def_delegator :repository, :owner_url,                   :owner_url
       def_delegator :repository, :owner_gravatar_url,          :owner_gravatar_url

@@ -12,6 +12,7 @@ module Jekyll
       API_CALLS = Set.new(%w(
         repository
         organization
+        user
         repository?
         pages
         contributors

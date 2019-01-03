@@ -62,6 +62,10 @@ module Jekyll
         end
       end
 
+      def owner_metadata
+        memoize_value :@owner_metadata, Value.new(proc { |c| c.organization(owner) || c.user(owner) })
+      end
+
       def owner_url
         "#{Pages.github_url}/#{owner}"
       end
