@@ -5,10 +5,10 @@ rvm:
   - 2.6
   - 2.5
   - 2.4
-env:
-  matrix:
-    - JEKYLL_VERSION=3.7
-    - JEKYLL_VERSION=
+matrix:
+  include:
+    - rvm: 2.6
+      env: JEKYLL_VERSION=3.7
 os:
   - linux
   - windows
