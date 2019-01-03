@@ -10,12 +10,6 @@ matrix:
     - rvm: 2.6
       env: JEKYLL_VERSION=3.7
       os: linux
-    - rvm: 2.6
-      env: JEKYLL_VERSION=3.7
-      os: windows
-os:
-  - linux
-  - windows
 branches:
   only:
     - master
