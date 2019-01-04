@@ -8,7 +8,7 @@ rvm:
 matrix:
   include:
     - rvm: 2.6
-      env: JEKYLL_VERSION=3.7
+      env: JEKYLL_VERSION=3.7.0
       os: linux
 branches:
   only:
