@@ -3,10 +3,10 @@
 require "spec_helper"
 
 RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
-  let(:overrides) {{"repository" => "jekyll/another-repo"}}
-  let(:config) {Jekyll::Configuration.from(overrides)}
-  let(:site) {Jekyll::Site.new config}
-  subject {described_class.new(site)}
+  let(:overrides) { { "repository" => "jekyll/another-repo" } }
+  let(:config) { Jekyll::Configuration.from(overrides) }
+  let(:site) { Jekyll::Site.new config }
+  subject { described_class.new(site) }
 
   context "with no repository set" do
     before(:each) do
@@ -39,7 +39,7 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
 
     {
       :https => "https://github.com/foo/bar",
-      :ssh => "git@github.com:foo/bar.git",
+      :ssh   => "git@github.com:foo/bar.git",
     }.each do |type, url|
       context "with a #{type} git URL" do
         before(:each) do
@@ -47,7 +47,7 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
           ENV["PAGES_REPO_NWO"] = nil
           ENV.delete("JEKYLL_ENV")
         end
-        after(:each) {ENV["JEKYLL_ENV"] = "test"}
+        after(:each) { ENV["JEKYLL_ENV"] = "test" }
 
         it "parses the name with owner from the git URL" do
           allow(subject).to receive(:git_remote_url).and_return(url)
@@ -58,7 +58,7 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
   end
 
   context "with PAGES_REPO_NWO and site.repository set" do
-    before(:each) {ENV["PAGES_REPO_NWO"] = "jekyll/some-repo"}
+    before(:each) { ENV["PAGES_REPO_NWO"] = "jekyll/some-repo" }
 
     it "uses the value from PAGES_REPO_NWO" do
       expect(subject.send(:nwo)).to eql("jekyll/some-repo")
@@ -66,7 +66,7 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
   end
 
   context "with only site.repository set" do
-    before(:each) {ENV["PAGES_REPO_NWO"] = nil}
+    before(:each) { ENV["PAGES_REPO_NWO"] = nil }
 
     it "uses the value from site.repository" do
       expect(subject.send(:nwo)).to eql("jekyll/another-repo")
@@ -74,8 +74,8 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
   end
 
   context "when determining the nwo via git" do
-    before(:each) {ENV.delete("JEKYLL_ENV")}
-    after(:each) {ENV["JEKYLL_ENV"] = "test"}
+    before(:each) { ENV.delete("JEKYLL_ENV") }
+    after(:each) { ENV["JEKYLL_ENV"] = "test" }
 
     it "handles periods in repo names" do
       allow(subject).to receive(:git_remote_url).and_return "https://github.com/afeld/hackerhours.org.git"
@@ -95,7 +95,7 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
         @old_path = ENV["PATH"]
         ENV["PATH"] = ""
       end
-      after(:each) {ENV["PATH"] = @old_path}
+      after(:each)  { ENV["PATH"] = @old_path }
 
       it "fails with a nice error message" do
         allow(subject).to receive(:git_remote_url).and_call_original
