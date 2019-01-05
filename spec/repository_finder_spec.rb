@@ -24,8 +24,17 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
     end
 
     it "retrieves the git remote" do
+      expect(subject.send(:git_remotes)).not_to be_empty
+    end
+
+    it "extracts the origin from remotes returned by git" do
+      allow(subject).to receive(:git_remotes).and_return([
+        "origin\thttps://github.com/jekyll/github-metadata.git (fetch)",
+        "origin\thttps://github.com/jekyll/github-metadata.git (push)"
+      ])
       allow(subject).to receive(:git_remote_url).and_call_original
-      expect(subject.send(:git_remote_url)).to include("jekyll/github-metadata")
+
+      expect(subject.send(:git_remote_url)).to eql("https://github.com/jekyll/github-metadata.git")
     end
 
     {
@@ -69,20 +78,16 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
     after(:each) { ENV["JEKYLL_ENV"] = "test" }
 
     it "handles periods in repo names" do
-      allow(subject).to receive(:git_remote_url).and_return <<-EOS
-  origin  https://github.com/afeld/hackerhours.org.git (fetch)
-  origin  https://github.com/afeld/hackerhours.org.git (push)
-  EOS
-      expect(subject.send(:nwo_from_git_origin_remote)).to include("afeld/hackerhours.org")
+      allow(subject).to receive(:git_remote_url).and_return "https://github.com/afeld/hackerhours.org.git"
+
+      expect(subject.send(:nwo_from_git_origin_remote)).to eql("afeld/hackerhours.org")
     end
 
     it "handles private github instance addresses" do
       allow(Jekyll::GitHubMetadata::Pages).to receive(:github_hostname).and_return "github.myorg.com"
-      allow(subject).to receive(:git_remote_url).and_return <<-EOS
-  origin  https://github.myorg.com/myorg/myrepo.git (fetch)
-  origin  https://github.myorg.com/myorg/myrepo.git (push)
-  EOS
-      expect(subject.send(:nwo_from_git_origin_remote)).to include("myorg/myrepo")
+      allow(subject).to receive(:git_remote_url).and_return "https://github.myorg.com/myorg/myrepo.git"
+
+      expect(subject.send(:nwo_from_git_origin_remote)).to eql("myorg/myrepo")
     end
 
     context "when git doesn't exist" do
