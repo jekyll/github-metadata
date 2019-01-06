@@ -30,7 +30,7 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
     it "extracts the origin from remotes returned by git" do
       allow(subject).to receive(:git_remotes).and_return([
         "origin\thttps://github.com/jekyll/github-metadata.git (fetch)",
-        "origin\thttps://github.com/jekyll/github-metadata.git (push)"
+        "origin\thttps://github.com/jekyll/github-metadata.git (push)",
       ])
       allow(subject).to receive(:git_remote_url).and_call_original
 
