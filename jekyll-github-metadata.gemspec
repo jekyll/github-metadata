@@ -19,7 +19,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "jekyll", "~> 3.4"
   spec.add_runtime_dependency "octokit", "~> 4.0", "!= 4.4.0"
 
-  spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "netrc"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "rake"
