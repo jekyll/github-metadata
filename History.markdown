@@ -3,6 +3,7 @@
 ### Development Fixes
 
   * Fix specs to be compatible with forked repositories (#152)
+  * Update CI settings and use rubocop-jekyll (#150)
 
 ## 2.10.0 / 2019-01-02
 
