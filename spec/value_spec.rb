@@ -5,7 +5,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Value) do
   let(:number_value)  { described_class.new(4) }
   let(:string_value)  { described_class.new("petunia my dear") }
   let(:array_value)   { described_class.new(%(oy you there)) }
-  let(:hash_value)    { described_class.new({ "hello" => "world" }) }
+  let(:hash_value)    { described_class.new("hello" => "world") }
   let(:complex_value) { described_class.new(proc { %w(hi there petunia) }) }
 
   let(:nil_value_without_key) { described_class.new(nil) }
@@ -52,7 +52,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Value) do
   end
 
   it "does not modify a hash value" do
-    expect(hash_value.render).to eql({ "hello" => "world" })
+    expect(hash_value.render).to eql("hello" => "world")
   end
 
   it "accepts a nil value with no key" do

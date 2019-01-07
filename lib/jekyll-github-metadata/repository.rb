@@ -163,6 +163,7 @@ module Jekyll
 
       def cname
         return nil unless Pages.custom_domains_enabled?
+
         repo_pages_info["cname"]
       end
 
@@ -182,6 +183,7 @@ module Jekyll
 
       def memoize_value(var_name, value)
         return instance_variable_get(var_name) if instance_variable_defined?(var_name)
+
         instance_variable_set(var_name, value.render)
       end
     end

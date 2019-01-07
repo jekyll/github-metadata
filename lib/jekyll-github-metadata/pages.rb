@@ -5,13 +5,13 @@ module Jekyll
     class Pages
       class << self
         DEFAULTS = {
-          "PAGES_ENV"              => "development".freeze,
-          "PAGES_API_URL"          => "https://api.github.com".freeze,
-          "PAGES_HELP_URL"         => "https://help.github.com".freeze,
-          "PAGES_GITHUB_HOSTNAME"  => "github.com".freeze,
-          "PAGES_PAGES_HOSTNAME"   => "github.io".freeze,
-          "SSL"                    => "false".freeze,
-          "SUBDOMAIN_ISOLATION"    => "false".freeze,
+          "PAGES_ENV"              => "development",
+          "PAGES_API_URL"          => "https://api.github.com",
+          "PAGES_HELP_URL"         => "https://help.github.com",
+          "PAGES_GITHUB_HOSTNAME"  => "github.com",
+          "PAGES_PAGES_HOSTNAME"   => "github.io",
+          "SSL"                    => "false",
+          "SUBDOMAIN_ISOLATION"    => "false",
           "PAGES_PREVIEW_HTML_URL" => nil,
           "PAGE_BUILD_ID"          => nil,
         }.freeze
@@ -32,13 +32,21 @@ module Jekyll
           env_var("SUBDOMAIN_ISOLATION").eql? "true"
         end
 
-        def test?;        env == "test" end
+        def test?
+          env == "test"
+        end
 
-        def dotcom?;      env == "dotcom" end
+        def dotcom?
+          env == "dotcom"
+        end
 
-        def enterprise?;  env == "enterprise" end
+        def enterprise?
+          env == "enterprise"
+        end
 
-        def development?; env == "development" end
+        def development?
+          env == "development"
+        end
 
         def custom_domains_enabled?
           dotcom? || test?
@@ -54,7 +62,7 @@ module Jekyll
 
         def github_url
           if dotcom? || github_hostname == "github.com"
-            "https://github.com".freeze
+            "https://github.com"
           else
             "#{scheme}://#{github_hostname}"
           end
@@ -89,6 +97,7 @@ module Jekyll
         end
 
         private
+
         def env_var(key, intermediate_default = nil)
           !ENV[key].to_s.empty? ? ENV[key] : (intermediate_default || DEFAULTS[key])
         end

@@ -42,7 +42,7 @@ module Jekyll
 
       def nwo_from_config
         repo = site.config["repository"]
-        repo if repo && repo.is_a?(String) && repo.include?("/")
+        repo if repo&.is_a?(String) && repo&.include?("/")
       end
 
       def git_remotes
@@ -61,6 +61,7 @@ module Jekyll
 
       def nwo_from_git_origin_remote
         return unless Jekyll.env == "development" || Jekyll.env == "test"
+
         matches = git_remote_url.chomp(".git").match github_remote_regex
         matches[2..3].join("/") if matches
       end

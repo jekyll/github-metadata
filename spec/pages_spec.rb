@@ -30,7 +30,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
 
   context ".configuration" do
     it "returns the entire configuration" do
-      expect(described_class.configuration).to eql({
+      expect(described_class.configuration).to eql(
         "api_url"                      => "https://api.github.com",
         "custom_domains_enabled?"      => true,
         "development?"                 => false,
@@ -46,8 +46,8 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
         "scheme"                       => "https",
         "ssl?"                         => true,
         "subdomain_isolation?"         => false,
-        "test?"                        => true,
-      })
+        "test?"                        => true
+      )
     end
   end
 
@@ -108,10 +108,10 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
     end
 
     it "is true in PAGES_ENV=test" do
-      with_env({
+      with_env(
         "PAGES_ENV" => "test",
-        "SSL"       => "false",
-      }) do
+        "SSL"       => "false"
+      ) do
         expect(described_class.ssl?).to be true
       end
     end

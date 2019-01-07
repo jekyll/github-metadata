@@ -25,6 +25,7 @@ module Jekyll
 
       def render
         return @rendered if defined? @rendered
+
         @rendered = @value = Sanitizer.sanitize(call_or_value)
       rescue RuntimeError, NameError => e
         Jekyll::GitHubMetadata.log :error, "Error processing value '#{key}':"
@@ -46,6 +47,7 @@ module Jekyll
       # or returns the raw value if it's a literal
       def call_or_value
         return value unless value.respond_to?(:call)
+
         case value.arity
         when 0
           value.call

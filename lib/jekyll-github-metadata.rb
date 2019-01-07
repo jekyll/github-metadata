@@ -27,9 +27,7 @@ module Jekyll
 
     NoRepositoryError = RepositoryFinder::NoRepositoryError
 
-    if Jekyll.const_defined? :Site
-      require_relative "jekyll-github-metadata/site_github_munger"
-    end
+    require_relative "jekyll-github-metadata/site_github_munger" if Jekyll.const_defined? :Site
 
     class << self
       attr_reader :repository_finder
