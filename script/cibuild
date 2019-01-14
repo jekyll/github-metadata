@@ -1,9 +1,0 @@
-#!/bin/bash
-
-set -e
-
-export PAGES_ENV=test
-export JEKYLL_ENV=test
-script/test
-script/fmt
-bundle exec rake build

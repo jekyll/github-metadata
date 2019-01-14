@@ -1,6 +1,0 @@
-#! /bin/bash
-
-
-script/test
-script/fmt
-bundle exec rake release

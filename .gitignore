@@ -1,7 +1,0 @@
-.bundle
-.tags*
-Gemfile.lock
-pkg
-_site
-tmp
-*.gem
