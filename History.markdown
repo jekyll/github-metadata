@@ -5,6 +5,10 @@
   * Fix specs to be compatible with forked repositories (#152)
   * Update CI settings and use rubocop-jekyll (#150)
 
+### Minor Enhancements
+
+  * Expose User/Org information under site.github.owner (#151)
+
 ## 2.10.0 / 2019-01-02
 
 ### Minor Enhancements
