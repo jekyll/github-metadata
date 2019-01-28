@@ -105,6 +105,7 @@ module Jekyll
         :public_gists,
         :followers,
         :following,
+        :hireable,
         :created_at,
         :updated_at,
       ])
@@ -235,6 +236,14 @@ module Jekyll
 
       def url_without_path
         uri.dup.tap { |u| u.path = "" }.to_s
+      end
+
+      def stargazers_count
+        repo_pages_info["stargazers_count"] || 0
+      end
+
+      def forks_count
+        repo_pages_info["forks_count"] || 0
       end
 
       private

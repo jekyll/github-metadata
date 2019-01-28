@@ -39,6 +39,14 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     it "respects the source branch" do
       expect(repo.git_ref).to eql("master")
     end
+
+    it "returns the stargazers_count" do
+      expect(repo.stargazers_count).to eq(22)
+    end
+
+    it "returns the fork count" do
+      expect(repo.forks_count).to eq(4)
+    end
   end
 
   context "hubot.github.com" do
