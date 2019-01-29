@@ -77,7 +77,7 @@ module Jekyll
       def owner_info
         @owner_info ||= begin
                           Value.new(proc { |c|
-                                      (c.organization(owner_login) || c.user(owner_login)).to_h
+                                      (c.organization(owner_login) || c.user(owner_login) || {}).to_h
                                     }).render || {}
                         end
       end
