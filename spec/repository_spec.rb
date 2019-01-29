@@ -41,6 +41,25 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     end
   end
 
+  context "repository information" do
+    let(:nwo) { "jekyll/jekyll" }
+    let!(:stub) do
+      stub_api(
+        "/repos/#{nwo}/pages",
+        "repo",
+        "Accept" => "application/vnd.github.v3+json"
+      )
+    end
+
+    it "returns the stargazers_count" do
+      expect(repo.stargazers_count).to eq(22)
+    end
+
+    it "returns the fork count" do
+      expect(repo.forks_count).to eq(4)
+    end
+  end
+
   context "hubot.github.com" do
     let(:nwo) { "github/hubot.github.com" }
     let!(:stub) { stub_api("/repos/#{nwo}/pages", "hubot_repo_pages") }
