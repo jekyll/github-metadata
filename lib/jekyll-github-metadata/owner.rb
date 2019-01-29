@@ -76,10 +76,12 @@ module Jekyll
 
       def owner_info
         @owner_info ||= begin
-                          Value.new(proc { |c|
-                                      (c.organization(owner_login) || c.user(owner_login) || {}).to_h
-                                    }).render || {}
-                        end
+          Value.new(
+            proc do |c|
+              (c.organization(owner_login) || c.user(owner_login) || {}).to_h
+            end
+          ).render || {}
+        end
       end
     end
   end
