@@ -15,7 +15,7 @@ module IntegrationHelper
       "build_revision"       => %r![a-f0-9]{40}!,
       "project_title"        => "github-metadata",
       "project_tagline"      => ":octocat: `site.github`",
-      "owner"                => Regexp.new('"login"=>"jekyll", "id"=>3083652'),
+      "owner"                => Regexp.new('"html_url": "https://github.com/jekyll",\s+"id": 3083652'),
       "owner_name"           => "jekyll",
       "owner_url"            => "https://github.com/jekyll",
       "owner_gravatar_url"   => "https://github.com/jekyll.png",

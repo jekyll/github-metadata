@@ -17,6 +17,7 @@ module Jekyll
     autoload :Client,           "jekyll-github-metadata/client"
     autoload :EditLinkTag,      "jekyll-github-metadata/edit-link-tag"
     autoload :MetadataDrop,     "jekyll-github-metadata/metadata_drop"
+    autoload :Owner,            "jekyll-github-metadata/owner"
     autoload :Pages,            "jekyll-github-metadata/pages"
     autoload :Repository,       "jekyll-github-metadata/repository"
     autoload :RepositoryFinder, "jekyll-github-metadata/repository_finder"
