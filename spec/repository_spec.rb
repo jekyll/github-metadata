@@ -39,6 +39,17 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     it "respects the source branch" do
       expect(repo.git_ref).to eql("master")
     end
+  end
+
+  context "repository information" do
+    let(:nwo) { "jekyll/jekyll" }
+    let!(:stub) do
+      stub_api(
+        "/repos/#{nwo}/pages",
+        "repo",
+        "Accept" => "application/vnd.github.v3+json"
+      )
+    end
 
     it "returns the stargazers_count" do
       expect(repo.stargazers_count).to eq(22)
