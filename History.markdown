@@ -9,6 +9,7 @@
 
   * Expose User/Org information under site.github.owner (#151)
   * Add new attributes to return for users and repositories (#158)
+  * Move owner_metadata to an Owner class and add specs (#159)
 
 ## 2.10.0 / 2019-01-02
 
