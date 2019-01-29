@@ -62,63 +62,8 @@ module Jekyll
         end
       end
 
-      # Whitelisted keys for Organizations and Users
-      WHITELISTED_ORGANIZATION_KEYS = Set.new([
-        :login,
-        :id,
-        :node_id,
-        :url,
-        :avatar_url,
-        :description,
-        :name,
-        :company,
-        :blog,
-        :location,
-        :email,
-        :is_verified,
-        :has_organization_projects,
-        :has_repository_projects,
-        :public_repos,
-        :public_gists,
-        :followers,
-        :following,
-        :html_url,
-        :created_at,
-        :type,
-        :collaborators,
-      ])
-
-      WHITELISTED_USER_KEYS = Set.new([
-        :login,
-        :id,
-        :node_id,
-        :avatar_url,
-        :html_url,
-        :type,
-        :site_admin,
-        :name,
-        :company,
-        :blog,
-        :location,
-        :bio,
-        :public_repos,
-        :public_gists,
-        :followers,
-        :following,
-        :hireable,
-        :created_at,
-        :updated_at,
-      ])
-
       def owner_metadata
-        memoize_value :@owner_metadata, Value.new(proc { |c|
-          org = c.organization(owner)
-          if org
-            org.to_h.select { |k, _| WHITELISTED_ORGANIZATION_KEYS.include? k }
-          else
-            c.user(owner).to_h.select { |k, _| WHITELISTED_USER_KEYS.include? k }
-          end
-        })
+        @owner_metadata ||= Jekyll::GitHubMetadata::Owner.new(owner)
       end
 
       def owner_url

@@ -26,6 +26,16 @@ module WebMockHelper
       )
   end
 
+  def stub_api_404(path, req_headers = {})
+    WebMock.disable_net_connect!
+    stub_request(:get, url(path))
+      .with(:headers => request_headers.merge(req_headers))
+      .to_return(
+        :status  => 404,
+        :headers => RESPONSE_HEADERS
+      )
+  end
+
   def expect_api_call(path)
     expect(WebMock).to have_requested(:get, url(path))
       .with(:headers => request_headers).once

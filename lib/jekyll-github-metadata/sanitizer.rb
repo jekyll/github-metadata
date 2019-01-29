@@ -21,7 +21,7 @@ module Jekyll
         case resource
         when Array
           resource.map { |item| sanitize(item) }
-        when Numeric
+        when Numeric, Time
           resource
         when FalseClass
           false
