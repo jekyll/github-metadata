@@ -1,15 +1,15 @@
-## HEAD
+## 2.11.0 / 2019-01-29
+
+### Minor Enhancements
+
+  * Expose User/Org information under `site.github.owner` (#151)
+  * Add new attributes to return for users and repositories (#158)
+  * Move `owner_metadata` to an Owner class and add specs (#159)
 
 ### Development Fixes
 
   * Fix specs to be compatible with forked repositories (#152)
   * Update CI settings and use rubocop-jekyll (#150)
-
-### Minor Enhancements
-
-  * Expose User/Org information under site.github.owner (#151)
-  * Add new attributes to return for users and repositories (#158)
-  * Move owner_metadata to an Owner class and add specs (#159)
 
 ## 2.10.0 / 2019-01-02
 
