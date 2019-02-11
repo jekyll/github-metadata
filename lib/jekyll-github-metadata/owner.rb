@@ -62,21 +62,22 @@ module Jekyll
         @owner_login = owner_login
       end
 
-      def to_s
-        require "json"
-        JSON.pretty_generate to_h
-      end
-      alias_method :to_str, :to_s
-
       def to_h
-        self.class.content_methods.each_with_object({}) { |method, hash| hash[method] = public_send(method) }
+        @to_h ||= self.class.content_methods
+          .each_with_object({}) { |method, hash| hash[method.to_s] = public_send(method) }
       end
+      alias_method :to_hash, :to_h
+      def_delegator :to_h, :to_json, :to_json
+
+      def_delegator :to_h, :to_s, :to_s
+      alias_method :to_str, :to_s
 
       private
 
       def owner_info
         @owner_info ||= begin
           Value.new(
+            "owner",
             proc do |c|
               (c.organization(owner_login) || c.user(owner_login) || {}).to_h
             end

@@ -29,6 +29,8 @@ module Jekyll
           true
         when NilClass
           nil
+        when String
+          resource
         else
           if resource.respond_to?(:to_hash)
             sanitize_resource(resource)
