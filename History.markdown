@@ -1,3 +1,9 @@
+## 2.12.0 / 2019-02-11
+
+### Bug Fixes
+
+  * `site.owner` should be a `Hash` in the final value (#160)
+
 ## 2.11.0 / 2019-01-29
 
 ### Minor Enhancements
