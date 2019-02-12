@@ -1,8 +1,8 @@
-## HEAD
+## 2.12.1 / 2019-02-11
 
 ### Bug Fixes
 
-  * Add Owner#to_liquid (#161)
+  * Add `Owner#to_liquid` (#161)
 
 ## 2.12.0 / 2019-02-11
 
