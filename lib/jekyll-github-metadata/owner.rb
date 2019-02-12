@@ -68,6 +68,7 @@ module Jekyll
       end
       alias_method :to_hash, :to_h
       def_delegator :to_h, :to_json, :to_json
+      def_delegator :to_h, :to_liquid, :to_liquid
 
       def_delegator :to_h, :to_s, :to_s
       alias_method :to_str, :to_s
