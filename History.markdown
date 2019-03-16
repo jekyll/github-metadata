@@ -1,8 +1,49 @@
-## HEAD
+## 2.12.1 / 2019-02-11
+
+### Bug Fixes
+
+  * Add `Owner#to_liquid` (#161)
+
+## 2.12.0 / 2019-02-11
+
+### Bug Fixes
+
+  * `site.owner` should be a `Hash` in the final value (#160)
+
+## 2.11.0 / 2019-01-29
+
+### Minor Enhancements
+
+  * Expose User/Org information under `site.github.owner` (#151)
+  * Add new attributes to return for users and repositories (#158)
+  * Move `owner_metadata` to an Owner class and add specs (#159)
+
+### Development Fixes
+
+  * Fix specs to be compatible with forked repositories (#152)
+  * Update CI settings and use rubocop-jekyll (#150)
+
+## 2.10.0 / 2019-01-02
+
+### Minor Enhancements
+
+  * Allow detecting repository on GitHub Enterprise (#147)
+  * Remove redundant code (#140)
+  * Constant accessors for `def_delegation` (#141)
+
+### Bug Fixes
+
+  * Fixes for repository detection on Windows (#136)
+  * Make github.com repo URLs always https (#133)
+
+### Documentation
+
+  * Add instructions for using DotEnv (#92)
 
 ### Development Fixes
 
   * Test against Ruby 2.5 (#119)
+  * Add script/console to help debug (#124)
 
 ## 2.9.4 / 2017-12-08
 

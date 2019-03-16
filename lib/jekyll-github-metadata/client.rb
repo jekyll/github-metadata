@@ -12,6 +12,7 @@ module Jekyll
       API_CALLS = Set.new(%w(
         repository
         organization
+        user
         repository?
         pages
         contributors
@@ -42,9 +43,7 @@ module Jekyll
 
       def build_octokit_client(options = nil)
         options ||= {}
-        unless options.key? :access_token
-          options.merge! pluck_auth_method
-        end
+        options.merge!(pluck_auth_method) unless options.key?(:access_token)
         Octokit::Client.new(default_octokit_options.merge(options))
       end
 
@@ -118,6 +117,7 @@ module Jekyll
         end
       end
 
+      # rubocop:disable Metrics/CyclomaticComplexity
       def pluck_auth_method
         if ENV["JEKYLL_GITHUB_TOKEN"] || Octokit.access_token
           { :access_token => ENV["JEKYLL_GITHUB_TOKEN"] || Octokit.access_token }
@@ -129,6 +129,7 @@ module Jekyll
           {}.freeze
         end
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
 
       def cache_key(method, *args)
         Digest::SHA1.hexdigest(method.to_s + args.join(", "))

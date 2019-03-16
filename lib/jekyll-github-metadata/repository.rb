@@ -46,12 +46,12 @@ module Jekyll
       def repo_info
         @repo_info ||= begin
           options = { :accept => "application/vnd.github.drax-preview+json" }
-          (Value.new(proc { |c| c.repository(nwo, options) }).render || {})
+          (Value.new("repo_info", proc { |c| c.repository(nwo, options) }).render || {})
         end
       end
 
       def repo_pages_info
-        @repo_pages_info ||= (Value.new(proc { |c| c.pages(nwo, repo_pages_info_opts) }).render || {})
+        @repo_pages_info ||= (Value.new("repo_pages_info", proc { |c| c.pages(nwo, repo_pages_info_opts) }).render || {})
       end
 
       def repo_pages_info_opts
@@ -60,6 +60,10 @@ module Jekyll
         else
           {}
         end
+      end
+
+      def owner_metadata
+        @owner_metadata ||= Jekyll::GitHubMetadata::Owner.new(owner)
       end
 
       def owner_url
@@ -99,29 +103,29 @@ module Jekyll
       end
 
       def organization_repository?
-        memoize_value :@is_organization_repository, Value.new(proc { |c| !!c.organization(owner) })
+        memoize_value :@is_organization_repository, Value.new("organization_repository?", proc { |c| !!c.organization(owner) })
       end
 
       def owner_public_repositories
-        memoize_value :@owner_public_repositories, Value.new(proc { |c| c.list_repos(owner, "type" => "public") })
+        memoize_value :@owner_public_repositories, Value.new("owner_public_repositories", proc { |c| c.list_repos(owner, "type" => "public") })
       end
 
       def organization_public_members
-        memoize_value :@organization_public_members, Value.new(proc do |c|
+        memoize_value :@organization_public_members, Value.new("organization_public_members", proc do |c|
           c.organization_public_members(owner) if organization_repository?
         end)
       end
 
       def contributors
-        memoize_value :@contributors, Value.new(proc { |c| c.contributors(nwo) })
+        memoize_value :@contributors, Value.new("contributors", proc { |c| c.contributors(nwo) })
       end
 
       def releases
-        memoize_value :@releases, Value.new(proc { |c| c.releases(nwo) })
+        memoize_value :@releases, Value.new("releases", proc { |c| c.releases(nwo) })
       end
 
       def latest_release
-        memoize_value :@latest_release, Value.new(proc { |c| c.latest_release(nwo) })
+        memoize_value :@latest_release, Value.new("latest_release", proc { |c| c.latest_release(nwo) })
       end
 
       def source
@@ -163,6 +167,7 @@ module Jekyll
 
       def cname
         return nil unless Pages.custom_domains_enabled?
+
         repo_pages_info["cname"]
       end
 
@@ -178,10 +183,19 @@ module Jekyll
         uri.dup.tap { |u| u.path = "" }.to_s
       end
 
+      def stargazers_count
+        repo_pages_info["stargazers_count"] || 0
+      end
+
+      def forks_count
+        repo_pages_info["forks_count"] || 0
+      end
+
       private
 
       def memoize_value(var_name, value)
         return instance_variable_get(var_name) if instance_variable_defined?(var_name)
+
         instance_variable_set(var_name, value.render)
       end
     end

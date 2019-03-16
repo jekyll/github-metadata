@@ -39,4 +39,8 @@ RSpec.describe("integration into a jekyll site") do
       expect(stub).to have_been_requested
     end
   end
+
+  it "presents the owner data as a Hash" do
+    expect(subject["owner"]).to be_a(Hash)
+  end
 end

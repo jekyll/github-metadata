@@ -1,0 +1,3 @@
+#!/bin/sh
+
+PAGES_ENV=dotcom PAGES_PREVIEW_HTML_URL=true bundle exec ruby script/console.rb

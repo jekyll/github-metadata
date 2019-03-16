@@ -2,6 +2,6 @@
 
 module Jekyll
   module GitHubMetadata
-    VERSION = "2.9.4".freeze
+    VERSION = "2.12.1"
   end
 end

@@ -14,7 +14,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
       stub_api(
         "/repos/#{nwo}/pages",
         "jekyll_repo_pages",
-        { "Accept" => "application/vnd.github.mister-fantastic-preview+json" }
+        "Accept" => "application/vnd.github.mister-fantastic-preview+json"
       )
     end
 
@@ -31,13 +31,32 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     end
 
     it "uses the preview accept header" do
-      expect(repo.repo_pages_info_opts).to eql({
-        :accept => "application/vnd.github.mister-fantastic-preview+json",
-      })
+      expect(repo.repo_pages_info_opts).to eql(
+        :accept => "application/vnd.github.mister-fantastic-preview+json"
+      )
     end
 
     it "respects the source branch" do
       expect(repo.git_ref).to eql("master")
+    end
+  end
+
+  context "repository information" do
+    let(:nwo) { "jekyll/jekyll" }
+    let!(:stub) do
+      stub_api(
+        "/repos/#{nwo}/pages",
+        "repo",
+        "Accept" => "application/vnd.github.v3+json"
+      )
+    end
+
+    it "returns the stargazers_count" do
+      expect(repo.stargazers_count).to eq(22)
+    end
+
+    it "returns the fork count" do
+      expect(repo.forks_count).to eq(4)
     end
   end
 
@@ -50,7 +69,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     end
 
     it "returns the source" do
-      expect(repo.source).to eql({ "branch" => "gh-pages", "path" => "docs/" })
+      expect(repo.source).to eql("branch" => "gh-pages", "path" => "docs/")
     end
   end
 
@@ -75,7 +94,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     end
 
     it "returns the source" do
-      expect(repo.source).to eql({ "branch" => "master", "path" => "/" })
+      expect(repo.source).to eql("branch" => "master", "path" => "/")
     end
   end
 
@@ -100,7 +119,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     end
 
     it "returns the source" do
-      expect(repo.source).to eql({ "branch" => "master", "path" => "/" })
+      expect(repo.source).to eql("branch" => "master", "path" => "/")
     end
   end
 
@@ -125,7 +144,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
     end
 
     it "returns the source" do
-      expect(repo.source).to eql({ "branch" => "master", "path" => "/" })
+      expect(repo.source).to eql("branch" => "master", "path" => "/")
     end
 
     context "on enterprise" do
@@ -133,11 +152,11 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
 
       it "uses Pages.scheme when SSL set to determine scheme for Pages URL" do
         # With SSL=true
-        with_env({
+        with_env(
           "PAGES_ENV"             => "enterprise",
           "SSL"                   => "true",
-          "PAGES_GITHUB_HOSTNAME" => "github.acme.com",
-        }) do
+          "PAGES_GITHUB_HOSTNAME" => "github.acme.com"
+        ) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(true)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("https")
           expect(repo.html_url).to eql("https://github.acme.com/pages/#{nwo}")
@@ -147,14 +166,36 @@ RSpec.describe(Jekyll::GitHubMetadata::Repository) do
       end
 
       it "uses Pages.scheme when SSL not set to determine scheme for Pages URL" do
-        with_env({
+        with_env(
           "PAGES_ENV"             => "enterprise",
-          "PAGES_GITHUB_HOSTNAME" => "github.acme.com",
-        }) do
+          "PAGES_GITHUB_HOSTNAME" => "github.acme.com"
+        ) do
           expect(Jekyll::GitHubMetadata::Pages.ssl?).to be(false)
           expect(Jekyll::GitHubMetadata::Pages.scheme).to eql("http")
           expect(repo.html_url).to eql("http://github.acme.com/pages/#{nwo}")
           expect(repo.url_scheme).to eql("http")
+        end
+      end
+    end
+
+    context "in development" do
+      let(:nwo) { "jekyll/jekyll" }
+
+      it "github.com repo URL always https" do
+        with_env(
+          "GITHUB_HOSTNAME" => "github.com",
+          "PAGES_ENV"       => "development"
+        ) do
+          expect(repo.repository_url).to eql("https://github.com/#{nwo}")
+        end
+      end
+
+      it "non-github.com repo URL always http" do
+        with_env(
+          "GITHUB_HOSTNAME" => "xyz.example",
+          "PAGES_ENV"       => "development"
+        ) do
+          expect(repo.repository_url).to eql("http://xyz.example/#{nwo}")
         end
       end
     end

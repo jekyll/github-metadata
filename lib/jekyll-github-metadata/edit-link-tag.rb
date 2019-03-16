@@ -26,8 +26,8 @@ module Jekyll
         end
       end
 
-      MISSING_DATA_MSG = "Cannot generate edit URLs due to missing site.github data".freeze
-      LINK_TEXT_REGEX = %r!(?:\"(.*)\"|'(.*)')!
+      MISSING_DATA_MSG = "Cannot generate edit URLs due to missing site.github data"
+      LINK_TEXT_REGEX = %r!(?:\"(.*)\"|'(.*)')!.freeze
 
       extend Forwardable
       private def_hash_delegator :site,        :github,         :site_github, {}

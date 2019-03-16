@@ -15,6 +15,7 @@ module Jekyll
       def key?(key)
         return false if key.nil?
         return true if self.class.mutable? && @mutations.key?(key)
+
         respond_to?(key) || fallback_data.key?(key)
       end
 
@@ -32,19 +33,20 @@ module Jekyll
         super.sort
       end
 
-      def_delegator :"Jekyll::GitHubMetadata::Pages", :env, :environment
-      def_delegator :"Jekyll::GitHubMetadata::Pages", :env, :pages_env
-      def_delegator :"Jekyll::GitHubMetadata::Pages", :github_hostname, :hostname
-      def_delegator :"Jekyll::GitHubMetadata::Pages", :pages_hostname, :pages_hostname
-      def_delegator :"Jekyll::GitHubMetadata::Pages", :api_url, :api_url
-      def_delegator :"Jekyll::GitHubMetadata::Pages", :help_url, :help_url
+      def_delegator Jekyll::GitHubMetadata::Pages, :env,             :environment
+      def_delegator Jekyll::GitHubMetadata::Pages, :env,             :pages_env
+      def_delegator Jekyll::GitHubMetadata::Pages, :github_hostname, :hostname
+      def_delegator Jekyll::GitHubMetadata::Pages, :pages_hostname,  :pages_hostname
+      def_delegator Jekyll::GitHubMetadata::Pages, :api_url,         :api_url
+      def_delegator Jekyll::GitHubMetadata::Pages, :help_url,        :help_url
 
-      private def_delegator :"Jekyll::GitHubMetadata", :repository
+      private def_delegator Jekyll::GitHubMetadata, :repository
 
       def_delegator :repository, :owner_public_repositories,   :public_repositories
       def_delegator :repository, :organization_public_members, :organization_members
       def_delegator :repository, :name,                        :project_title
       def_delegator :repository, :tagline,                     :project_tagline
+      def_delegator :repository, :owner_metadata,              :owner
       def_delegator :repository, :owner,                       :owner_name
       def_delegator :repository, :owner_url,                   :owner_url
       def_delegator :repository, :owner_gravatar_url,          :owner_gravatar_url
@@ -71,11 +73,13 @@ module Jekyll
       def_delegator :repository, :source,                      :source
 
       def versions
-        @versions ||= begin
+        return @versions if defined?(@versions)
+
+        begin
           require "github-pages"
-          GitHubPages.versions
+          @versions = GitHubPages.versions
         rescue LoadError
-          {}
+          @versions = {}
         end
       end
 
