@@ -11,6 +11,8 @@ matrix:
   include:
     - rvm: *latest_ruby
       env: JEKYLL_VERSION=3.7.0
+    - rvm: *latest_ruby
+      env: JEKYLL_HEAD=true
 branches:
   only:
     - master
