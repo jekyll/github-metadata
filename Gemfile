@@ -3,13 +3,7 @@
 source "https://rubygems.org"
 gemspec
 
-# rubocop:disable Bundler/DuplicatedGem
-if ENV["JEKYLL_VERSION"]
-  gem "jekyll", "~> #{ENV["JEKYLL_VERSION"]}"
-elsif ENV["JEKYLL_HEAD"]
-  gem "jekyll", :git => "https://github.com/jekyll/jekyll.git", :branch => "master"
-end
-# rubocop:enable Bundler/DuplicatedGem
+gem "jekyll", "~> #{ENV["JEKYLL_VERSION"]}" if ENV["JEKYLL_VERSION"]
 
 group :test do
   gem "webmock", "~> 2.0"

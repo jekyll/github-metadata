@@ -1,3 +1,9 @@
+## HEAD
+
+### Minor Enhancements
+
+  * Lessen Jekyll dependency (#164)
+
 ## 2.12.1 / 2019-02-11
 
 ### Bug Fixes
