@@ -5,7 +5,7 @@ set -e
 curl_me() {
   (set -x; curl \
     -H "Authorization: token $GITHUB_TOKEN" \
-    -H "Accept: application/vnd.github.v3+json" \
+    -H "Accept: application/vnd.github.${3:-v3}+json" \
     -H "Accept-Encoding: gzip;q=1.0,deflate;q=0.6,identity;q=0.3" \
     -H "Content-Type: application/json" \
     -H "User-Agent: Octokit Ruby Gem 4.2.0" \
@@ -18,6 +18,6 @@ curl_me "/repos/jekyll/github-metadata/contributors?per_page=100" "repo_contribu
 curl_me "/repos/jekyll/github-metadata/releases?per_page=100" "repo_releases"
 curl_me "/orgs/jekyll" "org"
 curl_me "/orgs/jekyll/public_members" "org_members"
-curl_me "/users/jekyll/repos?per_page=100&type=public" "owner_repos"
+curl_me "/users/jekyll/repos?per_page=100&type=public" "owner_repos" "mercy-preview"
 curl_me "/repos/jekyll/github-metadata/pages" "repo_pages"
 curl_me "/repos/jekyll/github-metadata/releases/latest" "latest_release"
