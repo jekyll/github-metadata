@@ -3,6 +3,7 @@
 ### Minor Enhancements
 
   * Lessen Jekyll dependency (#164)
+  * Enable support for `topics` property (#166)
 
 ## 2.12.1 / 2019-02-11
 
