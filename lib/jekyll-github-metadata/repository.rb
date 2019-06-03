@@ -107,7 +107,11 @@ module Jekyll
       end
 
       def owner_public_repositories
-        memoize_value :@owner_public_repositories, Value.new("owner_public_repositories", proc { |c| c.list_repos(owner, "type" => "public") })
+        options = {
+          :type   => "public",
+          :accept => "application/vnd.github.mercy-preview+json",
+        }
+        memoize_value :@owner_public_repositories, Value.new("owner_public_repositories", proc { |c| c.list_repos(owner, options) })
       end
 
       def organization_public_members

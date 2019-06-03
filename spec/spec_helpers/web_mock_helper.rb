@@ -2,7 +2,7 @@
 
 module WebMockHelper
   REQUEST_HEADERS = {
-    "Accept"          => %r!application/vnd\.github\.(v3|drax-preview)\+json!,
+    "Accept"          => %r!application/vnd\.github\.(v3|drax-preview|mercy-preview)\+json!,
     "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
     "Content-Type"    => "application/json",
     "User-Agent"      => "Octokit Ruby Gem #{Octokit::VERSION}",
