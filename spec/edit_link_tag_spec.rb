@@ -147,6 +147,21 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
       expect(rendered).to eql("#{repository_url}/edit/#{branch}/page.md")
     end
 
+    context "is conditionally context-aware" do
+      it "returns correct URL" do
+        # create a static instance. `subject` creates a different instance on each call.
+        tag = described_class.parse(tag_name, markup, tokenizer, parse_context)
+
+        expect(tag.render(render_context)).to eql("#{repository_url}/edit/#{branch}/page.md")
+        filename = site.liquid_renderer.respond_to?(:cache) ? "dummy_page.md" : "page.md"
+        new_context = make_context(
+          :page => make_page("path" => "dummy_page.md"),
+          :site => site
+        )
+        expect(tag.render(new_context)).to eql("#{repository_url}/edit/#{branch}/#{filename}")
+      end
+    end
+
     context "when passed markup" do
       let(:markup) { '"Improve this page"' }
 

@@ -69,19 +69,40 @@ module Jekyll
       end
 
       def parts
-        @parts ||= [repository_url, "edit/", branch, source_path, page_path]
+        memoize_conditionally { [repository_url, "edit/", branch, source_path, page_path] }
       end
 
       def parts_normalized
-        @parts_normalized ||= parts.map.with_index do |part, index|
-          part = remove_leading_slash(part.to_s)
-          part = ensure_trailing_slash(part) unless index == parts.length - 1
-          ensure_not_just_a_slash(part)
+        memoize_conditionally do
+          parts.map.with_index do |part, index|
+            part = remove_leading_slash(part.to_s)
+            part = ensure_trailing_slash(part) unless index == parts.length - 1
+            ensure_not_just_a_slash(part)
+          end
         end
       end
 
       def page
-        @page ||= context.registers[:page]
+        memoize_conditionally { context.registers[:page] }
+      end
+
+      # Utility function for compatibility with Jekyll 4.0
+      def memoize_conditionally
+        if renderer_cached?
+          yield
+        else
+          dispatcher = "@#{caller_locations(1..1).first.label}".to_sym
+          if instance_variable_defined?(dispatcher)
+            instance_variable_get(dispatcher)
+          else
+            instance_variable_set(dispatcher, yield)
+          end
+        end
+      end
+
+      # Utility function to detect Jekyll 4.0
+      def renderer_cached?
+        @renderer_cached ||= context.registers[:site].liquid_renderer.respond_to?(:cache)
       end
 
       def site
