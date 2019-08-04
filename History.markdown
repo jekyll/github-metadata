@@ -5,6 +5,10 @@
   * Lessen Jekyll dependency (#164)
   * Enable support for `topics` property (#166)
 
+### Development Fixes
+
+  * Conditionally memoize certain private methods in EditLinkTag (#163)
+
 ## 2.12.1 / 2019-02-11
 
 ### Bug Fixes
