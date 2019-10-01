@@ -10,11 +10,13 @@ Simply, reference any of the below keys as you would any other site configuratio
 
 For example, to list a project's name, you might write something like `The project is called {{ site.github.project_title }}` or to list an organization's open source repositories, you might use the following:
 
+<!-- {% raw %} -->
 ```liquid
 {% for repository in site.github.public_repositories %}
   * [{{ repository.name }}]({{ repository.html_url }})
 {% endfor %}
 ```
+<!-- {% endraw %} -->
 
 #### Available repository metadata
 
