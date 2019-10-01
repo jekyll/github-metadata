@@ -11,7 +11,7 @@ Jekyll plugin to propagate the `site.github` namespace and set default values fo
 
 ## What it does
 
-* Propagates the `site.github` namespace with [repository metadata](https://help.github.com/articles/repository-metadata-on-github-pages/)
+* Propagates the `site.github` namespace with [repository metadata](site.github.md)
 * Sets `site.title` as the repository name, if none is set
 * Sets `site.description` as the repository tagline if none is set
 * Sets `site.url` as the GitHub Pages domain (cname or user domain), if none is set
@@ -41,4 +41,5 @@ Then go ahead and run `bundle install`. Once you've done that jekyll-github-meta
 
 * [Authentication](authentication.md)
 * [Configuration](configuration.md)
+* [Using `site.github`](site.github.md)
 * [Edit on GitHub link](edit-on-github-link.md)
