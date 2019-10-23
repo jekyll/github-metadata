@@ -14,7 +14,7 @@ module Jekyll
       alias_method :invoke_drop, :[]
       def key?(key)
         return false if key.nil?
-        return true if self.class.mutable? && @mutations.key?(key)
+        return true if self.class.mutable? && mutations.key?(key)
 
         respond_to?(key) || fallback_data.key?(key)
       end
@@ -94,6 +94,10 @@ module Jekyll
       # Nothing to see here.
       def fallback_data
         @fallback_data ||= {}
+      end
+
+      def mutations
+        @mutations ||= {}
       end
     end
   end
