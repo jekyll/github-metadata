@@ -77,7 +77,7 @@ module Jekyll
         yield @client
       rescue Octokit::Unauthorized
         raise BadCredentialsError, "The GitHub API credentials you provided aren't valid."
-      rescue Faraday::Error::ConnectionFailed, Octokit::TooManyRequests => e
+      rescue Faraday::ConnectionFailed, Octokit::TooManyRequests => e
         GitHubMetadata.log :warn, e.message
         default
       rescue Octokit::NotFound
