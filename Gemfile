@@ -4,6 +4,7 @@ source "https://rubygems.org"
 gemspec
 
 gem "jekyll", "~> #{ENV["JEKYLL_VERSION"]}" if ENV["JEKYLL_VERSION"]
+gem "faraday", "~> #{ENV["FARADAY_VERSION"]}" if ENV["FARADAY_VERSION"]
 
 group :test do
   # Temporarily lock rspec dependencies to last known versions with

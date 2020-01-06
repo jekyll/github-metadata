@@ -16,7 +16,6 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0").grep(%r!^(lib|bin)/!)
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "faraday", "~> 1.0"
   spec.add_runtime_dependency "jekyll", ">= 3.4", "< 5.0"
   spec.add_runtime_dependency "octokit", "~> 4.0", "!= 4.4.0"
 
