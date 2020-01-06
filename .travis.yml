@@ -10,13 +10,13 @@ rvm:
 matrix:
   include:
     - rvm: *latest_ruby
-      env: JEKYLL_VERSION=3.7.0 FARADAY_VERSION=0.17
+      env: JEKYLL_VERSION=3.7 FARADAY_VERSION=0.17
     - rvm: *latest_ruby
-      env: JEKYLL_VERSION=3.7.0 FARADAY_VERSION=1.0
+      env: JEKYLL_VERSION=3.7 FARADAY_VERSION=1.0
     - rvm: *latest_ruby
-      env: JEKYLL_VERSION=4.0.0.pre.alpha1 FARADAY_VERSION=0.17
+      env: JEKYLL_VERSION=4.0 FARADAY_VERSION=0.17
     - rvm: *latest_ruby
-      env: JEKYLL_VERSION=4.0.0.pre.alpha1 FARADAY_VERSION=1.0
+      env: JEKYLL_VERSION=4.0 FARADAY_VERSION=1.0
 branches:
   only:
     - master
