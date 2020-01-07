@@ -8,6 +8,7 @@
 ### Development Fixes
 
   * Conditionally memoize certain private methods in EditLinkTag (#163)
+  * Fix faraday connectionfailed issue (#178)
 
 ## 2.12.1 / 2019-02-11
 
