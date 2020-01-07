@@ -38,6 +38,8 @@ module IntegrationHelper
       "releases"             => %r!"tag_name"=>"v1.1.0"!,
       "latest_release"       => %r!assets_url!,
       "private"              => false,
+      "archived"             => nil,
+      "disabled"             => nil,
       "license"              => %r!"key"=>"mit"!,
       "source"               => { "branch" => "gh-pages", "path" => "/" },
     }

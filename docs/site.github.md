@@ -72,6 +72,8 @@ The following sample information is exposed to Jekyll templates in the `site.git
     "releases": [ Release Objects ],
     "latest_release": [ Release Object ],
     "private": false,
+    "archived": false,
+    "disabled": false,
     "license": {
       "key": "mit",
       "name": "MIT License",
