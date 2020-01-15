@@ -4,6 +4,7 @@
 
   * Lessen Jekyll dependency (#164)
   * Enable support for `topics` property (#166)
+  * Allow detecting archived or disabled repos (#176)
 
 ### Development Fixes
 
