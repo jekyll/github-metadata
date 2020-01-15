@@ -26,6 +26,8 @@ module Jekyll
       def_hash_delegator :repo_info,      :description,   :tagline
       def_hash_delegator :repo_info,      :has_downloads, :show_downloads?
       def_hash_delegator :repo_info,      :private,       :private?
+      def_hash_delegator :repo_info,      :archived,      :archived?
+      def_hash_delegator :repo_info,      :disabled,      :disabled?
       def_hash_delegator :latest_release, :url,           :latest_release_url
       def_hash_delegator :source,         :branch,        :git_ref
 
