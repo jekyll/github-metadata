@@ -1,4 +1,4 @@
-## HEAD
+## 2.13.0 / 2020-01-15
 
 ### Minor Enhancements
 
@@ -6,10 +6,16 @@
   * Enable support for `topics` property (#166)
   * Allow detecting archived or disabled repos (#176)
 
-### Development Fixes
+### Bug Fixes
 
   * Conditionally memoize certain private methods in EditLinkTag (#163)
   * Fix faraday connectionfailed issue (#178)
+  * MetadataDrop: don't use instance variable to check mutations (#173)
+
+### Documentation Fixes
+
+  * List the fields this repo generates for `site.github` (#171)
+  * Use HTML entities to prevent Liquid from processing this documentation (#172)
 
 ## 2.12.1 / 2019-02-11
 
