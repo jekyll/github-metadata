@@ -42,10 +42,14 @@ module Jekyll
 
       # Set `site.url` and `site.baseurl` if unset.
       def add_url_and_baseurl_fallbacks!
+        Jekyll::GitHubMetadata.log :debug, "Adding url and base url fallbacks..."
         site.config["url"] ||= Value.new("url", proc { |_c, r| r.url_without_path })
+          
+        Jekyll::GitHubMetadata.log :debug, "Url is set to #{site.config["url"]}"
         return unless should_set_baseurl?
 
         site.config["baseurl"] = Value.new("baseurl", proc { |_c, r| r.baseurl })
+        Jekyll::GitHubMetadata.log :debug, "baseurl is set to #{site.config["baseurl"]}"
       end
 
       def add_title_and_description_fallbacks!
