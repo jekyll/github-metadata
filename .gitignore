@@ -5,3 +5,4 @@ pkg
 _site
 tmp
 *.gem
+.jekyll-cache
