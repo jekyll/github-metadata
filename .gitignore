@@ -1,8 +1,10 @@
-.bundle
+.bundle/
+vendor/
 .tags*
 Gemfile.lock
 pkg
-_site
-tmp
+_site/
+tmp/
 *.gem
-.jekyll-cache
+.jekyll-cache/
+.jekyll-metadata
