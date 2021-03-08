@@ -80,7 +80,8 @@ module Jekyll
           Value.new(
             "owner",
             proc do |c|
-              (c.organization(owner_login) || c.user(owner_login) || {}).to_h
+              owner = c.organization(owner_login) || c.user(owner_login) || {}
+              owner.to_h
             end
           ).render || {}
         end
