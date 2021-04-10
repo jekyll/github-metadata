@@ -14,12 +14,14 @@ RSpec.describe("integration into a jekyll site") do
     ENV.delete("JEKYLL_ENV")
     ENV["JEKYLL_ENV"] = "production"
     ENV["PAGES_ENV"] = "dotcom"
+    @original_log_level = Jekyll.logger.level
     Jekyll.logger.log_level = :error
     Jekyll::Commands::Build.process(config_defaults)
   end
   after(:each) do
     ENV.delete("PAGES_ENV")
     ENV["JEKYLL_ENV"] = "test"
+    Jekyll.logger.log_level = @original_log_level
   end
   subject { SafeYAML.load(in_dest_dir("rendered.txt").read) }
 
