@@ -44,7 +44,7 @@ module Jekyll
       def add_url_and_baseurl_fallbacks!
         Jekyll::GitHubMetadata.log :debug, "Adding URL and base URL fallbacks..."
         site.config["url"] ||= Value.new("url", proc { |_c, r| r.url_without_path })          
-        Jekyll::GitHubMetadata.log :debug, "Url is set to #{site.config["url"]}"
+        Jekyll::GitHubMetadata.log :debug, "URL is set to #{site.config["url"]}"
         return unless should_set_baseurl?
 
         site.config["baseurl"] = Value.new("baseurl", proc { |_c, r| r.baseurl })
