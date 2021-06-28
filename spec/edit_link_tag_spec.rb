@@ -18,14 +18,8 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
     Liquid::Template.parse("{% #{tag_name} #{markup} %}").render!(render_context, {})
   end
 
-  before do
-    @original_log_level = Jekyll.logger.level
-    Jekyll.logger.log_level = :error
-  end
-
+  before { Jekyll.logger.log_level = :error }
   before { stub_all_api_requests }
-
-  after { Jekyll.logger.log_level = @original_log_level }
 
   # Allow the stubs above to override any Munger behavior
   before { site.config["github"] = github }
