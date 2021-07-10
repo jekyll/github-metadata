@@ -76,8 +76,14 @@ RSpec.configure do |config|
   config.before(:each) do
     Jekyll::GitHubMetadata.reset!
     Jekyll::GitHubMetadata.logger = Logger.new(StringIO.new) unless ENV["DEBUG"]
+    @original_log_level = Jekyll.logger.level
+
     ENV.delete("JEKYLL_ENV")
     ENV["PAGES_ENV"] = "test"
     ENV["PAGES_REPO_NWO"] = nil
+  end
+
+  config.after(:each) do
+    Jekyll.logger.log_level = @original_log_level
   end
 end
