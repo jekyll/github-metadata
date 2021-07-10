@@ -1,3 +1,9 @@
+## HEAD
+
+### Development Fixes
+
+  * Restore log level after running tests that modify it. (#202)
+
 ## 2.13.0 / 2020-01-15
 
 ### Minor Enhancements
