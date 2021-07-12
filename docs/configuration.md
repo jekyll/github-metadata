@@ -6,7 +6,9 @@ be able to determine the repository NWO (name with owner, e.g. `jekyll/jekyll-gi
 The easiest way to accomplish this is by setting an "origin" remote with a
 github.com URL. If you ran `git clone` from GitHub, this is almost 100% the
 case & no further action is needed. If you run `git remote -v` in your
-repository, you should see your repo's URL.
+repository, you should see your repo's URL. However, this only works if the
+environment variable `JEKYLL_ENV` is either `development` or `test`.
+The default value of `JEKYLL_ENV` is `development`.
 
 If you don't have a git remote available, you have two other options:
 
