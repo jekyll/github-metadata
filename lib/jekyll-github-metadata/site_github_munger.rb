@@ -55,7 +55,13 @@ module Jekyll
           msg << "Jekyll GitHub Metadata will not set site.title to the repository's name."
           Jekyll::GitHubMetadata.log :warn, msg
         else
-          site.config["title"] ||= Value.new("title", proc { |_c, r| r.name })
+          site.config["title"] ||= Value.new("title", proc { |_context, repository|
+            if repository.project_page?
+              repository.name
+            else
+              repository.owner_display_name || repository.owner
+            end
+          })
         end
         site.config["description"] ||= Value.new("description", proc { |_c, r| r.tagline })
       end

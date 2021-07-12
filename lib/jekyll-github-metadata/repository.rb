@@ -64,6 +64,10 @@ module Jekyll
         end
       end
 
+      def owner_display_name
+        owner_metadata.name
+      end
+
       def owner_metadata
         @owner_metadata ||= Jekyll::GitHubMetadata::Owner.new(owner)
       end
