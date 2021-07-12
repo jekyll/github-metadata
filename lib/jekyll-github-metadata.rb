@@ -3,7 +3,7 @@
 require "jekyll"
 require "octokit"
 
-if Jekyll.env == "development"
+unless Jekyll.env == "production"
   begin
     require "dotenv"
     Dotenv.load
