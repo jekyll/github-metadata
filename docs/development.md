@@ -68,7 +68,7 @@ $ script/console
 
 ### Test
 
-Run all unit tests:
+Run all unit tests.
 
 ```bash
 $ script/test
