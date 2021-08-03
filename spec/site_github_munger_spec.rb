@@ -132,6 +132,64 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
     end
   end
 
+  context "generating repo for user with displayname" do
+    before(:each) do
+      ENV["JEKYLL_ENV"] = "production"
+      ENV["PAGES_REPO_NWO"] = "jekyllbot/jekyllbot.github.io"
+      stub_api("/repos/jekyllbot/jekyllbot.github.io", "user_site")
+      stub_api_404("/orgs/jekyllbot")
+      stub_api("/users/jekyllbot", "user_with_displayname")
+      subject.munge!
+    end
+
+    it "sets title to user's displayname" do
+      expect(site.config["title"]).to eql("Jekyll Bot")
+    end
+  end
+
+  context "generating repo for user without displayname" do
+    before(:each) do
+      ENV["JEKYLL_ENV"] = "production"
+      ENV["PAGES_REPO_NWO"] = "jekyllbot/jekyllbot.github.io"
+      stub_api("/repos/jekyllbot/jekyllbot.github.io", "user_site")
+      stub_api_404("/orgs/jekyllbot")
+      stub_api("/users/jekyllbot", "user_without_displayname")
+      subject.munge!
+    end
+
+    it "sets title to user's login" do
+      expect(site.config["title"]).to eql("jekyllbot")
+    end
+  end
+
+  context "generating repo for org with displayname" do
+    before(:each) do
+      ENV["JEKYLL_ENV"] = "production"
+      ENV["PAGES_REPO_NWO"] = "jekyll/jekyll.github.io"
+      stub_api("/repos/jekyll/jekyll.github.io", "repo")
+      stub_api("/orgs/jekyll", "org",)
+      subject.munge!
+    end
+
+    it "sets title to org's displayname" do
+      expect(site.config["title"]).to eql("Jekyll")
+    end
+  end
+
+  context "generating repo for org without displayname" do
+    before(:each) do
+      ENV["JEKYLL_ENV"] = "production"
+      ENV["PAGES_REPO_NWO"] = "jekyll/jekyll.github.io"
+      stub_api("/repos/jekyll/jekyll.github.io", "repo")
+      stub_api("/orgs/jekyll", "org_without_displayname",)
+      subject.munge!
+    end
+
+    it "sets title to org's login" do
+      expect(site.config["title"]).to eql("jekyll")
+    end
+  end
+
   context "with a client with no credentials" do
     before(:each) do
       Jekyll::GitHubMetadata.client = Jekyll::GitHubMetadata::Client.new(:access_token => "")
