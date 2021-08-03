@@ -42,11 +42,11 @@ Or, for a faster install.
 $ script/bootstrap
 ```
 
-## Usage
+### Usage
 
 See the [script](/script/) directory.
 
-### Format
+#### Format
 
 Check for code formatting issues - recommended before you commit.
 
@@ -60,13 +60,15 @@ Fix formatting issues.
 $ script/fmt -a
 ```
 
-### Open interactive console
+#### Open interactive console
 
 ```bash
 $ script/console
 ```
 
-### Test
+#### Test
+
+##### All
 
 Run all unit tests.
 
@@ -74,13 +76,15 @@ Run all unit tests.
 $ script/test
 ```
 
+##### Target
+
 Run a target unit test file by specifying a path.
 
 ```bash
 $ script/test spec/owner_spec.rb
 ```
 
-#### Flags
+##### Flags
 
 Run tests in the order they are written (not a random order).
 
@@ -100,7 +104,7 @@ Run tests with verbose trace logs.
 $ script/test --format documentation
 ```
 
-### Start dev server
+#### Start dev server
 
 Preview the plugin in Jekyll by running the repo's sample Jekyll site.
 
@@ -112,7 +116,7 @@ Then open in the browser at:
 
 - http://127.0.0.1:4000
 
-## Release
+### Release
 
 Run tests, formatting and create a release.
 
