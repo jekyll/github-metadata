@@ -5,6 +5,10 @@
   * Restore log level after running tests that modify it. (#202)
   * Add GitHub Actions CI (#211)
 
+### Minor Enhancements
+
+  * Use owner name as site title for User and Organization sites. (#197)
+
 ## 2.13.0 / 2020-01-15
 
 ### Minor Enhancements
