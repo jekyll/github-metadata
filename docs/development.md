@@ -74,23 +74,41 @@ Run all unit tests.
 $ script/test
 ```
 
-Run specific unit tests.
+Run a target unit test file by specifying a path.
 
 ```bash
-$ script/test PATH
-$ # e.g.
 $ script/test spec/owner_spec.rb
 ```
 
-### Test site
+#### Flags
 
-Run dev server for sample Jekyll site.
+Run tests in the order they are written (not a random order).
+
+```bash
+$ script/test --order defined
+```
+
+Run tests in the same random order as a previous run.
+
+```bash
+$ script/test --seed 12345
+```
+
+Run tests with verbose trace logs.
+
+```bash
+$ script/test --format documentation
+```
+
+### Start dev server
+
+Preview the plugin in Jekyll by running the repo's sample Jekyll site.
 
 ```bash
 $ script/test-site
 ```
 
-Then open in the browser at
+Then open in the browser at:
 
 - http://127.0.0.1:4000
 
