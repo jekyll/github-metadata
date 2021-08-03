@@ -48,7 +48,7 @@ See the [script](/script/) directory.
 
 ### Format
 
-Check formatting.
+Check for code formatting issues - recommended before you commit.
 
 ```bash
 $ script/fmt
