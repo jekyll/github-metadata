@@ -68,15 +68,11 @@ $ script/console
 
 #### Test
 
-##### All
-
 Run all unit tests.
 
 ```bash
 $ script/test
 ```
-
-##### Target
 
 Run a target unit test file by specifying a path.
 
@@ -84,7 +80,7 @@ Run a target unit test file by specifying a path.
 $ script/test spec/owner_spec.rb
 ```
 
-##### Flags
+See some recommended flags below.
 
 Run tests in the order they are written (not a random order).
 
