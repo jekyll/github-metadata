@@ -1,5 +1,6 @@
 ## Development
-> Guide to local development of this plugin
+
+Guide to local development of this plugin
 
 ### Installation
 
