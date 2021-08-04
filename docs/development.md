@@ -11,7 +11,7 @@
 #### Install system dependencies
 
 - Install Ruby - see the [Downloads](https://www.ruby-lang.org/en/downloads/) page.
-- Install Bundler - see [Bundler](https://bundler.io/) homepage.
+- Install Bundler - see the [Bundler](https://bundler.io/) homepage.
 
 #### Clone
 
