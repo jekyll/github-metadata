@@ -167,7 +167,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       ENV["JEKYLL_ENV"] = "production"
       ENV["PAGES_REPO_NWO"] = "jekyll/jekyll.github.io"
       stub_api("/repos/jekyll/jekyll.github.io", "repo")
-      stub_api("/orgs/jekyll", "org",)
+      stub_api("/orgs/jekyll", "org")
       subject.munge!
     end
 
@@ -181,7 +181,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       ENV["JEKYLL_ENV"] = "production"
       ENV["PAGES_REPO_NWO"] = "jekyll/jekyll.github.io"
       stub_api("/repos/jekyll/jekyll.github.io", "repo")
-      stub_api("/orgs/jekyll", "org_without_displayname",)
+      stub_api("/orgs/jekyll", "org_without_displayname")
       subject.munge!
     end
 
