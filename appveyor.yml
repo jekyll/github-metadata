@@ -22,7 +22,6 @@ environment:
       FARADAY_VERSION: "0.17"
     - RUBY_FOLDER_VER: "25"
     - RUBY_FOLDER_VER: "24"
-    - RUBY_FOLDER_VER: "23"
 
 install:
   - SET PATH=C:\Ruby%RUBY_FOLDER_VER%-x64\bin;%PATH%
