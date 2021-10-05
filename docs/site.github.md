@@ -18,7 +18,7 @@ For example, to list a project's name, you might write something like `The proje
 ```
 <!-- {% endraw %} -->
 
-#### Available repository metadata
+#### Available repository metadata 
 
 The following sample information is exposed to Jekyll templates in the `site.github` namespace:
 
