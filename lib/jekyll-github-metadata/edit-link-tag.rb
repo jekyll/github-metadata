@@ -74,7 +74,7 @@ module Jekyll
       def page_path
         return page["path"] unless page["paginated"]
 
-        site.pages.dup.select do |page|
+        site.pages.each do |page|
           return page["path"] if page.pager && page.pager.page == 1
         end
       end
