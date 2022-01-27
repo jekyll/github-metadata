@@ -9,6 +9,10 @@
 
   * Use owner name as site title for User and Organization sites. (#197)
 
+### Documentation
+
+  * docs: Add dev docs (#212)
+
 ## 2.13.0 / 2020-01-15
 
 ### Minor Enhancements
