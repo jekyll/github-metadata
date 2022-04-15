@@ -34,6 +34,14 @@ RSpec.describe("integration into a jekyll site") do
     end
   end
 
+  it "contains the correct public_repositories.releases" do
+    expect(subject).to have_key("public_repositories")
+    expect(subject["public_repositories"].first).to have_key("releases")
+    expect(subject["public_repositories"].first["releases"].size).to eql(3)
+    expect(subject["public_repositories"].first["releases"].first["name"]).to eql("v1.1.0")
+    expect(subject["public_repositories"].first["releases"].first["target_commitish"]).to eql("master")
+  end
+
   it "calls all the stubs" do
     stubs.each do |stub|
       expect(stub).to have_been_requested

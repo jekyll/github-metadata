@@ -6,7 +6,7 @@ module StubHelper
   # Returns all stubs created.
   def stub_all_api_requests
     reset_env_for_stubs
-    {
+    stubs = {
       "/users/jekyll/repos?per_page=100&type=public"            => "owner_repos",
       "/repos/jekyll/github-metadata"                           => "repo",
       "/orgs/jekyll"                                            => "org",
@@ -20,6 +20,11 @@ module StubHelper
       "/repos/jekyll/jekyll.github.io/pages"                    => "repo_pages",
       "/repos/jekyll/github-metadata/releases/latest"           => "latest_release",
     }.map { |path, file| stub_api(path, file) }
+
+    owner_repos = JSON.parse(webmock_data("owner_repos"))
+    owner_repos.each { |r| stubs << stub_api("/repos/#{r["full_name"]}/releases?per_page=100", "repo_releases") }
+
+    stubs
   end
 
   def reset_env_for_stubs
