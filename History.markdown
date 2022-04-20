@@ -4,6 +4,11 @@
 
   * Restore log level after running tests that modify it. (#202)
   * Add GitHub Actions CI (#211)
+  * Update rubocop-jekyll requirement from ~> 0.5.0 to ~> 0.12.0 (#226)
+  * Create dependabot.yml (#225)
+  * Add rubocop todo file (#230)
+  * Upgrade rspec to 3.11.x (#231)
+  * CI: use 'main' branch instead of 'master' (#232)
 
 ### Minor Enhancements
 
