@@ -17,9 +17,9 @@ RSpec.describe Jekyll::GitHubMetadata::RepositoryFinder do
     context "without a git nwo" do
       it "raises a NoRepositoryError" do
         allow(subject).to receive(:git_remote_url).and_return("")
-        expect(lambda do
+        expect do
           subject.send(:nwo)
-        end).to raise_error(Jekyll::GitHubMetadata::NoRepositoryError)
+        end.to raise_error(Jekyll::GitHubMetadata::NoRepositoryError)
       end
     end
 
