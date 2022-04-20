@@ -196,9 +196,9 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
     end
 
     it "does not fail upon call to #munge" do
-      expect(lambda do
+      expect do
         subject.munge!
-      end).not_to raise_error
+      end.not_to raise_error
     end
 
     it "sets the site.github config" do
@@ -223,9 +223,9 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
 
     it "fails loudly upon call to any drop method" do
       subject.munge!
-      expect(lambda do
+      expect do
         site.config["github"]["url"]
-      end).to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)
+      end.to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)
     end
   end
 end

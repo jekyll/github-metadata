@@ -13,9 +13,9 @@ RSpec.describe(Jekyll::GitHubMetadata::Client) do
   end
 
   it "raises an error if an Octokit::Client method is called that's not whitelisted" do
-    expect(lambda do
+    expect do
       subject.combined_status("jekyll/github-metadata", "refs/master")
-    end).to raise_error(described_class::InvalidMethodError, "combined_status is not whitelisted on #<Jekyll::GitHubMetadata::Client @client=#<Octokit::Client (authenticated)> @internet_connected=true>")
+    end.to raise_error(described_class::InvalidMethodError, "combined_status is not whitelisted on #<Jekyll::GitHubMetadata::Client @client=#<Octokit::Client (authenticated)> @internet_connected=true>")
   end
 
   it "can check if it's authenticated" do
@@ -34,8 +34,8 @@ RSpec.describe(Jekyll::GitHubMetadata::Client) do
         :headers => WebMockHelper::RESPONSE_HEADERS,
         :body    => webmock_data("bad_credentials")
       )
-    expect(lambda do
+    expect do
       subject.contributors("jekyll/github-metadata")
-    end).to raise_error(described_class::BadCredentialsError)
+    end.to raise_error(described_class::BadCredentialsError)
   end
 end
