@@ -119,6 +119,7 @@ module Jekyll
         }
         memoize_value :@owner_public_repositories, Value.new("owner_public_repositories", proc do |c|
           c.list_repos(owner, options).each { |r| r[:releases] = c.releases(r[:full_name]) }
+          c.list_repos(owner, options).each { |r| r[:contributors] = c.contributors(r[:full_name], options) }
         end)
       end
 
