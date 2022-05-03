@@ -16,7 +16,7 @@ module Jekyll
       # resource - an Object
       #
       # Returns the sanitized resource.
-      # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
       def sanitize(resource)
         case resource
         when Array
@@ -31,6 +31,8 @@ module Jekyll
           nil
         when String
           resource
+        when Value
+          resource.render
         else
           if resource.respond_to?(:to_hash)
             sanitize_resource(resource)
@@ -39,7 +41,7 @@ module Jekyll
           end
         end
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/CyclomaticComplexity, Metrics/MethodLength
 
       # Sanitize the Sawyer Resource or Hash
       # Note: the object must respond to :to_hash for this to work.
