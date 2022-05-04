@@ -23,7 +23,6 @@ module StubHelper
 
     owner_repos = JSON.parse(webmock_data("owner_repos"))
     owner_repos.each { |r| stubs << stub_api("/repos/#{r["full_name"]}/releases?per_page=100", "repo_releases") }
-    owner_repos.each { |r| stubs << stub_api("/repos/#{r["full_name"]}/contributors?per_page=100", "repo_contributors") }
 
     stubs
   end
