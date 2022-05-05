@@ -1,22 +1,27 @@
-## HEAD
+## 2.14.0 / 2022-05-04
+
+### Minor Enhancements
+
+  * Use owner name as site title for User and Organization sites. (#197)
+  * Add `site.github.public_repositories[].releases` (#224)
+  * Add `site.github.public_repositories[].contributors` (#234)
+
+### Documentation
+
+  * docs: Add dev docs (#212)
+  * set `PAGES_GITHUB_HOSTNAME` to hostname without protocol (#191)
+  * Add `JEKYLL_ENV` limitation for git remote (#185)
 
 ### Development Fixes
 
   * Restore log level after running tests that modify it. (#202)
   * Add GitHub Actions CI (#211)
-  * Update rubocop-jekyll requirement from ~> 0.5.0 to ~> 0.12.0 (#226)
+  * Update rubocop-jekyll requirement from `~> 0.5.0` to `~> 0.12.0` (#226)
   * Create dependabot.yml (#225)
   * Add rubocop todo file (#230)
   * Upgrade rspec to 3.11.x (#231)
   * CI: use 'main' branch instead of 'master' (#232)
-
-### Minor Enhancements
-
-  * Use owner name as site title for User and Organization sites. (#197)
-
-### Documentation
-
-  * docs: Add dev docs (#212)
+  * Add release workflow (#235)
 
 ## 2.13.0 / 2020-01-15
 
