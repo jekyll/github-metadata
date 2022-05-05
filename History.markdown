@@ -1,3 +1,9 @@
+## HEAD
+
+### Documentation
+
+  * Add GitHub Actions badge and remove Travis one (#236)
+
 ## 2.14.0 / 2022-05-04
 
 ### Minor Enhancements
