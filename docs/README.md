@@ -1,6 +1,6 @@
 # GitHub Metadata, a.k.a. `site.github`
 
-[![Actions CI](https://github.com/jekyll/github-metadata/actions/workflows/ci.yml/badge.svg)](https://github.com/jekyll/github-metadata/actions/workflows/ci.yml)
+[![Actions CI](https://github.com/jekyll/github-metadata/actions/workflows/ci.yaml/badge.svg)](https://github.com/jekyll/github-metadata/actions/workflows/ci.yaml)
 [![Windows Build status](https://img.shields.io/appveyor/ci/jekyll/github-metadata/master.svg?label=Windows%20build)][appveyor]
 
 [travis]: https://travis-ci.org/jekyll/github-metadata
