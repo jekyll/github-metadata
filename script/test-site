@@ -1,2 +1,2 @@
 #!/bin/bash
-bundle exec jekyll serve -s spec/test-site
+bundle exec jekyll serve -s spec/test-site $@
