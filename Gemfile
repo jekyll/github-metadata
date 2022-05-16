@@ -9,3 +9,5 @@ gem "jekyll", "~> #{ENV["JEKYLL_VERSION"]}" if ENV["JEKYLL_VERSION"]
 group :test do
   gem "webmock", "~> 3.14"
 end
+
+gem "webrick" if RUBY_VERSION.to_i >= 3
