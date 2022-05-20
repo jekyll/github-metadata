@@ -87,8 +87,7 @@ module Jekyll
     end
 
     Jekyll::Hooks.register :site, :after_init do |site|
-      SiteGitHubMunger.global_munger = \
-        SiteGitHubMunger.new(site)
+      SiteGitHubMunger.global_munger = SiteGitHubMunger.new(site)
       SiteGitHubMunger.global_munger.munge!
     end
 
