@@ -4,6 +4,10 @@
 
   * Add GitHub Actions badge and remove Travis one (#236)
 
+### Bug Fixes
+
+  * Inject `site.github` via `:pre_render` step rather than `:after_init` (#238)
+
 ## 2.14.0 / 2022-05-04
 
 ### Minor Enhancements
