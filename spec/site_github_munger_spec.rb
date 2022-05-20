@@ -10,16 +10,18 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
   let(:site) { Jekyll::Site.new(Jekyll::Configuration.from(user_config)) }
   subject { described_class.new(site) }
   let!(:stubs) { stub_all_api_requests }
+  let(:unified_payload) { site.site_payload }
 
   context "generating" do
     before(:each) do
       ENV["JEKYLL_ENV"] = "production"
       subject.munge!
+      subject.inject_metadata!(unified_payload)
     end
 
     context "with site.github as nil" do
-      it "replaces site.github with the drop" do
-        expect(site.config["github"]).to be_a(Liquid::Drop)
+      it "sets site.github to the drop" do
+        expect(unified_payload.site["github"]).to be_a(Liquid::Drop)
       end
     end
 
@@ -27,7 +29,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       let(:user_config) { {} }
 
       it "replaces site.github with the drop" do
-        expect(site.config["github"]).to be_a(Liquid::Drop)
+        expect(unified_payload.site["github"]).to be_a(Liquid::Drop)
       end
     end
 
@@ -35,7 +37,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       let(:github_namespace) { "foo" }
 
       it "doesn't munge" do
-        expect(site.config["github"]).to eql("foo")
+        expect(unified_payload.site["github"]).to eql("foo")
       end
     end
 
@@ -43,11 +45,11 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       let(:github_namespace) { { "source" => { "branch" => "foo" } } }
 
       it "lets user-specified values override the drop" do
-        expect(site.config["github"].invoke_drop("source")["branch"]).to eql("foo")
+        expect(unified_payload.site["github"].invoke_drop("source")["branch"]).to eql("foo")
       end
 
       it "still sets other values" do
-        expect(site.config["github"].invoke_drop("source")["path"]).to eql("/")
+        expect(unified_payload.site["github"].invoke_drop("source")["path"]).to eql("/")
       end
     end
 
@@ -202,8 +204,8 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
     end
 
     it "sets the site.github config" do
-      subject.munge!
-      expect(site.config["github"]).to be_instance_of(Jekyll::GitHubMetadata::MetadataDrop)
+      subject.inject_metadata!(unified_payload)
+      expect(unified_payload.site["github"]).to be_instance_of(Jekyll::GitHubMetadata::MetadataDrop)
     end
   end
 
@@ -223,8 +225,9 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
 
     it "fails loudly upon call to any drop method" do
       subject.munge!
+      subject.inject_metadata!(unified_payload)
       expect do
-        site.config["github"]["url"]
+        unified_payload.site["github"]["url"]
       end.to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)
     end
   end

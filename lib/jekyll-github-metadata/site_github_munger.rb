@@ -6,6 +6,10 @@ module Jekyll
     class SiteGitHubMunger
       extend Forwardable
 
+      class << self
+        attr_accessor :global_munger
+      end
+
       def_delegators Jekyll::GitHubMetadata, :site, :repository
       private :repository
 
@@ -16,11 +20,12 @@ module Jekyll
       def munge!
         Jekyll::GitHubMetadata.log :debug, "Initializing..."
 
-        # This is the good stuff.
-        site.config["github"] = github_namespace
-
         add_title_and_description_fallbacks!
         add_url_and_baseurl_fallbacks! if should_add_url_fallbacks?
+      end
+
+      def inject_metadata!(payload)
+        payload.site["github"] = github_namespace
       end
 
       private
@@ -80,9 +85,14 @@ module Jekyll
         site.config["name"] && !site.config["title"]
       end
     end
-  end
-end
 
-Jekyll::Hooks.register :site, :after_init do |site|
-  Jekyll::GitHubMetadata::SiteGitHubMunger.new(site).munge!
+    Jekyll::Hooks.register :site, :after_init do |site|
+      SiteGitHubMunger.global_munger = SiteGitHubMunger.new(site)
+      SiteGitHubMunger.global_munger.munge!
+    end
+
+    Jekyll::Hooks.register :site, :pre_render do |_site, payload|
+      SiteGitHubMunger.global_munger.inject_metadata!(payload)
+    end
+  end
 end
