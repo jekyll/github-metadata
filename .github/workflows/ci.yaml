@@ -14,14 +14,20 @@ on:
 jobs:
   ci:
     if: "!contains(github.event.commits[0].message, '[ci skip]')"
-    name: 'Ruby ${{ matrix.ruby_version }} ${{ matrix.os }}'
+    name: "Ruby ${{ matrix.ruby_version }} | Faraday: '~> ${{ matrix.faraday_version }}' | ${{ matrix.os }}"
     runs-on: '${{ matrix.os }}'
+    env:
+      FARADAY_VERSION: ${{ matrix.faraday_version }}
     strategy:
       fail-fast: false
       matrix:
         ruby_version:
-        - 2.7
+        - '2.7'
         - '3.0'
+        faraday_version:
+        - '0.7'
+        - '1.0'
+        - '2.0'
         os:
         - ubuntu-latest
         - windows-latest
