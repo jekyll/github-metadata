@@ -118,7 +118,8 @@ module Jekyll
           :accept => "application/vnd.github.mercy-preview+json",
         }
         memoize_value :@owner_public_repositories, Value.new("owner_public_repositories", proc do |c|
-          c.list_repos(owner, options).map do |r|
+          repos = c.list_repos(owner, options) || []
+          repos.map do |r|
             r[:releases] = Value.new("owner_public_repositories_releases", proc { c.releases(r[:full_name]) })
             r[:contributors] = Value.new("owner_public_repositories_contributors", proc { c.contributors(r[:full_name]) })
             r
