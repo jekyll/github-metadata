@@ -1,3 +1,9 @@
+## HEAD
+
+### Development Fixes
+
+  * Update rspec requirement from ~&gt; 3.11.0 to ~&gt; 3.12.0 (#244)
+
 ## 2.15.0 / 2022-05-20
 
 ### Bug Fixes
