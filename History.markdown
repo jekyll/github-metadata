@@ -4,6 +4,10 @@
 
   * Update rspec requirement from ~&gt; 3.11.0 to ~&gt; 3.12.0 (#244)
 
+### Minor Enhancements
+
+  * Update octokit requirement from ~&gt; 4.0, != 4.4.0 to &gt;= 4, != 4.4.0, &lt; 7 (#243)
+
 ## 2.15.0 / 2022-05-20
 
 ### Bug Fixes
