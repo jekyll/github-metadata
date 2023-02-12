@@ -41,8 +41,4 @@ Now, whenever you build or serve with Jekyll, the `jekyll-github-metadata` plugi
 
 ## Further reading
 
-* [Authentication](authentication.md)
-* [Configuration](configuration.md)
-* [Using `site.github`](site.github.md)
-* [Edit on GitHub link](edit-on-github-link.md)
-* [Development](development.md)
+docs/Jekyll/RUBY
