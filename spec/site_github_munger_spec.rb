@@ -231,4 +231,27 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       end.to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)
     end
   end
+
+  context "render the 'uninject' fixture test site" do
+    let(:source) { File.expand_path("test-site-uninject", __dir__) }
+    let(:dest) { File.expand_path("../tmp/test-site-uninject-build", __dir__) }
+
+    it "process site twice (simulate reset), check API calls" do
+      config = Jekyll::Configuration.from({"source" => source, "destination" => dest})
+      site = Jekyll::Site.new(config)
+      site.process
+      expect_api_call "/repos/jekyll/github-metadata"
+      expect_api_call "/repos/jekyll/github-metadata/releases/latest"
+      expect_api_call "/orgs/jekyll"
+      site.process
+      expect_api_call "/repos/jekyll/github-metadata"
+      expect_api_call "/repos/jekyll/github-metadata/releases/latest"
+      expect_api_call "/orgs/jekyll"
+
+      not_expect_api_call "/repos/jekyll/github-metadata/pages"
+      not_expect_api_call "/repos/jekyll/github-metadata/contributors?per_page=100"
+      not_expect_api_call "/orgs/jekyll/public_members?per_page=100"
+      not_expect_api_call "/users/jekyll/repos?per_page=100&type=public"
+    end
+  end
 end
