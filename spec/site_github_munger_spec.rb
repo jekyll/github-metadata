@@ -235,7 +235,7 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
   context "render the 'uninject' fixture test site" do
     let(:source) { File.expand_path("test-site-uninject", __dir__) }
     let(:dest) { File.expand_path("../tmp/test-site-uninject-build", __dir__) }
-    let(:config) { Jekyll::Configuration.from({"source" => source, "destination" => dest}) }
+    let(:config) { Jekyll::Configuration.from({ "source" => source, "destination" => dest }) }
     let(:fixture_rendered) { File.expand_path("test-site-uninject-rendered", __dir__) }
 
     it "process site twice (simulate reset), check API calls & rendered site" do
@@ -263,11 +263,11 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
 
       # Check to make sure the fixture site is rendered with the correct
       # site.github values.
-      Dir.children(dest).each { |file|
+      Dir.children(dest).each do |file|
         rendered_file = File.join(dest, file)
         fixture_file = File.join(fixture_rendered, file)
         expect(File.read(rendered_file)).to eql(File.read(fixture_file))
-      }
+      end
     end
   end
 end
