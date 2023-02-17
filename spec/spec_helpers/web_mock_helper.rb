@@ -41,6 +41,11 @@ module WebMockHelper
       .with(:headers => request_headers).once
   end
 
+  def not_expect_api_call(path)
+    expect(WebMock).to have_requested(:get, url(path))
+      .with(:headers => request_headers).times(0)
+  end
+
   def request_headers
     REQUEST_HEADERS.merge(
       "Authorization" => "token #{ENV.fetch("JEKYLL_GITHUB_TOKEN", "1234abc")}"

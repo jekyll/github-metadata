@@ -15,6 +15,7 @@ module Jekyll
 
       def initialize(site)
         Jekyll::GitHubMetadata.site = site
+        @original_config = site.config["github"]
       end
 
       def munge!
@@ -28,16 +29,20 @@ module Jekyll
         payload.site["github"] = github_namespace
       end
 
+      def uninject_metadata!(payload)
+        payload.site["github"] = @original_config
+      end
+
       private
 
       def github_namespace
-        case site.config["github"]
+        case @original_config
         when nil
           drop
         when Hash
-          Jekyll::Utils.deep_merge_hashes(drop, site.config["github"])
+          drop.merge(@original_config)
         else
-          site.config["github"]
+          @original_config
         end
       end
 
@@ -93,6 +98,10 @@ module Jekyll
 
     Jekyll::Hooks.register :site, :pre_render do |_site, payload|
       SiteGitHubMunger.global_munger.inject_metadata!(payload)
+    end
+
+    Jekyll::Hooks.register :site, :post_render do |_site, payload|
+      SiteGitHubMunger.global_munger.uninject_metadata!(payload)
     end
   end
 end

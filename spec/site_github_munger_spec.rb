@@ -231,4 +231,43 @@ RSpec.describe(Jekyll::GitHubMetadata::SiteGitHubMunger) do
       end.to raise_error(Jekyll::GitHubMetadata::Client::BadCredentialsError)
     end
   end
+
+  context "render the 'uninject' fixture test site" do
+    let(:source) { File.expand_path("test-site-uninject", __dir__) }
+    let(:dest) { File.expand_path("../tmp/test-site-uninject-build", __dir__) }
+    let(:config) { Jekyll::Configuration.from({ "source" => source, "destination" => dest }) }
+    let(:fixture_rendered) { File.expand_path("test-site-uninject-rendered", __dir__) }
+
+    it "process site twice (simulate reset), check API calls & rendered site" do
+      site = Jekyll::Site.new(config)
+      site.process
+      # These API calls are expected because we use the attributes in the
+      # fixture site.
+      expect_api_call "/repos/jekyll/github-metadata"
+      expect_api_call "/repos/jekyll/github-metadata/releases/latest"
+      expect_api_call "/orgs/jekyll"
+      site.process
+      # After processing the site again, we expect that these API calls were
+      # still only made once. We cache the results so we shouldn't be making the
+      # same API call more than once.
+      expect_api_call "/repos/jekyll/github-metadata"
+      expect_api_call "/repos/jekyll/github-metadata/releases/latest"
+      expect_api_call "/orgs/jekyll"
+
+      # We do not expect these API calls to have been made since we do not use
+      # these attributes in the fixture site.
+      not_expect_api_call "/repos/jekyll/github-metadata/pages"
+      not_expect_api_call "/repos/jekyll/github-metadata/contributors?per_page=100"
+      not_expect_api_call "/orgs/jekyll/public_members?per_page=100"
+      not_expect_api_call "/users/jekyll/repos?per_page=100&type=public"
+
+      # Check to make sure the fixture site is rendered with the correct
+      # site.github values.
+      Dir.children(dest).each do |file|
+        rendered_file = File.join(dest, file)
+        fixture_file = File.join(fixture_rendered, file)
+        expect(File.read(rendered_file)).to eql(File.read(fixture_file))
+      end
+    end
+  end
 end
