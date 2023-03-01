@@ -10,10 +10,7 @@ AllCops:
     - vendor/**/*
     - script/*
 
-Style/FetchEnvVar:
-  Enabled: false
-
-Metrics/LineLength:
+Layout/LineLength:
   Enabled: false
 
 Metrics/BlockLength:
@@ -25,6 +22,9 @@ Metrics/MethodLength:
     - spec/**/*
 
 Style/AccessModifierDeclarations:
+  Enabled: false
+
+Style/FetchEnvVar:
   Enabled: false
 
 Style/FrozenStringLiteralComment:
