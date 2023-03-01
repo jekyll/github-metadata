@@ -32,7 +32,9 @@ environment:
 
 install:
   - SET PATH=C:\Ruby%RUBY_FOLDER_VER%-x64\bin;%PATH%
-  - bundle install --retry 5 --jobs=%NUMBER_OF_PROCESSORS% --clean --path vendor\bundle
+  - bundle config set --local clean 'true'
+  - bundle config set --local path 'vendor\bundle'
+  - bundle install --retry 5 --jobs=%NUMBER_OF_PROCESSORS%
 
 test_script:
   - ruby --version
@@ -41,5 +43,5 @@ test_script:
   - bash ./script/test
 
 cache:
-  # If one of the files after the right arrow changes, cache will be invalidated
-  - 'vendor\bundle -> appveyor.yml,Gemfile,jekyll-github-metadata.gemspec'
+  # Cache will be invalidated if 'appveyor.yml' changes.
+  - 'vendor\bundle -> appveyor.yml'
