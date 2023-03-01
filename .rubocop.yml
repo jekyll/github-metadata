@@ -10,6 +10,9 @@ AllCops:
     - vendor/**/*
     - script/*
 
+Style/FetchEnvVar:
+  Enabled: false
+
 Metrics/LineLength:
   Enabled: false
 
