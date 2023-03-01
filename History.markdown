@@ -3,6 +3,7 @@
 ### Development Fixes
 
   * Update rspec requirement from ~&gt; 3.11.0 to ~&gt; 3.12.0 (#244)
+  * Bump Ruby versions in AppVeyor jobs (#253)
 
 ### Minor Enhancements
 
