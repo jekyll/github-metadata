@@ -20,9 +20,6 @@ environment:
     - RUBY_FOLDER_VER: "30"
       JEKYLL_VERSION:  "4.3"
       FARADAY_VERSION: "1.0"
-    - RUBY_FOLDER_VER: "31"
-      JEKYLL_VERSION:  "4.3"
-      FARADAY_VERSION: "1.0"
 
 install:
   - SET PATH=C:\Ruby%RUBY_FOLDER_VER%-x64\bin;%PATH%
