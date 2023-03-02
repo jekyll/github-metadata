@@ -86,7 +86,7 @@ RSpec.describe(Jekyll::GitHubMetadata::MetadataDrop) do
 
     context "with fallback data" do
       let(:fallback_data) { { "foo" => "bar" } }
-      before { subject.instance_variable_set("@fallback_data", fallback_data) }
+      before { subject.instance_variable_set(:@fallback_data, fallback_data) }
 
       it "returns the mutated value via #[]" do
         expect(subject["foo"]).to eql("bar")

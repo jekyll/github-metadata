@@ -26,7 +26,7 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
 
   subject do
     tag = described_class.parse(tag_name, markup, tokenizer, parse_context)
-    tag.instance_variable_set("@context", render_context)
+    tag.instance_variable_set(:@context, render_context)
     tag
   end
 

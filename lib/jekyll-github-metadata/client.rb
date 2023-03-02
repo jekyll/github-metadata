@@ -130,11 +130,11 @@ module Jekyll
       def pluck_auth_method
         if ENV["JEKYLL_GITHUB_TOKEN"] || Octokit.access_token
           { :access_token => ENV["JEKYLL_GITHUB_TOKEN"] || Octokit.access_token }
-        elsif !ENV["NO_NETRC"] && File.exist?(File.join(ENV["HOME"], ".netrc")) && safe_require("netrc")
+        elsif !ENV["NO_NETRC"] && File.exist?(File.join(Dir.home, ".netrc")) && safe_require("netrc")
           { :netrc => true }
         else
-          GitHubMetadata.log :warn, "No GitHub API authentication could be found." \
-            " Some fields may be missing or have incorrect data."
+          GitHubMetadata.log :warn, "No GitHub API authentication could be found. " \
+                                    "Some fields may be missing or have incorrect data."
           {}.freeze
         end
       end
