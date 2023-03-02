@@ -17,12 +17,12 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "jekyll", ">= 3.4", "< 5.0"
-  spec.add_runtime_dependency "octokit", "~> 4.0", "!= 4.4.0"
+  spec.add_runtime_dependency "octokit", ">= 4", "!= 4.4.0", "< 7"
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "netrc"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec", "~> 3.11.0"
-  spec.add_development_dependency "rubocop-jekyll", "~> 0.12.0"
+  spec.add_development_dependency "rspec", "~> 3.12.0"
+  spec.add_development_dependency "rubocop-jekyll", "~> 0.13.0"
 end

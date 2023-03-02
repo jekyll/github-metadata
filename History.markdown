@@ -1,3 +1,16 @@
+## HEAD
+
+### Development Fixes
+
+  * Update rspec requirement from ~&gt; 3.11.0 to ~&gt; 3.12.0 (#244)
+  * Bump Ruby versions in AppVeyor jobs (#253)
+  * Bump rubocop-jekyll to 0.13.0 and fix rubocop issues (#252)
+
+### Minor Enhancements
+
+  * Update octokit requirement from ~&gt; 4.0, != 4.4.0 to &gt;= 4, != 4.4.0, &lt; 7 (#243)
+  * Prevent loading all GH data on reset (#245)
+
 ## 2.15.0 / 2022-05-20
 
 ### Bug Fixes

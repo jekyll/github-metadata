@@ -1,0 +1,9 @@
+repository: jekyll/github-metadata
+github:
+  in_your_config:
+    setting_your: keyz
+plugins:
+  - jekyll-github-metadata
+# remove this once we drop support for Jekyll v3.4 and below
+gems:
+  - jekyll-github-metadata

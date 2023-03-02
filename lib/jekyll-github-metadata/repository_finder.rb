@@ -27,9 +27,9 @@ module Jekyll
             nwo_from_git_origin_remote || \
             proc do
               raise NoRepositoryError, "No repo name found. " \
-                "Specify using PAGES_REPO_NWO environment variables, " \
-                "'repository' in your configuration, or set up an 'origin' " \
-                "git remote pointing to your github.com repository."
+                                       "Specify using PAGES_REPO_NWO environment variables, " \
+                                       "'repository' in your configuration, or set up an 'origin' " \
+                                       "git remote pointing to your github.com repository."
             end.call
         end
       end
