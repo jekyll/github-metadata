@@ -4,6 +4,7 @@
 
   * Update rspec requirement from ~&gt; 3.11.0 to ~&gt; 3.12.0 (#244)
   * Bump Ruby versions in AppVeyor jobs (#253)
+  * Bump rubocop-jekyll to 0.13.0 and fix rubocop issues (#252)
 
 ### Minor Enhancements
 
