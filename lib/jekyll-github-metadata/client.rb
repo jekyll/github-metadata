@@ -68,14 +68,20 @@ module Jekyll
         end
       end
 
-      # NOTE: Faraday's error classes has been promoted to under Faraday module from v1.0.0.
-      # This patch aims to prevent on locking specific version of Faraday.
+      # NOTE: Faraday's error classes have been simplified from v1.0.0.
+      #
+      # In older versions, both `Faraday::Error::ConnectionFailed` and `Faraday::ConnectionFailed`
+      # were valid and equivalent to each other.
+      # From v1.0.0 onwards, `Faraday::Error::ConnectionFailed` no longer exists.
+      #
+      # TODO: Remove in v2.0 of this plugin.
       FARADAY_FAILED_CONNECTION =
         begin
           Faraday::Error::ConnectionFailed
         rescue NameError
           Faraday::ConnectionFailed
         end
+      deprecate_constant :FARADAY_FAILED_CONNECTION
 
       def save_from_errors(default = false)
         unless internet_connected?
@@ -86,7 +92,7 @@ module Jekyll
         yield @client
       rescue Octokit::Unauthorized
         raise BadCredentialsError, "The GitHub API credentials you provided aren't valid."
-      rescue FARADAY_FAILED_CONNECTION, Octokit::TooManyRequests => e
+      rescue Faraday::ConnectionFailed, Octokit::TooManyRequests => e
         GitHubMetadata.log :warn, e.message
         default
       rescue Octokit::NotFound
