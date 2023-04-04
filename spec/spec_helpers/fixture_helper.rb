@@ -23,10 +23,11 @@ module FixtureHelper
   end
 
   def make_page(data = {}, pager = nil)
-    data["paginated"] = true unless pager == nil
-    page = Jekyll::Page.new(site, config_defaults["source"], "", "page.md").tap { |page| page.data = data }
-    page.pager = pager
-    page
+    data["paginated"] = true unless pager.nil?
+    Jekyll::Page.new(site, config_defaults["source"], "", "page.md").tap do |page| 
+      page.data = data
+      page.pager = pager
+    end
   end
 
   def make_pager(page)
