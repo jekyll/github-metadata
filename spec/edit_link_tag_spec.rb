@@ -118,7 +118,6 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
   context "paginated path" do
     let(:pager) { make_pager(2) }
     before do
-      page.dir = "page/2"
       subject.send(:site).pages << page
       first_page = make_page({}, make_pager(1))
       subject.send(:site).pages << first_page
