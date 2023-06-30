@@ -7,7 +7,7 @@ module Jekyll
         DEFAULTS = {
           "PAGES_ENV"              => "development",
           "PAGES_API_URL"          => "https://api.github.com",
-          "PAGES_HELP_URL"         => "https://help.github.com",
+          "PAGES_HELP_URL"         => "https://docs.github.com",
           "PAGES_GITHUB_HOSTNAME"  => "github.com",
           "PAGES_PAGES_HOSTNAME"   => "github.io",
           "SSL"                    => "false",
