@@ -1,3 +1,9 @@
+## HEAD
+
+### Bug Fixes
+
+  * Update references of help.github.com to docs.github.com (#260)
+
 ## 2.16.0 / 2023-04-05
 
 ### Minor Enhancements

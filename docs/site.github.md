@@ -42,7 +42,7 @@ The following sample information is exposed to Jekyll templates in the `site.git
     "hostname": "github.com",
     "pages_hostname": "github.io",
     "api_url": "https://api.github.com",
-    "help_url": "https://help.github.com",
+    "help_url": "https://docs.github.com",
     "environment": "dotcom",
     "pages_env": "dotcom",
     "public_repositories": [ Repository Objects ],

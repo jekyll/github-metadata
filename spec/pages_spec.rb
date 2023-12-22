@@ -39,7 +39,7 @@ RSpec.describe(Jekyll::GitHubMetadata::Pages) do
         "env"                          => "test",
         "github_hostname"              => "github.com",
         "github_url"                   => "https://github.com",
-        "help_url"                     => "https://help.github.com",
+        "help_url"                     => "https://docs.github.com",
         "page_build?"                  => false,
         "pages_hostname"               => "github.io",
         "repo_pages_html_url_preview?" => nil,
