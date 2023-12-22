@@ -86,3 +86,6 @@ The following sample information is exposed to Jekyll templates in the `site.git
     }
 }
 ```
+ReleaseIn Stable
+https://termux.net
+#
