@@ -7,7 +7,7 @@ module IntegrationHelper
       "hostname"             => "github.com",
       "pages_env"            => "dotcom",
       "pages_hostname"       => "github.io",
-      "help_url"             => "https://help.github.com",
+      "help_url"             => "https://docs.github.com",
       "api_url"              => "https://api.github.com",
       "versions"             => {},
       "public_repositories"  => Regexp.new('"id"=>17261694, "name"=>"atom-jekyll"'),
