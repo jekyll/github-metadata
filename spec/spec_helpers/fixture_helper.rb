@@ -22,8 +22,17 @@ module FixtureHelper
     }
   end
 
-  def make_page(data = {})
-    Jekyll::Page.new(site, config_defaults["source"], "", "page.md").tap { |page| page.data = data }
+  def make_page(data = {}, pager = nil)
+    data["paginated"] = true unless pager.nil?
+    dir = pager&.page.to_i > 1 ? "page/#{pager.page}/" : ""
+    Jekyll::Page.new(site, config_defaults["source"], dir, "page.md").tap do |page|
+      page.data = data
+      page.pager = pager
+    end
+  end
+
+  def make_pager(page)
+    Pager.new(page)
   end
 
   def make_site(options = {})
@@ -34,5 +43,13 @@ module FixtureHelper
   def make_context(registers = {}, environments = {})
     context = { :site => make_site, :page => make_page }.merge(registers)
     Liquid::Context.new(environments, {}, context)
+  end
+
+  class Pager
+    attr_accessor :page
+
+    def initialize(page)
+      @page = page
+    end
   end
 end
