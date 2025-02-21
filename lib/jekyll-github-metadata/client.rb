@@ -110,15 +110,19 @@ module Jekyll
       def internet_connected?
         return @internet_connected if defined?(@internet_connected)
 
-        require "resolv"
-        begin
-          Resolv::DNS.open do |dns|
-            dns.timeouts = 2
-            dns.getaddress("api.github.com")
-          end
-          @internet_connected = true
-        rescue Resolv::ResolvError
+        if ENV["PAGES_DISABLE_NETWORK"]
           @internet_connected = false
+        else
+          require "resolv"
+          begin
+            Resolv::DNS.open do |dns|
+              dns.timeouts = 2
+              dns.getaddress("api.github.com")
+            end
+            @internet_connected = true
+          rescue Resolv::ResolvError
+            @internet_connected = false
+          end
         end
       end
 

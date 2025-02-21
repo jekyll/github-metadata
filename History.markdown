@@ -1,3 +1,9 @@
+## HEAD
+
+## Minor Enhancements
+
+  * Disable network related features if the env var `PAGES_DISABLE_NETWORK` is set
+
 ## 2.16.1 / 2023-12-22
 
 ### Bug Fixes
