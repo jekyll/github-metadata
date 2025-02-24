@@ -38,4 +38,21 @@ RSpec.describe(Jekyll::GitHubMetadata::Client) do
       subject.contributors("jekyll/github-metadata")
     end.to raise_error(described_class::BadCredentialsError)
   end
+
+  before { ENV["PAGES_DISABLE_NETWORK"] = nil }
+
+  it "supresses network accesses if requested" do
+    WebMock.disable_net_connect!
+
+    ENV["PAGES_DISABLE_NETWORK"] = "1"
+    expect(subject.contributors("jekyll/github-metadata")).to be(false)
+  end
+
+  it "allows network accesses by default" do
+    WebMock.disable_net_connect!
+
+    expect do
+      subject.contributors("jekyll/github-metadata")
+    end.to raise_error(WebMock::NetConnectNotAllowedError)
+  end
 end
