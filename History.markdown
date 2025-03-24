@@ -1,3 +1,9 @@
+## HEAD
+
+### Minor Enhancements
+
+  * Allow disabling of all network accesses (#285)
+
 ## 2.16.1 / 2023-12-22
 
 ### Bug Fixes
