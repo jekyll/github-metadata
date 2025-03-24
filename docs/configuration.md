@@ -44,6 +44,7 @@ Some `site.github` values can be overridden by environment variables.
 - `PAGES_GITHUB_HOSTNAME` – the `site.github.hostname` (default: `github.com`)
 - `PAGES_PAGES_HOSTNAME` – the `site.github.pages_hostname` (default: `github.io`)
 - `NO_NETRC` – set if you don't want the fallback to `~/.netrc`
+- `PAGES_DISABLE_NETWORK` – set to prevent all network accesses (disables features that need to access the GitHub API)
 
 ## Using with GitHub Enterprise
 
