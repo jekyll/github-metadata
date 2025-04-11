@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArticalMC</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: radial-gradient(ellipse at bottom, #0d1f1a 0%, #000 100%);
+      color: #fff;
+    }
+    header {
+     background: url('2025-01-15_15.28.46-1.png') no-repeat center/cover;
+      padding: 160px 160px 160px 160px;
+      text-align: center;
+      position: relative;
+    }
+    .top-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #b2ebf2;
+      font-weight: bold;
+      margin-bottom: 20px;
+      font-size: 1.1em;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1em;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: background 0.3s;
+    }
+    nav a:hover {
+      background-color: rgba(0, 230, 118, 0.2);
+    }
+    .btn-store {
+      background: #00e5ff;
+      color: #000;
+      font-weight: bold;
+      padding: 8px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+    }
+    .footer {
+      background-color: #0f1c18;
+      padding: 50px 20px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      color: #b0bec5;
+    }
+    .footer div {
+      flex: 1 1 250px;
+      margin: 20px 10px;
+    }
+    .footer h3 {
+      color: #00e676;
+      margin-bottom: 10px;
+    }
+    .footer a {
+      color: #4dd0e1;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="top-info">
+      <div>104 Giocatori Online</div>
+      <div>ArticalMC</div>
+      <div>290 Utenti Discord</div>
+    </div>
+    <nav>
+      <a href="#">Forum</a>
+      <a href="Store ArticalMC.html" class="btn-store">Store</a>
+      <a href="https://discord.gg/V8Cc8BVctj">Discord</a>
+      <a href="#">Staff</a>
+    </nav>
+  </header>
+
+  <div class="footer">
+    <div>
+      <h3>Chi Siamo</h3>
+      <p>ArticalMC è un server nato nel lontano 2023, con l'obbiettivo di far vivere un esperienza di gioco fantastica in tutta Italia!</p>
+    </div>
+    <div>
+      <h3>Link Utili</h3>
+      <p><a href="Store ArticalMC.html">Store</a><br>
+         <a href="https://discord.gg/V8Cc8BVctj">Discord</a><br>
+         <a href="#">Telegram</a></p>
+    </div>
+    <div>
+      <h3>Supportaci</h3>
+      <p>Regalati un'emozione unica supportando il tuo server preferito!</p>
+      <div>
+      </div>
+      <p><a class="btn-store" href="Store.html">Store</a></p>
+    </div>
+  </div>
+
+</body>
+</html>
