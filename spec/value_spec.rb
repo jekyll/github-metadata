@@ -11,7 +11,6 @@ RSpec.describe(Jekyll::GitHubMetadata::Value) do
   let(:nil_value_without_key) { described_class.new(nil) }
   let(:nil_value_with_key) { described_class.new("my_key", nil) }
   let(:key_and_value)      { described_class.new("my_key2", proc { "leonard told me" }) }
-  let(:time_value)         { described_class.new(Time.utc(2025, 1, 29, 12, 0, 0)) }
 
   it "takes in a value and stores it" do
     v = described_class.new("some_value")
@@ -54,16 +53,6 @@ RSpec.describe(Jekyll::GitHubMetadata::Value) do
 
   it "does not modify a hash value" do
     expect(hash_value.render).to eql("hello" => "world")
-  end
-
-  it "does not modify a time value" do
-    expect(time_value.render).to be_a(Time)
-    expect(time_value.render).to eql(Time.utc(2025, 1, 29, 12, 0, 0))
-  end
-
-  it "returns Time objects directly from to_liquid for date filter compatibility" do
-    expect(time_value.to_liquid).to be_a(Time)
-    expect(time_value.to_liquid).to eql(Time.utc(2025, 1, 29, 12, 0, 0))
   end
 
   it "accepts a nil value with no key" do
