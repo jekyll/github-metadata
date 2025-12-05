@@ -34,7 +34,7 @@ module Jekyll
 
       def to_liquid
         case render
-        when nil, true, false, Hash, String, Numeric, Array
+        when nil, true, false, Hash, String, Numeric, Array, Time
           value
         else
           to_json
