@@ -5,7 +5,8 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
   let(:source) { { "branch" => branch, "path" => path } }
   let(:github) { { "repository_url" => repository_url, "source" => source } }
   let(:config) { { "github" => github, "plugins" => ["jekyll-github-metadata"] } }
-  let(:page) { make_page }
+  let(:pager) { nil }
+  let(:page) { make_page({}, pager) }
   let(:site) { make_site(config) }
   let(:render_context) { make_context(:page => page, :site => site) }
   let(:tag_name) { "github_edit_link" }
@@ -111,6 +112,20 @@ RSpec.describe Jekyll::GitHubMetadata::EditLinkTag do
 
     it "strips a leading slash" do
       expect(subject.send(:remove_leading_slash, "/foo/")).to eql("foo/")
+    end
+  end
+
+  context "paginated path" do
+    let(:pager) { make_pager(2) }
+    before do
+      subject.send(:site).pages << page
+      first_page = make_page({}, make_pager(1))
+      subject.send(:site).pages << first_page
+    end
+
+    it "outputs the proper link for subsequent pages" do
+      expect(page.path).to eql("page/2/page.md")
+      expect(subject.send(:page_path)).to eql("page.md")
     end
   end
 

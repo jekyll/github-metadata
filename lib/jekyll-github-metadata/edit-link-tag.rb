@@ -35,7 +35,6 @@ module Jekyll
       private def_hash_delegator :site_github, :source,         :source, {}
       private def_hash_delegator :source,      :branch,         :branch
       private def_hash_delegator :source,      :path,           :source_path
-      private def_hash_delegator :page,        :path,           :page_path
 
       def render(context)
         @context = context
@@ -70,6 +69,14 @@ module Jekyll
 
       def parts
         memoize_conditionally { [repository_url, "edit/", branch, source_path, page_path] }
+      end
+
+      def page_path
+        return page["path"] unless page["paginated"]
+
+        site.pages.each do |page|
+          return page["path"] if page.pager && page.pager.page == 1
+        end
       end
 
       def parts_normalized
