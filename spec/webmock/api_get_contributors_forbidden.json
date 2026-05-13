@@ -1,0 +1,4 @@
+{
+  "message": "The history or contributor list is too large to list contributors for this repository via the API.",
+  "documentation_url": "https://docs.github.com/rest/repos/repos#list-repository-contributors"
+}

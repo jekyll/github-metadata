@@ -39,6 +39,23 @@ RSpec.describe(Jekyll::GitHubMetadata::Client) do
     end.to raise_error(described_class::BadCredentialsError)
   end
 
+  it "warns and returns false when contributors list is too large" do
+    stub_request(:get, url("/repos/jekyll/github-metadata/contributors?per_page=100"))
+      .with(:headers => request_headers.merge(
+        "Authorization" => "token #{token}"
+      ))
+      .to_return(
+        :status  => 403,
+        :headers => WebMockHelper::RESPONSE_HEADERS,
+        :body    => webmock_data("contributors_forbidden")
+      )
+    logger_output = StringIO.new
+    Jekyll::GitHubMetadata.logger = Logger.new(logger_output)
+    result = subject.contributors("jekyll/github-metadata")
+    expect(result).to be(false)
+    expect(logger_output.string).to include("This is a limitation of the GitHub API")
+  end
+
   it "supresses network accesses if requested" do
     WebMock.disable_net_connect!
 

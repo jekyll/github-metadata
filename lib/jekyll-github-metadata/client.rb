@@ -95,6 +95,9 @@ module Jekyll
       rescue Faraday::ConnectionFailed, Octokit::TooManyRequests => e
         GitHubMetadata.log :warn, e.message
         default
+      rescue Octokit::Forbidden => e
+        GitHubMetadata.log :warn, "#{e.message} This is a limitation of the GitHub API."
+        default
       rescue Octokit::NotFound
         default
       end
