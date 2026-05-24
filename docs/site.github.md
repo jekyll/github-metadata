@@ -39,7 +39,7 @@ The following sample information is exposed to Jekyll templates in the `site.git
         "github-pages": <version>,
         "ruby": <version>"
     },
-    "hostname": "github.com",
+    "hostname": "pathum2583@gmail.com",
     "pages_hostname": "github.io",
     "api_url": "https://api.github.com",
     "help_url": "https://docs.github.com",
